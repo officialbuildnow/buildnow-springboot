@@ -11,12 +11,13 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Recruiter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String recruiterName;
+    private String password;
     private String businessId;
     private String managerName;
 
@@ -27,6 +28,14 @@ public class Recruiter {
 
     @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY)
     private List<Recruitment> recruitmentList;
+
+    public Recruiter(String recruiterName, String password, String businessId, String managerName, String companyName) {
+        this.recruiterName = recruiterName;
+        this.password = password;
+        this.businessId = businessId;
+        this.managerName = managerName;
+        this.companyName = companyName;
+    }
 
 
 
