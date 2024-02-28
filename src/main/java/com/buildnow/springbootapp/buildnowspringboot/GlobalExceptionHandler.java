@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot;
 
 import com.buildnow.springbootapp.buildnowspringboot.exception.BusinessIdExistException;
+import com.buildnow.springbootapp.buildnowspringboot.exception.NotFoundException;
 import com.buildnow.springbootapp.buildnowspringboot.exception.RecruiterNameExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleBusinessIdExistsException(BusinessIdExistException ex){
         ApiErrorResponse response = new ApiErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleNotFoundException(NotFoundException ex){
+        ApiErrorResponse response = new ApiErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

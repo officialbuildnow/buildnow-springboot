@@ -21,9 +21,10 @@ public class Applier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String applierName;
+    private String username;
     private String password;
     private String businessId;
+    private String role="APPLIER";
     private String companyName;
     private String ceoName;
     private String companyAddress;

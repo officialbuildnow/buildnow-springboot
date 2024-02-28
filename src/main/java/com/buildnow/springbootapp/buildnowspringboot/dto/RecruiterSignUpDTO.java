@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class RecruiterSignUpDTO {
     @NotBlank
-    private String recruiterName;
+    private String username;
     @NotBlank
     private String password;
     @NotBlank
@@ -21,13 +21,13 @@ public class RecruiterSignUpDTO {
     private String companyName;
 
     public RecruiterSignUpDTO(
-            @JsonProperty("recruiterName") String recruiterName,
+            @JsonProperty("username") String username,
             @JsonProperty("password") String password,
             @JsonProperty("businessId") String businessId,
             @JsonProperty("managerName") String managerName,
             @JsonProperty("companyName") String companyName
             ){
-        this.recruiterName = recruiterName;
+        this.username = username;
         this.password = password;
         this.businessId = businessId;
         this.managerName = managerName;
