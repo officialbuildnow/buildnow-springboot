@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RecruiterRepository extends JpaRepository<Recruiter, Long> {
-    Boolean existsByUsername(String recruiterName);
+    Boolean existsByUsername(String username);
 
     Boolean existsByBusinessId(String businessId);
     Recruiter findByUsername(String username);

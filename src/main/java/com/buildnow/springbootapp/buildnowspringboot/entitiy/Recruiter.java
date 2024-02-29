@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Recruiter implements UserDetails {
+public class Recruiter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Recruiter implements UserDetails {
     @Column(nullable = true)
     private LocalDateTime lastJoinDateTime;
 
-    @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recruitment> recruitmentList;
 
     public Recruiter(String username, String password, String businessId, String managerName, String companyName) {
@@ -42,33 +42,4 @@ public class Recruiter implements UserDetails {
     }
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

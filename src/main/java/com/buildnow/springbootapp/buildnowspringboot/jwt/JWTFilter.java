@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.jwt;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.CustomUserDetails;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -43,10 +44,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
+        log.info(role);
 
-        Object user = new Object();
-
-        if(role.equals("RECRUITER")){
+        if(role.equals("ROLE_RECRUITER")){
             log.info("recruiter 로직 시작");
             Recruiter recruiter = new Recruiter(
                     username, "12344", "123", "123", "sdf"
@@ -58,6 +58,23 @@ public class JWTFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
             log.info("recruiter 로직 끝");
+        }else if(role.equals("ROLE_APPLIER")){
+            log.info("applier 로직 시작");
+            Applier applier = new Applier(
+                    "123",
+                    "123",
+                    "123",
+                    "123",
+                    username,
+                    "123"
+            );
+
+            CustomUserDetails customUserDetails = new CustomUserDetails(applier);
+
+            Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+            log.info("applier 로직 끝");
         }
 
         filterChain.doFilter(request, response);

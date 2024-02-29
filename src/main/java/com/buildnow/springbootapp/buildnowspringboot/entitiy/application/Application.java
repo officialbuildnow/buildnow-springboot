@@ -28,10 +28,10 @@ public class Application {
     private boolean isRead = false;
     private boolean isChecked = false;
 
-    @OneToMany(mappedBy = "application")
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UpperCategoryScoreBoard> upperCategoryScoreBoardList;
 
-    @OneToMany(mappedBy = "application")
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Applier> applierList;
 
     @ManyToOne

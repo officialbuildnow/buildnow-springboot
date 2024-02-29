@@ -19,6 +19,6 @@ public class UpperCategoryScoreBoard {
     @ManyToOne
     private Application application;
 
-    @OneToMany(mappedBy = "upperCategoryScoreBoard")
+    @OneToMany(mappedBy = "upperCategoryScoreBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScoreBoard> scoreBoardList;
 }

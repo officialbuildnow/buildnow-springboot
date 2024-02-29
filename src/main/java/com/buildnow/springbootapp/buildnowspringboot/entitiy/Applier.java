@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString
 public class Applier {
     @Id
@@ -24,7 +23,7 @@ public class Applier {
     private String username;
     private String password;
     private String businessId;
-    private String role="APPLIER";
+    private String role;
     private String companyName;
     private String ceoName;
     private String companyAddress;
@@ -42,15 +41,28 @@ public class Applier {
     @ManyToOne
     private Application application;
 
-    @OneToOne(mappedBy = "applier", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     private Finance finance;
 
-    @OneToMany(mappedBy = "applier")
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<History> historyList;
 
-    @OneToMany(mappedBy = "applier")
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PaperReq> paperReqList;
 
-    @OneToMany(mappedBy = "applier")
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PossibleWorkType> possibleWorkTypeList;
+
+    public Applier (
+            String businessId, String managerName, String managerPhoneNum, String managerEmail, String username, String password
+    ){
+        this.businessId = businessId;
+        this.managerName = managerName;
+        this.managerPhoneNum = managerPhoneNum;
+        this.managerEmail = managerEmail;
+        this.username = username;
+        this.password = password;
+        this.role="ROLE_APPLIER";
+    }
+
 }

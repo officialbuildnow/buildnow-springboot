@@ -44,8 +44,9 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable);
         http
                 .authorizeHttpRequests((auth)->auth
-                        .requestMatchers("/login", "/", "/recruiter").permitAll()
+                        .requestMatchers("/login", "/", "/recruiter", "/applier").permitAll()
                         .requestMatchers("/recruiter/data").hasRole("RECRUITER")
+                        .requestMatchers("/applier/data").hasRole("APPLIER")
                         .anyRequest().authenticated());
 
         http

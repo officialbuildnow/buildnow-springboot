@@ -23,16 +23,16 @@ public class Recruitment {
     @ManyToOne
     private Recruiter recruiter;
 
-    @OneToMany(mappedBy = "recruitment")
+    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecruitingWorkType> recruitingWorkTypeList;
 
-    @OneToMany(mappedBy = "recruitment")
+    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prerequisite> prerequisiteList;
 
-    @OneToMany(mappedBy = "recruitment")
+    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UpperCategoryGrading> upperCategoryGradingList;
 
-    @OneToMany(mappedBy = "recruitment")
+    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Application> applicationList;
 
 }

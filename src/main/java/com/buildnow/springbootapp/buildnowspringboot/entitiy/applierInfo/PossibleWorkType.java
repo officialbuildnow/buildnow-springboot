@@ -18,6 +18,6 @@ public class PossibleWorkType {
     private String workType;
     @ManyToOne
     private Applier applier;
-    @OneToMany(mappedBy = "possibleWorkType")
+    @OneToMany(mappedBy = "possibleWorkType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CapacityValue> capacityValueList;
 }

@@ -19,9 +19,9 @@ public class UpperCategoryGrading {
     @ManyToOne
     private Recruitment recruitment;
 
-    @OneToMany(mappedBy = "upperCategoryGrading")
+    @OneToMany(mappedBy = "upperCategoryGrading", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Requirement> requirementList;
 
-    @OneToMany(mappedBy = "upperCategoryGrading")
+    @OneToMany(mappedBy = "upperCategoryGrading", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Grading> gradingList;
 }
