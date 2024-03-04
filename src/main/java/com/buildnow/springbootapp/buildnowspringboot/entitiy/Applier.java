@@ -4,7 +4,6 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Applica
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.History;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.PaperReq;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.PossibleWorkType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,8 +49,6 @@ public class Applier {
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PaperReq> paperReqList;
 
-    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PossibleWorkType> possibleWorkTypeList;
 
     public Applier (
             String businessId, String managerName, String managerPhoneNum, String managerEmail, String username, String password
