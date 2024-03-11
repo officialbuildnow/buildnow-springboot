@@ -24,6 +24,11 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'com.theokanning.openai-gpt3-java:service:0.18.2'
+
+	implementation platform('com.google.cloud:libraries-bom:26.34.0')
+	implementation 'com.google.cloud:google-cloud-document-ai'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
