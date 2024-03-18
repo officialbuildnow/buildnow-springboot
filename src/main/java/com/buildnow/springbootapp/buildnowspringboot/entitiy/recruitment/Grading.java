@@ -1,7 +1,10 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,5 +19,9 @@ public class Grading {
     private Long perfectScore;
 
     @ManyToOne
-    private UpperCategoryGrading upperCategoryGrading;
+    private UpperCategory upperCategoryGrading;
+
+    @OneToMany(mappedBy = "grading", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ApplicationEvaluation> applicationEvaluationList;
+
 }

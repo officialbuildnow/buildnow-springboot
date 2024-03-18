@@ -29,6 +29,8 @@ public class DocumentProcessController {
             Map<String, String> errorResponse = Collections.singletonMap("error", "Failed to process document: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 
+
+
         }
     }
 }

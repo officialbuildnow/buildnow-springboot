@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDocumentDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplierSignUpDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.exception.BusinessIdExistException;
@@ -39,4 +40,10 @@ public class ApplierService {
         );
         return applierRepository.save(newApplier);
     }
+
+//    @Transactional
+//    public Applier insertByApplicationDocument(ApplicationDocumentDTO applicationDocumentDTO, Applier applier){
+//
+//    }
+
 }

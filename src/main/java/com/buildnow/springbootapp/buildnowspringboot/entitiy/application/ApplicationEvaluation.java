@@ -1,24 +1,24 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
 
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
-public class UpperCategoryScoreBoard {
+public class ApplicationEvaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String upperCategory;
+
+    private Long score;
+
+    @ManyToOne
+    private Grading grading;
 
     @ManyToOne
     private Application application;
-
-    @OneToMany(mappedBy = "upperCategoryScoreBoard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ScoreBoard> scoreBoardList;
 }

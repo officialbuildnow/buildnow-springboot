@@ -30,7 +30,7 @@ public class Recruitment {
     private List<Prerequisite> prerequisiteList;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UpperCategoryGrading> upperCategoryGradingList;
+    private List<UpperCategory> upperCategoryGradingList;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Application> applicationList;

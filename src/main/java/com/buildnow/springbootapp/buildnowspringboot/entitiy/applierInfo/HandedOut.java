@@ -1,0 +1,22 @@
+package com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo;
+
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.PaperRequired;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@ToString
+public class HandedOut {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String documentName;
+    private String documentUrl;
+    @ManyToOne
+    private Applier applier;
+
+}

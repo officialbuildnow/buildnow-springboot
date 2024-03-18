@@ -1,9 +1,11 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy;
 
+import com.buildnow.springbootapp.buildnowspringboot.ENUM.BusinessTypeENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.History;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.PaperReq;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Patent;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +34,7 @@ public class Applier {
     private String corporateApplicationNum;
     private String companyPhoneNum;
     private String esg;
+    private BusinessTypeENUM type;
     @Lob
     private String companyIntro;
     private boolean hadAccident;
@@ -47,8 +50,10 @@ public class Applier {
     private List<History> historyList;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PaperReq> paperReqList;
+    private List<HandedOut> paperReqList;
 
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Patent> patentList;
 
     public Applier (
             String businessId, String managerName, String managerPhoneNum, String managerEmail, String username, String password

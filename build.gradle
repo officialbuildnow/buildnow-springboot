@@ -8,7 +8,7 @@ group = 'com.buildnow.springbootapp'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility='17'
 }
 
 repositories {
@@ -29,6 +29,8 @@ dependencies {
 	implementation platform('com.google.cloud:libraries-bom:26.34.0')
 	implementation 'com.google.cloud:google-cloud-document-ai'
 
+	implementation group: 'io.codef.api', name: 'easycodef-java', version: '1.0.5'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -48,3 +50,4 @@ tasks.withType(JavaCompile){
 tasks.named('test') {
 	useJUnitPlatform()
 }
+

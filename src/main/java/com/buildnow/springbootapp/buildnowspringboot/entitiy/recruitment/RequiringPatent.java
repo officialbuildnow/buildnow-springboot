@@ -1,4 +1,4 @@
-package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
+package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,13 +8,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
-public class ScoreBoard {
+public class RequiringPatent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String category;
-    private Long score;
 
     @ManyToOne
-    private UpperCategoryScoreBoard upperCategoryScoreBoard;
+    private RecruitingWorkType recruitingWorkType;
 }

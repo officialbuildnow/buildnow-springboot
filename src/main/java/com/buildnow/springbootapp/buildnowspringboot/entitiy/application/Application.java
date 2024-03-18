@@ -29,7 +29,7 @@ public class Application {
     private boolean isChecked = false;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UpperCategoryScoreBoard> upperCategoryScoreBoardList;
+    private List<ApplicationEvaluation> applicationEvaluationList;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Applier> applierList;
