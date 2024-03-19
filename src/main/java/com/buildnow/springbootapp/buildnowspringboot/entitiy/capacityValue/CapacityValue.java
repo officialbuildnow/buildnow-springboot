@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.capacityValue;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,5 +19,6 @@ public class CapacityValue {
     private String patentName;
 
     @OneToMany(mappedBy = "capacityValue" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CompanyByYearAndPatent> companyByYearAndPatentList;
 }

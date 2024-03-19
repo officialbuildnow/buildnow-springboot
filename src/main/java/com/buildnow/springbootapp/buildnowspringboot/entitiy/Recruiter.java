@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,7 @@ public class Recruiter {
     private LocalDateTime lastJoinDateTime;
 
     @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Recruitment> recruitmentList;
 
     public Recruiter(String username, String password, String businessId, String managerName, String companyName) {

@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class History {
     private String detail;
 
     @ManyToOne
+    @JsonBackReference
     private Applier applier;
 }

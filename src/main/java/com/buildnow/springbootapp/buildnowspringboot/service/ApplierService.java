@@ -4,15 +4,18 @@ import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDocumentDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplierSignUpDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.exception.BusinessIdExistException;
+import com.buildnow.springbootapp.buildnowspringboot.exception.NotFoundException;
 import com.buildnow.springbootapp.buildnowspringboot.exception.UsernameExistsException;
+import com.buildnow.springbootapp.buildnowspringboot.jwt.JWTUtil;
 import com.buildnow.springbootapp.buildnowspringboot.repository.AdminRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.RecruiterRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ApplierService {
@@ -20,7 +23,6 @@ public class ApplierService {
     private final RecruiterRepository recruiterRepository;
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
-
 
     @Transactional
     public Applier createApplier(ApplierSignUpDTO applierSignUpDTO) {
@@ -41,9 +43,32 @@ public class ApplierService {
         return applierRepository.save(newApplier);
     }
 
-//    @Transactional
-//    public Applier insertByApplicationDocument(ApplicationDocumentDTO applicationDocumentDTO, Applier applier){
-//
-//    }
+    @Transactional
+    public Applier retrieveApplierInfo(String applierName){
+        return applierRepository.findByUsername(applierName);
+    }
+
+    @Transactional
+    public void insertByApplicationDocument(String corporateApplicationNum, String companyPhoneNum, String applierName){
+        Applier applier = applierRepository.findByUsername(applierName);
+        applier.updateApplierInfo(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                corporateApplicationNum,
+                companyPhoneNum,
+                null,
+                null,
+                null,
+                false,
+                null
+        );
+
+        log.debug("협력업체신청서 문서 내용 applier 반영 완료");
+    }
 
 }

@@ -2,6 +2,7 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.RequiredLevelENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,7 @@ public class PaperRequired {
     private String documentName;
     private RequiredLevelENUM level;
 
+    @ManyToOne
+    @JsonBackReference
+    private Recruitment recruitment;
 }

@@ -1,5 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,9 +19,11 @@ public class UpperCategory {
     private String upperCategory;
 
     @ManyToOne
+    @JsonBackReference
     private Recruitment recruitment;
 
 
     @OneToMany(mappedBy = "upperCategoryGrading", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Grading> gradingList;
 }

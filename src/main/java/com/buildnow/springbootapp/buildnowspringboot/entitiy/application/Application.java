@@ -2,6 +2,8 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,15 +14,14 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString
 public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean isNew;
-    private boolean isRecommended;
+    private boolean isNew = false;
+    private boolean isRecommended = false;
     @CreatedDate
     private LocalDate appliedDate;
     private String workTypeApplying;
@@ -29,11 +30,44 @@ public class Application {
     private boolean isChecked = false;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ApplicationEvaluation> applicationEvaluationList;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Applier> applierList;
+    @ManyToOne
+    @JsonBackReference
+    private Applier applier;
 
     @ManyToOne
+    @JsonBackReference
     private Recruitment recruitment;
+
+    public Application(
+        String workTypeApplying
+    ){
+        this.workTypeApplying = workTypeApplying;
+    }
+
+    public void setRecruitment(Recruitment recruitment){
+        this.recruitment = recruitment;
+        recruitment.getApplicationList().add(this);
+    }
+
+    public void removeRecruitment(){
+        if(this.recruitment != null){
+            this.recruitment.getApplicationList().remove(this);
+        }
+        this.recruitment = null;
+    }
+
+    public void setApplier(Applier applier){
+        this.applier = applier;
+        applier.getApplicationList().add(this);
+    }
+
+    public void remove(Applier applier){
+        if(this.applier != null){
+            applier.getApplicationList().remove(this);
+        }
+        this.applier = null;
+    }
 }

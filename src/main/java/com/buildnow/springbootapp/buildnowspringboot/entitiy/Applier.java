@@ -6,6 +6,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.History;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Patent;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,22 +38,27 @@ public class Applier {
     private BusinessTypeENUM type;
     @Lob
     private String companyIntro;
-    private boolean hadAccident;
+    private boolean hadAccident = false;
     private LocalDate estDate;
 
-    @ManyToOne
-    private Application application;
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Application> applicationList;
 
     @OneToOne(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Finance finance;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<History> historyList;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HandedOut> paperReqList;
+    @JsonManagedReference
+    private List<HandedOut> HandedOutList;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Patent> patentList;
 
     public Applier (
@@ -65,6 +71,38 @@ public class Applier {
         this.username = username;
         this.password = password;
         this.role="ROLE_APPLIER";
+    }
+
+    public void updateApplierInfo(
+            String password,
+            String companyName,
+            String ceoName,
+            String companyAddress,
+            String managerName,
+            String managerPhoneNum,
+            String managerEmail,
+            String corporateApplicationNum,
+            String companyPhoneNum,
+            String esg,
+            BusinessTypeENUM type,
+            String companyIntro,
+            boolean hadAccident,
+            LocalDate estDate
+    ){
+        if(password != null) this.password = password;
+        if(companyName != null) this.companyName = companyName;
+        if(ceoName != null) this.ceoName = ceoName;
+        if(companyAddress != null) this.companyAddress = companyAddress;
+        if(managerName != null) this.managerName = managerName;
+        if(managerPhoneNum != null) this.managerPhoneNum = managerPhoneNum;
+        if(managerEmail != null) this.managerEmail = managerEmail;
+        if(corporateApplicationNum != null) this.corporateApplicationNum = corporateApplicationNum;
+        if(companyPhoneNum != null) this.companyPhoneNum = companyPhoneNum;
+        if(esg != null) this.esg = esg;
+        if(type != null) this.type = type;
+        if(companyIntro != null) this.companyIntro = companyIntro;
+        if(hadAccident != this.hadAccident) this.hadAccident = hadAccident;
+        if(estDate != null) this.estDate = estDate;
     }
 
 }

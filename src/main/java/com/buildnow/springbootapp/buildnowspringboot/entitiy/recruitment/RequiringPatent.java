@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,5 +15,6 @@ public class RequiringPatent {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     private RecruitingWorkType recruitingWorkType;
 }

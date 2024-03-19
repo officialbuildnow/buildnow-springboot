@@ -1,33 +1,58 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDocumentDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplierSignUpDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.RecruiterSignUpDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
-import com.buildnow.springbootapp.buildnowspringboot.service.ApplierService;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Patent;
+import com.buildnow.springbootapp.buildnowspringboot.jwt.JWTUtil;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
+import com.buildnow.springbootapp.buildnowspringboot.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/applier")
 public class ApplierController {
     private final ApplierService applierService;
+    private final ApplicationByDocumentService applicationByDocumentService;
+
     @PostMapping
     public ResponseEntity<Applier> createApplier(@Valid ApplierSignUpDTO applierSignUpDTO) throws Exception {
         Applier newApplier = applierService.createApplier(applierSignUpDTO);
         return new ResponseEntity<>(newApplier, HttpStatus.CREATED);
     }
-    @GetMapping("/data")
+    @PatchMapping("/application-document/{id}")
     @ResponseBody
-    public String testApplier () {
-        return "성공 applier";
+    public ResponseEntity<String> registerApplierByDocument (ApplicationDocumentDTO applicationDocumentDTO, Authentication authentication, @PathVariable("id") Long recruitmentId) throws Exception {
+       applicationByDocumentService.registerApplierByDocument(applicationDocumentDTO.getDocumentName(),
+               applicationDocumentDTO.getDocumentURL(),
+               applicationDocumentDTO.getCorporateApplicationNum(),
+               applicationDocumentDTO.getCompanyPhoneNum(),
+               authentication.getName(),
+               applicationDocumentDTO.getPatent1Name(),
+               applicationDocumentDTO.getPatent2Name(),
+               applicationDocumentDTO.getPatent3Name(),
+               applicationDocumentDTO.getWorkTypeApplying(),
+               recruitmentId);
+        return new ResponseEntity<>("문서 입력 완료!",HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<Applier> retrieveApplier(Authentication authentication){
+        Applier applier = applierService.retrieveApplierInfo(authentication.getName());
+        return new ResponseEntity<>(applier, HttpStatus.OK);
     }
 }

@@ -45,8 +45,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth)->auth
                         .requestMatchers("/login", "/", "/recruiter", "/applier", "/api/process", "/codef").permitAll()
-                        .requestMatchers("/recruiter/data").hasRole("RECRUITER")
-                        .requestMatchers("/applier/data").hasRole("APPLIER")
+                        .requestMatchers("/recruiter/data", "/recruitment").hasRole("RECRUITER")
+                        .requestMatchers("/applier/**").hasRole("APPLIER")
                         .anyRequest().authenticated());
 
         http

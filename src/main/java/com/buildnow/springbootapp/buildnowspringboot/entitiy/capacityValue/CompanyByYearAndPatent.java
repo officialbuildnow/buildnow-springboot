@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.capacityValue;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,6 @@ public class CompanyByYearAndPatent {
     private Long creditWorthinessCapacityValue;
 
     @ManyToOne
+    @JsonBackReference
     private CapacityValue capacityValue;
 }

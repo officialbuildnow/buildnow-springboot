@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +18,10 @@ public class ApplicationEvaluation {
     private Long score;
 
     @ManyToOne
+    @JsonBackReference
     private Grading grading;
 
     @ManyToOne
+    @JsonBackReference
     private Application application;
 }
