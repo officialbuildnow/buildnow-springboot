@@ -5,7 +5,6 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Applica
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.History;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Patent;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -57,9 +56,6 @@ public class Applier {
     @JsonManagedReference
     private List<HandedOut> HandedOutList;
 
-    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Patent> patentList;
 
     public Applier (
             String businessId, String managerName, String managerPhoneNum, String managerEmail, String username, String password

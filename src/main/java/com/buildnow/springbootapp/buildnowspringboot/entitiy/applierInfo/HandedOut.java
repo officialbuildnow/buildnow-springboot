@@ -1,8 +1,9 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo;
 
+import com.buildnow.springbootapp.buildnowspringboot.ENUM.HandedOutVerifyingStatusENUM;
+import com.buildnow.springbootapp.buildnowspringboot.ENUM.RequiredLevelENUM;
+import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.PaperRequired;
-import com.buildnow.springbootapp.buildnowspringboot.repository.HandedOutRepository;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +19,13 @@ public class HandedOut {
     private Long id;
     private String documentName;
     private String documentUrl;
+    @Enumerated(EnumType.STRING)
+    private RequiredLevelENUM requiredLevelENUM;
+    @Enumerated(EnumType.STRING)
+    private UpperCategoryENUM upperCategoryENUM;
+    //검수전이 디폴트
+    @Enumerated(EnumType.STRING)
+    private HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM = HandedOutVerifyingStatusENUM.READY;
     @ManyToOne
     @JsonBackReference
     private Applier applier;
@@ -28,6 +36,18 @@ public class HandedOut {
             ){
         this.documentName = documentName;
         this.documentUrl = documentUrl;
+    }
+
+    public void setHandedOutUpperCategory(UpperCategoryENUM upperCategoryENUM){
+        this.upperCategoryENUM = upperCategoryENUM;
+    }
+
+    public void setHandedOutRequiredLevel(RequiredLevelENUM requiredLevelENUM){
+        this.requiredLevelENUM = requiredLevelENUM;
+    }
+
+    public void setVerificationStatus(HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM){
+        this.handedOutVerifyingStatusENUM = handedOutVerifyingStatusENUM;
     }
 
     public void setApplier(Applier applier){

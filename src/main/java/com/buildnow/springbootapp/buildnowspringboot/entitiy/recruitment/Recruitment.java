@@ -35,15 +35,13 @@ public class Recruitment {
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<UpperCategory> upperCategoryGradingList;
+    private List<Grading> gradingList;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Application> applicationList;
 
-    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<PaperRequired> paperRequiredList;
+
     public Recruitment (
             LocalDate deadline,
             Long threshold

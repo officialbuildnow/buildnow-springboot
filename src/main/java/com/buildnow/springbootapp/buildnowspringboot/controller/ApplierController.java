@@ -2,24 +2,14 @@ package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDocumentDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplierSignUpDTO;
-import com.buildnow.springbootapp.buildnowspringboot.dto.RecruiterSignUpDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Patent;
-import com.buildnow.springbootapp.buildnowspringboot.jwt.JWTUtil;
-import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Controller

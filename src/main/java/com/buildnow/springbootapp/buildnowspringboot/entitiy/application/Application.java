@@ -28,6 +28,7 @@ public class Application {
     @Column
     private boolean isRead = false;
     private boolean isChecked = false;
+    private boolean isSubmit = false;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -41,6 +42,9 @@ public class Application {
     @JsonBackReference
     private Recruitment recruitment;
 
+    @OneToOne
+    @JsonManagedReference
+    private TempSaved tempSaved;
     public Application(
         String workTypeApplying
     ){
@@ -64,10 +68,14 @@ public class Application {
         applier.getApplicationList().add(this);
     }
 
-    public void remove(Applier applier){
+    public void removeApplier(Applier applier){
         if(this.applier != null){
             applier.getApplicationList().remove(this);
         }
         this.applier = null;
+    }
+
+    public void setTempSaved(TempSaved tempSaved){
+        this.tempSaved = tempSaved;
     }
 }

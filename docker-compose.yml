@@ -9,7 +9,6 @@ services:
     environment:
       - MYSQL_DATABASE=buildnow_v1
       - MYSQL_ROOT_PASSWORD=Kim980306*
-      - MYSQL_USER=root
     ports:
       - 3306:3306
 

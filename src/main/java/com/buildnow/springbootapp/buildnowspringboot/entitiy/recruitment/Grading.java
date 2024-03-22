@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
+import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,10 +20,12 @@ public class Grading {
     private Long id;
     private String category;
     private Long perfectScore;
+    @Enumerated(EnumType.STRING)
+    private UpperCategoryENUM upperCategoryENUM;
 
     @ManyToOne
     @JsonBackReference
-    private UpperCategory upperCategoryGrading;
+    private Recruitment recruitment;
 
     @OneToMany(mappedBy = "grading", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
