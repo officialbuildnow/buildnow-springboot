@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,5 +17,6 @@ public class Prerequisite {
     private Long prerequisiteValue;
 
     @ManyToOne
+    @JsonBackReference
     private Recruitment recruitment;
 }

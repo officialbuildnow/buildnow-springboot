@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  db:
+    image: mysql
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/config:/etc/mysql/conf.d
+      - ./db/mysql/init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=buildnow_v1
+      - MYSQL_ROOT_PASSWORD=Kim980306*
+    ports:
+      - 3306:3306
+
+  application:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/buildnow_v1?useSSL=false&&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Kim980306*
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
