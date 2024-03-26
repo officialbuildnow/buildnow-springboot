@@ -4,7 +4,9 @@ services:
     restart: always
     command: ["mysqld","--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci","--lower_case_table_names=2"]
     volumes:
-      - mysql_data:/var/lib/mysql/data
+      - mysql_data:/var/lib/mysql
+      - ./mysql/config:/etc/mysql/conf.d
+      - ./mysql/init:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=buildnow_v1
       - MYSQL_ROOT_PASSWORD=Kim980306*
