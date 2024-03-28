@@ -26,17 +26,17 @@ public class HandedOutService {
 //            throw new RuntimeException("documentURL이 첨부되지 않았습니다.");
 //        }
         Applier applier = applierRepository.findByUsername(applierName);
-        HandedOut newHandedOut = new HandedOut(
-                documentName,
-                documentURL
-        );
+        HandedOut newHandedOut = HandedOut.builder()
+                .documentName(documentName)
+                .documentUrl(documentURL)
+                .build();
 
         if(handedOutRepository.existsByApplierAndDocumentName(applier, documentName)){
             throw new RuntimeException("이미 제출한 서류입니다.");
         }
         newHandedOut.setApplier(applier);
-        newHandedOut.setHandedOutUpperCategory(upperCategoryENUM);
-        newHandedOut.setHandedOutRequiredLevel(requiredLevelENUM);
+        newHandedOut.setUpperCategoryENUM(upperCategoryENUM);
+        newHandedOut.setRequiredLevelENUM(requiredLevelENUM);
         return handedOutRepository.save(newHandedOut);
     }
 }

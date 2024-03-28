@@ -24,21 +24,21 @@ public class ApplierController {
         Applier newApplier = applierService.createApplier(applierSignUpDTO);
         return new ResponseEntity<>(newApplier, HttpStatus.CREATED);
     }
-    @PatchMapping("/application-document/{id}")
-    @ResponseBody
-    public ResponseEntity<String> registerApplierByDocument (ApplicationDocumentDTO applicationDocumentDTO, Authentication authentication, @PathVariable("id") Long recruitmentId) throws Exception {
-       applicationByDocumentService.registerApplierByDocument(applicationDocumentDTO.getDocumentName(),
-               applicationDocumentDTO.getDocumentURL(),
-               applicationDocumentDTO.getCorporateApplicationNum(),
-               applicationDocumentDTO.getCompanyPhoneNum(),
-               authentication.getName(),
-               applicationDocumentDTO.getPatent1Name(),
-               applicationDocumentDTO.getPatent2Name(),
-               applicationDocumentDTO.getPatent3Name(),
-               applicationDocumentDTO.getWorkTypeApplying(),
-               recruitmentId);
-        return new ResponseEntity<>("문서 입력 완료!",HttpStatus.CREATED);
-    }
+//    @PatchMapping("/application-document/{id}")
+//    @ResponseBody
+//    public ResponseEntity<String> registerApplierByDocument (ApplicationDocumentDTO applicationDocumentDTO, Authentication authentication, @PathVariable("id") Long recruitmentId) throws Exception {
+//       applicationByDocumentService.registerApplierByDocument(applicationDocumentDTO.getDocumentName(),
+//               applicationDocumentDTO.getDocumentURL(),
+//               applicationDocumentDTO.getCorporateApplicationNum(),
+//               applicationDocumentDTO.getCompanyPhoneNum(),
+//               authentication.getName(),
+//               applicationDocumentDTO.getPatent1Name(),
+//               applicationDocumentDTO.getPatent2Name(),
+//               applicationDocumentDTO.getPatent3Name(),
+//               applicationDocumentDTO.getWorkTypeApplying(),
+//               recruitmentId);
+//        return new ResponseEntity<>("문서 입력 완료!",HttpStatus.CREATED);
+//    }
 
     @GetMapping
     public ResponseEntity<Applier> retrieveApplier(Authentication authentication){

@@ -7,14 +7,19 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString
 public class RequiringPatent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String requiringPatent;
 
+    @Setter
     @ManyToOne
     @JsonBackReference
     private RecruitingWorkType recruitingWorkType;
+
+    public RequiringPatent(String requiringPatent){
+        this.requiringPatent = requiringPatent;
+    }
 }

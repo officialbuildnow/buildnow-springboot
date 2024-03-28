@@ -19,46 +19,29 @@ public class HandedOut {
     private Long id;
     private String documentName;
     private String documentUrl;
+    @Setter
     @Enumerated(EnumType.STRING)
     private RequiredLevelENUM requiredLevelENUM;
+    @Setter
     @Enumerated(EnumType.STRING)
     private UpperCategoryENUM upperCategoryENUM;
     //검수전이 디폴트
+    @Setter
     @Enumerated(EnumType.STRING)
-    private HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM = HandedOutVerifyingStatusENUM.READY;
+    private HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM;
+    @Setter
     @ManyToOne
     @JsonBackReference
     private Applier applier;
 
+    @Builder
     public HandedOut(
             String documentName,
             String documentUrl
             ){
         this.documentName = documentName;
         this.documentUrl = documentUrl;
+        this.handedOutVerifyingStatusENUM = HandedOutVerifyingStatusENUM.READY;
     }
 
-    public void setHandedOutUpperCategory(UpperCategoryENUM upperCategoryENUM){
-        this.upperCategoryENUM = upperCategoryENUM;
-    }
-
-    public void setHandedOutRequiredLevel(RequiredLevelENUM requiredLevelENUM){
-        this.requiredLevelENUM = requiredLevelENUM;
-    }
-
-    public void setVerificationStatus(HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM){
-        this.handedOutVerifyingStatusENUM = handedOutVerifyingStatusENUM;
-    }
-
-    public void setApplier(Applier applier){
-        this.applier = applier;
-        applier.getHandedOutList().add(this);
-    }
-
-    public void removeApplier(){
-        if(this.applier != null){
-            this.applier.getHandedOutList().remove(this);
-        }
-        this.applier = null;
-    }
 }

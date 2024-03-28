@@ -39,13 +39,13 @@ public class RecruiterService {
             throw new BusinessIdExistException("이미 가입된 회사입니다.");
         }
         String encodedPassword = passwordEncoder.encode(recruiterSignUpDTO.getPassword());
-        Recruiter newRecruiter = new Recruiter(
-                recruiterSignUpDTO.getUsername(),
-                encodedPassword,
-                recruiterSignUpDTO.getBusinessId(),
-                recruiterSignUpDTO.getManagerName(),
-                recruiterSignUpDTO.getCompanyName()
-        );
+        Recruiter newRecruiter = Recruiter.builder()
+                .username(recruiterSignUpDTO.getUsername())
+                .password(encodedPassword)
+                .businessId(recruiterSignUpDTO.getBusinessId())
+                .managerName(recruiterSignUpDTO.getManagerName())
+                .companyName(recruiterSignUpDTO.getCompanyName())
+                .build();
 
         return recruiterRepository.save(newRecruiter);
     }

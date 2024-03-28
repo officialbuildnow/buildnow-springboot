@@ -4,9 +4,7 @@ import com.buildnow.springbootapp.buildnowspringboot.ENUM.RequiredLevelENUM;
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,15 +15,19 @@ public class TempHandedOut {
     private Long id;
     private String documentName;
     private String documentUrl;
+    @Setter
     @Enumerated(EnumType.STRING)
     private RequiredLevelENUM requiredLevelENUM;
+    @Setter
     @Enumerated(EnumType.STRING)
     private UpperCategoryENUM upperCategoryENUM;
+    @Setter
     @ManyToOne
     @JsonBackReference
     private TempSaved tempSaved;
 
 
+    @Builder
     public TempHandedOut(
             String documentName,
             String documentUrl
@@ -34,23 +36,4 @@ public class TempHandedOut {
         this.documentUrl = documentUrl;
     }
 
-    public void setHandedOutUpperCategory(UpperCategoryENUM upperCategoryENUM){
-        this.upperCategoryENUM = upperCategoryENUM;
-    }
-
-    public void setHandedOutRequiredLevel(RequiredLevelENUM requiredLevelENUM){
-        this.requiredLevelENUM = requiredLevelENUM;
-    }
-
-
-    public void setTempSaved(TempSaved tempSaved){
-        this.tempSaved = tempSaved;
-    }
-
-    public void removeTempSaved(){
-        if(this.tempSaved != null){
-            this.tempSaved.getTempHandedOutList().remove(this);
-        }
-        this.tempSaved = null;
-    }
 }

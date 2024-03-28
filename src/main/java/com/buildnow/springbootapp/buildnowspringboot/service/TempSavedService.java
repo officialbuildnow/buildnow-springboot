@@ -26,17 +26,15 @@ public class TempSavedService {
         TempSaved tempSaved = application.getTempSaved();
 
         if (tempSaved == null) {
-            TempSaved newTempSaved = new TempSaved(
-                    null,
-                    tempSavingDTO.getCorporateApplication(),
-                    tempSavingDTO.getCompanyPhoneNum(),
-                    tempSavingDTO.getWorkTypeApplying(),
-                    tempSavingDTO.getType(),
-                    tempSavingDTO.getCompanyAddress(),
-                    tempSavingDTO.getCompanyIntro(),
-                    null,
-                    null
-            );
+            TempSaved newTempSaved = TempSaved.builder()
+                    .corporateApplicationNum(tempSavingDTO.getCorporateApplication())
+                    .companyPhoneNum(tempSavingDTO.getCompanyPhoneNum())
+                    .workTypeApplying(tempSavingDTO.getWorkTypeApplying())
+                    .type(tempSavingDTO.getType())
+                    .companyAddress(tempSavingDTO.getCompanyAddress())
+                    .companyIntro(tempSavingDTO.getCompanyIntro())
+                    .build();
+
             newTempSaved.setApplication(application);
             return tempSavedRepository.save(newTempSaved);
         }

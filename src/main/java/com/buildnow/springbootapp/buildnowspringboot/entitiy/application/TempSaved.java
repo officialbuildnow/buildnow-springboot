@@ -6,15 +6,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
-@Setter
 public class TempSaved {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,16 +26,38 @@ public class TempSaved {
     @Lob
     private String companyIntro;
 
+    @Setter
     @OneToOne
     @JsonBackReference
     private Application application;
 
     @OneToMany(mappedBy = "tempSaved", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TempHandedOut> tempHandedOutList = new ArrayList<>();
+    private List<TempHandedOut> tempHandedOutList;
 
-    public void setApplication(Application application){
-        this.application = application;
-        application.setTempSaved(this);
+    @Builder
+    public TempSaved(String corporateApplicationNum,
+                     String companyPhoneNum,
+                     String workTypeApplying,
+                     BusinessTypeENUM type,
+                     String companyAddress,
+                     String companyIntro){
+        this.corporateApplicationNum = corporateApplicationNum;
+        this.companyPhoneNum = companyPhoneNum;
+        this.workTypeApplying = workTypeApplying;
+        this.type = type;
+        this.companyAddress = companyAddress;
+        this.companyIntro = companyIntro;
+        this.tempHandedOutList = new ArrayList<>();
+    }
+
+    public void addTempHandedOut(TempHandedOut tempHandedOut){
+        tempHandedOutList.add(tempHandedOut);
+        tempHandedOut.setTempSaved(this);
+    }
+
+    public void removeTempHandedOut(TempHandedOut tempHandedOut){
+        tempHandedOutList.remove(tempHandedOut);
+        tempHandedOut.setTempSaved(this);
     }
 
     public void updateTempSaved(String corporateApplicationNum,

@@ -18,10 +18,11 @@ public class RecruitmentService {
     @Transactional
     public Recruitment createRecruitment(LocalDate deadLine, Long threshold, String recruiterName){
         Recruiter recruiter = recruiterRepository.findByUsername(recruiterName);
-        Recruitment newRecruitment = new Recruitment(
-                deadLine,
-                threshold
-        );
+        Recruitment newRecruitment = Recruitment.builder()
+                .deadline(deadLine)
+                .threshold(threshold)
+                .build();
+
         newRecruitment.setRecruiter(recruiter);
         return recruitmentRepository.save(newRecruitment);
     }

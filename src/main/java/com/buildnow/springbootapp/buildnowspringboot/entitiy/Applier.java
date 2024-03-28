@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class Applier {
     private BusinessTypeENUM type;
     @Lob
     private String companyIntro;
-    private boolean hadAccident = false;
+    private boolean hadAccident;
     private LocalDate estDate;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,7 +57,7 @@ public class Applier {
     @JsonManagedReference
     private List<HandedOut> HandedOutList;
 
-
+    @Builder
     public Applier (
             String businessId, String managerName, String managerPhoneNum, String managerEmail, String username, String password
     ){
@@ -67,38 +68,43 @@ public class Applier {
         this.username = username;
         this.password = password;
         this.role="ROLE_APPLIER";
+        this.hadAccident = false;
+        this.applicationList = new ArrayList<>();
+        this.historyList = new ArrayList<>();
+        this.HandedOutList = new ArrayList<>();
     }
 
-    public void updateApplierInfo(
-            String password,
-            String companyName,
-            String ceoName,
-            String companyAddress,
-            String managerName,
-            String managerPhoneNum,
-            String managerEmail,
-            String corporateApplicationNum,
-            String companyPhoneNum,
-            String esg,
-            BusinessTypeENUM type,
-            String companyIntro,
-            boolean hadAccident,
-            LocalDate estDate
-    ){
-        if(password != null) this.password = password;
-        if(companyName != null) this.companyName = companyName;
-        if(ceoName != null) this.ceoName = ceoName;
-        if(companyAddress != null) this.companyAddress = companyAddress;
-        if(managerName != null) this.managerName = managerName;
-        if(managerPhoneNum != null) this.managerPhoneNum = managerPhoneNum;
-        if(managerEmail != null) this.managerEmail = managerEmail;
-        if(corporateApplicationNum != null) this.corporateApplicationNum = corporateApplicationNum;
-        if(companyPhoneNum != null) this.companyPhoneNum = companyPhoneNum;
-        if(esg != null) this.esg = esg;
-        if(type != null) this.type = type;
-        if(companyIntro != null) this.companyIntro = companyIntro;
-        if(hadAccident != this.hadAccident) this.hadAccident = hadAccident;
-        if(estDate != null) this.estDate = estDate;
+    public void setFinance(Finance finance){
+       if(finance == null){
+           if(this.finance != null){
+               this.finance.setApplier(null);
+           }
+           this.finance = null;
+       }
+       else{
+           finance.setApplier(this);
+           this.finance = finance;
+       }
+    }
+
+    public void addApplication(Application application){
+        applicationList.add(application);
+        application.setApplier(this);
+    }
+
+    public void removeApplication(Application application){
+        applicationList.remove(application);
+        application.setApplier(null);
+    }
+
+    public void addHistory(History history){
+        historyList.add(history);
+        history.setApplier(this);
+    }
+
+    public void removeHistory(History history){
+        historyList.remove(history);
+        history.setApplier(null);
     }
 
 }
