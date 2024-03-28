@@ -6,15 +6,19 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Application {
 
     @Id
@@ -28,54 +32,65 @@ public class Application {
     @Column
     private boolean isRead = false;
     private boolean isChecked = false;
-    private boolean isSubmit = false;
+    private boolean isAdminChecked = false; //ADMIN이 검수끝나면 true로 업데이트
+    private boolean isSubmit = false; //Applier가 일단 제출(ADMIN 단계로 돌입)하면 true로 바꿈.
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<ApplicationEvaluation> applicationEvaluationList;
 
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<TempOCR> tempOCRList;
+
+    @Setter
     @ManyToOne
     @JsonBackReference
     private Applier applier;
 
+    @Setter
     @ManyToOne
     @JsonBackReference
     private Recruitment recruitment;
 
+    @Setter
     @OneToOne
     @JsonManagedReference
     private TempSaved tempSaved;
+
+    @Setter
+    @OneToOne
+    @JsonManagedReference
+    private TempPrerequisite tempPrerequisite;
+
+    @Builder
     public Application(
         String workTypeApplying
     ){
         this.workTypeApplying = workTypeApplying;
+        this.applicationEvaluationList = new ArrayList<>();
+        this.tempOCRList = new ArrayList<>();
     }
 
-    public void setRecruitment(Recruitment recruitment){
-        this.recruitment = recruitment;
-        recruitment.getApplicationList().add(this);
+    public void addApplicationEvaluation(ApplicationEvaluation applicationEvaluation){
+        applicationEvaluationList.add(applicationEvaluation);
+        applicationEvaluation.setApplication(this);
     }
 
-    public void removeRecruitment(){
-        if(this.recruitment != null){
-            this.recruitment.getApplicationList().remove(this);
-        }
-        this.recruitment = null;
+    public void removeApplicationEvaluation(ApplicationEvaluation applicationEvaluation){
+        applicationEvaluationList.remove(applicationEvaluation);
+        applicationEvaluation.setApplication(null);
     }
 
-    public void setApplier(Applier applier){
-        this.applier = applier;
-        applier.getApplicationList().add(this);
+    public void addTempOCR(TempOCR tempOCR){
+        tempOCRList.add(tempOCR);
+        tempOCR.setApplication(this);
     }
 
-    public void removeApplier(Applier applier){
-        if(this.applier != null){
-            applier.getApplicationList().remove(this);
-        }
-        this.applier = null;
+    public void removeTempOCR(TempOCR tempOCR){
+        tempOCRList.remove(tempOCR);
+        tempOCR.setApplication(null);
     }
 
-    public void setTempSaved(TempSaved tempSaved){
-        this.tempSaved = tempSaved;
-    }
+
 }

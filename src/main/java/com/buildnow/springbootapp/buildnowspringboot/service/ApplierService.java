@@ -32,14 +32,14 @@ public class ApplierService {
             throw new BusinessIdExistException("이미 가입된 회사입니다.");
         }
         String encodedPassword = passwordEncoder.encode(applierSignUpDTO.getPassword());
-        Applier newApplier = new Applier(
-                applierSignUpDTO.getBusinessId(),
-                applierSignUpDTO.getManagerName(),
-                applierSignUpDTO.getManagerPhoneNum(),
-                applierSignUpDTO.getManagerEmail(),
-                applierSignUpDTO.getUsername(),
-                encodedPassword
-        );
+        Applier newApplier = Applier.builder()
+                .businessId(applierSignUpDTO.getBusinessId())
+                .managerName(applierSignUpDTO.getManagerName())
+                .managerPhoneNum(applierSignUpDTO.getManagerPhoneNum())
+                .managerEmail(applierSignUpDTO.getManagerEmail())
+                .username(applierSignUpDTO.getUsername())
+                .password(encodedPassword)
+                .build();
         return applierRepository.save(newApplier);
     }
 
@@ -48,27 +48,6 @@ public class ApplierService {
         return applierRepository.findByUsername(applierName);
     }
 
-    @Transactional
-    public void insertByApplicationDocument(String corporateApplicationNum, String companyPhoneNum, String applierName){
-        Applier applier = applierRepository.findByUsername(applierName);
-        applier.updateApplierInfo(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                corporateApplicationNum,
-                companyPhoneNum,
-                null,
-                null,
-                null,
-                false,
-                null
-        );
 
-        log.debug("협력업체신청서 문서 내용 applier 반영 완료");
-    }
 
 }

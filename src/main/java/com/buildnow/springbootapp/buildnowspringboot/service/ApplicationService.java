@@ -33,9 +33,9 @@ public class ApplicationService {
         if(applicationRepository.existsByApplierAndRecruitment(applier, recruitment)){
             throw new RuntimeException("이미 지원한 내역이 있기 때문에 새로운 객체를 생성할 수 없습니다.");
         }
-        Application newApplication = new Application(
-                workTypeApplying
-        );
+        Application newApplication = Application.builder()
+                .workTypeApplying(workTypeApplying)
+                .build();
         newApplication.setApplier(applier);
         newApplication.setRecruitment(recruitment);
 

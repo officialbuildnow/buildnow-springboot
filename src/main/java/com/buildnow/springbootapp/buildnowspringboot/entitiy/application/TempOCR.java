@@ -1,6 +1,5 @@
 package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
 
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,25 +8,21 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class ApplicationEvaluation {
+public class TempOCR { //OCR로 불러온 협력업체신청서 임시저장 테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long score;
-
-    @Setter
-    @ManyToOne
-    @JsonBackReference
-    private Grading grading;
-
+    private String category;
+    private String value;
+    private Boolean isVerified;
     @Setter
     @ManyToOne
     @JsonBackReference
     private Application application;
-
     @Builder
-    public ApplicationEvaluation (Long score){
-        this.score = score;
+    public TempOCR(String category, String value){
+        this.category = category;
+        this.value = value;
+        this.isVerified = false;
     }
 }

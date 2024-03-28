@@ -19,7 +19,15 @@ public class History {
     private LocalDate day;
     private String detail;
 
+    @Setter
     @ManyToOne
     @JsonBackReference
     private Applier applier;
+
+    @Builder
+    public History(LocalDate day, String detail){
+        this.day =day;
+        this.detail = detail;
+    }
+
 }

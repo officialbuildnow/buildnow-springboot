@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString
 public class Grading {
     @Id
@@ -23,6 +22,7 @@ public class Grading {
     @Enumerated(EnumType.STRING)
     private UpperCategoryENUM upperCategoryENUM;
 
+    @Setter
     @ManyToOne
     @JsonBackReference
     private Recruitment recruitment;
@@ -31,4 +31,10 @@ public class Grading {
     @JsonManagedReference
     private List<ApplicationEvaluation> applicationEvaluationList;
 
+    @Builder
+    public Grading(String category, Long perfectScore, UpperCategoryENUM upperCategoryENUM){
+        this.category = category;
+        this.perfectScore = perfectScore;
+        this.upperCategoryENUM = upperCategoryENUM;
+    }
 }

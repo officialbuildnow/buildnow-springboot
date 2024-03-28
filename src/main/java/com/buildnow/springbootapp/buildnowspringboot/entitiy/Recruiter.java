@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,13 +28,13 @@ public class Recruiter {
     private String role;
     private String companyName;
     private String refreshToken;
-    @Column(nullable = true)
     private LocalDateTime lastJoinDateTime;
 
     @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Recruitment> recruitmentList;
 
+    @Builder
     public Recruiter(String username, String password, String businessId, String managerName, String companyName) {
         this.username = username;
         this.password = password;
@@ -41,7 +42,16 @@ public class Recruiter {
         this.managerName = managerName;
         this.companyName = companyName;
         this.role = "ROLE_RECRUITER";
+        this.recruitmentList = new ArrayList<>();
     }
 
+    public void addRecruitment(Recruitment recruitment){
+        recruitmentList.add(recruitment);
+        recruitment.setRecruiter(this);
+    }
+    public void removeRecruitment(Recruitment recruitment){
+        recruitmentList.remove(recruitment);
+        recruitment.setRecruiter(null);
+    }
 
 }

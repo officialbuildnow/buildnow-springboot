@@ -7,7 +7,6 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString
 public class Prerequisite {
     @Id
@@ -16,7 +15,16 @@ public class Prerequisite {
     private String prerequisiteName;
     private Long prerequisiteValue;
 
+    @Setter
     @ManyToOne
     @JsonBackReference
     private Recruitment recruitment;
+
+    @Builder
+    public Prerequisite(String prerequisiteName, Long prerequisiteValue){
+        this.prerequisiteName = prerequisiteName;
+        this.prerequisiteValue = prerequisiteValue;
+    }
+
+
 }
