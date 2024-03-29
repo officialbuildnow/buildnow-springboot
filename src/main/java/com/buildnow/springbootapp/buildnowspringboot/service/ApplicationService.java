@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.AuthenticationException;
+import java.util.List;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -26,7 +27,7 @@ public class ApplicationService {
     private final RecruitmentRepository recruitmentRepository;
     private final HandedOutRepository handedOutRepository;
     @Transactional
-    public Application createApplication(String workTypeApplying, String applierName, Long recruitmentId) throws RuntimeException {
+    public Application createApplication(String applierName, Long recruitmentId) throws RuntimeException {
         Applier applier = applierRepository.findByUsername(applierName);
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(() -> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
@@ -34,28 +35,29 @@ public class ApplicationService {
             throw new RuntimeException("이미 지원한 내역이 있기 때문에 새로운 객체를 생성할 수 없습니다.");
         }
         Application newApplication = Application.builder()
-                .workTypeApplying(workTypeApplying)
+                .applier(applier)
+                .recruitment(recruitment)
                 .build();
-        newApplication.setApplier(applier);
-        newApplication.setRecruitment(recruitment);
-
+        applier.addApplication(newApplication);
+        recruitment.addApplication(newApplication);
         return applicationRepository.save(newApplication);
     }
 
     @Transactional
-    public void deleteApplication(Long recruitmentId, String applierName) throws AuthenticationException {
+    public void deleteApplication(Long applicationId, String applierName) throws AuthenticationException {
         Applier applier = applierRepository.findByUsername(applierName);
-        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
-                .orElseThrow(() -> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
-        Application application = applicationRepository.findByApplierAndRecruitment(applier, recruitment);
-        if(application == null){
-            throw new RuntimeException("지우고자 하는 어플리케이션이 존재하지 않습니다.");
-        }
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
+
         if(!application.getApplier().getUsername().equals(applierName)){
             throw new RuntimeException("삭제 권한이 없습니다.");
         }
-        HandedOut applicationDoc = handedOutRepository.findByDocumentNameAndApplier("협력업체신청서", applier);
-        handedOutRepository.delete(applicationDoc);
         applicationRepository.delete(application);
+    }
+
+    @Transactional
+    public List<Application> retrieveApplication( String applierName) {
+        Applier applier = applierRepository.findByUsername(applierName);
+        return applicationRepository.findByApplier(applier);
     }
 }

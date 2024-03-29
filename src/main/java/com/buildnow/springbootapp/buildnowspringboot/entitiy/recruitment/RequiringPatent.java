@@ -16,7 +16,7 @@ public class RequiringPatent {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="recruitingWorkType-requiringPatent")
     private RecruitingWorkType recruitingWorkType;
 
     public RequiringPatent(String requiringPatent){

@@ -22,8 +22,7 @@ public class RecruitmentService {
                 .deadline(deadLine)
                 .threshold(threshold)
                 .build();
-
-        newRecruitment.setRecruiter(recruiter);
+        recruiter.addRecruitment(newRecruitment);
         return recruitmentRepository.save(newRecruitment);
     }
 }

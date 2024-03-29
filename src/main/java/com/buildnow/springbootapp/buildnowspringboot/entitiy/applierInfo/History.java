@@ -21,7 +21,7 @@ public class History {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="applier-history")
     private Applier applier;
 
     @Builder

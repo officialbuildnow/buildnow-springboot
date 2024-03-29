@@ -31,7 +31,7 @@ public class Recruiter {
     private LocalDateTime lastJoinDateTime;
 
     @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "recruiter-recruitment")
     private List<Recruitment> recruitmentList;
 
     @Builder

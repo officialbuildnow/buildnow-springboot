@@ -36,38 +36,40 @@ public class Application {
     private boolean isSubmit = false; //Applier가 일단 제출(ADMIN 단계로 돌입)하면 true로 바꿈.
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="application-applicationEvaluation")
     private List<ApplicationEvaluation> applicationEvaluationList;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="application-tempOCR")
     private List<TempOCR> tempOCRList;
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="applier-application")
     private Applier applier;
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="recruitment-application")
     private Recruitment recruitment;
 
     @Setter
-    @OneToOne
-    @JsonManagedReference
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="TempSaved-Application")
     private TempSaved tempSaved;
 
     @Setter
     @OneToOne
-    @JsonManagedReference
+    @JsonManagedReference(value="application-tempPrerequisite")
     private TempPrerequisite tempPrerequisite;
 
     @Builder
     public Application(
-        String workTypeApplying
+            Applier applier,
+            Recruitment recruitment
     ){
-        this.workTypeApplying = workTypeApplying;
+        this.applier = applier;
+        this.recruitment = recruitment;
         this.applicationEvaluationList = new ArrayList<>();
         this.tempOCRList = new ArrayList<>();
     }

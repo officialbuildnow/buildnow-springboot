@@ -26,7 +26,7 @@ public class Finance {
 
     @Setter
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonBackReference(value="applier-finance")
     private Applier applier;
 
     @Builder

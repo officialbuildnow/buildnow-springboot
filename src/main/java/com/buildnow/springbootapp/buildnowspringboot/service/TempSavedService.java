@@ -7,12 +7,14 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSav
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.TempSavedRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TempSavedService {
@@ -26,6 +28,7 @@ public class TempSavedService {
         TempSaved tempSaved = application.getTempSaved();
 
         if (tempSaved == null) {
+            log.debug(tempSavingDTO.getCorporateApplication());
             TempSaved newTempSaved = TempSaved.builder()
                     .corporateApplicationNum(tempSavingDTO.getCorporateApplication())
                     .companyPhoneNum(tempSavingDTO.getCompanyPhoneNum())
@@ -36,17 +39,20 @@ public class TempSavedService {
                     .build();
 
             newTempSaved.setApplication(application);
+            application.setTempSaved(newTempSaved);
             return tempSavedRepository.save(newTempSaved);
         }
-        tempSaved.updateTempSaved(
-                tempSavingDTO.getCorporateApplication(),
-                tempSavingDTO.getCompanyPhoneNum(),
-                tempSavingDTO.getWorkTypeApplying(),
-                tempSavingDTO.getType(),
-                tempSavingDTO.getCompanyAddress(),
-                tempSavingDTO.getCompanyIntro(),
-                tempSavingDTO.getTempHandedOutList()
-        );
+        else{
+            tempSaved.updateTempSaved(
+                    tempSavingDTO.getCorporateApplication(),
+                    tempSavingDTO.getCompanyPhoneNum(),
+                    tempSavingDTO.getWorkTypeApplying(),
+                    tempSavingDTO.getType(),
+                    tempSavingDTO.getCompanyAddress(),
+                    tempSavingDTO.getCompanyIntro(),
+                    tempSavingDTO.getTempHandedOutList()
+            );
+        }
         return tempSaved;
     }
 }

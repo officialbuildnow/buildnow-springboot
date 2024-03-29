@@ -34,7 +34,7 @@ public class HandedOutService {
         if(handedOutRepository.existsByApplierAndDocumentName(applier, documentName)){
             throw new RuntimeException("이미 제출한 서류입니다.");
         }
-        newHandedOut.setApplier(applier);
+        applier.addHandedOut(newHandedOut);
         newHandedOut.setUpperCategoryENUM(upperCategoryENUM);
         newHandedOut.setRequiredLevelENUM(requiredLevelENUM);
         return handedOutRepository.save(newHandedOut);

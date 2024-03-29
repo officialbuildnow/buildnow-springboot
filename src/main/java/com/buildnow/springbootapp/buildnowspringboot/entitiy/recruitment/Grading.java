@@ -24,11 +24,11 @@ public class Grading {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="recruitment-grading")
     private Recruitment recruitment;
 
     @OneToMany(mappedBy = "grading", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="grading-applicationEvaluation")
     private List<ApplicationEvaluation> applicationEvaluationList;
 
     @Builder

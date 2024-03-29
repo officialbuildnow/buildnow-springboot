@@ -19,7 +19,7 @@ public class TempPrerequisite {
 
     @Setter
     @OneToOne
-    @JsonBackReference
+    @JsonBackReference(value="application-tempPrerequisite")
     private Application application;
 
     @Builder

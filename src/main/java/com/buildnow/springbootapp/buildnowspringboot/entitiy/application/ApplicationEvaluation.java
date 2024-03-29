@@ -18,12 +18,12 @@ public class ApplicationEvaluation {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="grading-applicationEvaluation")
     private Grading grading;
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="application-applicationEvaluation")
     private Application application;
 
     @Builder
