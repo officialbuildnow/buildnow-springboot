@@ -22,11 +22,11 @@ public class RecruitingWorkType {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="recruitment-recruitingWorkType")
     private Recruitment recruitment;
 
     @OneToMany(mappedBy = "recruitingWorkType", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="recruitingWorkType-requiringPatent")
     private List<RequiringPatent> requiringPatentList;
 
     @Builder

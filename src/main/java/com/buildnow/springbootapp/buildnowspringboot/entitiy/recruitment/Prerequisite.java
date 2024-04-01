@@ -17,7 +17,7 @@ public class Prerequisite {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="recruitment-prerequisite")
     private Recruitment recruitment;
 
     @Builder

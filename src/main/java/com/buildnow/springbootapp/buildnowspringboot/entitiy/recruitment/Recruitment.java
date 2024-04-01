@@ -26,23 +26,23 @@ public class Recruitment {
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "recruiter-recruitment")
     private Recruiter recruiter;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="recruitment-recruitingWorkType")
     private List<RecruitingWorkType> recruitingWorkTypeList;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="recruitment-prerequisite")
     private List<Prerequisite> prerequisiteList;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="recruitment-grading")
     private List<Grading> gradingList;
 
     @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="recruitment-application")
     private List<Application> applicationList;
 
 

@@ -24,50 +24,58 @@ public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean isNew = false;
-    private boolean isRecommended = false;
+    private boolean isNew;
+    private boolean isRecommended;
     @CreatedDate
     private LocalDate appliedDate;
     private String workTypeApplying;
     @Column
-    private boolean isRead = false;
-    private boolean isChecked = false;
-    private boolean isAdminChecked = false; //ADMIN이 검수끝나면 true로 업데이트
-    private boolean isSubmit = false; //Applier가 일단 제출(ADMIN 단계로 돌입)하면 true로 바꿈.
+    private boolean isRead;
+    private boolean isChecked;
+    private boolean isAdminChecked; //ADMIN이 검수끝나면 true로 업데이트
+    private boolean isSubmit; //Applier가 일단 제출(ADMIN 단계로 돌입)하면 true로 바꿈.
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="application-applicationEvaluation")
     private List<ApplicationEvaluation> applicationEvaluationList;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="application-tempOCR")
     private List<TempOCR> tempOCRList;
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="applier-application")
     private Applier applier;
 
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="recruitment-application")
     private Recruitment recruitment;
 
     @Setter
-    @OneToOne
-    @JsonManagedReference
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="TempSaved-Application")
     private TempSaved tempSaved;
 
     @Setter
     @OneToOne
-    @JsonManagedReference
+    @JsonManagedReference(value="application-tempPrerequisite")
     private TempPrerequisite tempPrerequisite;
 
     @Builder
     public Application(
-        String workTypeApplying
+            Applier applier,
+            Recruitment recruitment
     ){
-        this.workTypeApplying = workTypeApplying;
+        this.applier = applier;
+        this.recruitment = recruitment;
+        this.isNew = false;
+        this.isRecommended = false;
+        this.isRead = false;
+        this.isChecked = false;
+        this.isAdminChecked = false;
+        this.isSubmit = false;
         this.applicationEvaluationList = new ArrayList<>();
         this.tempOCRList = new ArrayList<>();
     }
@@ -92,5 +100,8 @@ public class Application {
         tempOCR.setApplication(null);
     }
 
+    public void updateSubmitTrue(){
+        this.isSubmit = true;
+    }
 
 }

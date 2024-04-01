@@ -31,7 +31,7 @@ public class HandedOut {
     private HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM;
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="applier-handedOut")
     private Applier applier;
 
     @Builder

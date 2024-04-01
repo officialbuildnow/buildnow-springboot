@@ -17,7 +17,7 @@ public class TempOCR { //OCR로 불러온 협력업체신청서 임시저장 테
     private Boolean isVerified;
     @Setter
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="application-tempOCR")
     private Application application;
     @Builder
     public TempOCR(String category, String value){

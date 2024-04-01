@@ -3,6 +3,7 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.BusinessTypeENUM;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +29,11 @@ public class TempSaved {
 
     @Setter
     @OneToOne
-    @JsonBackReference
+    @JsonBackReference(value="TempSaved-Application")
     private Application application;
 
     @OneToMany(mappedBy = "tempSaved", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="tempSaved-tempHandedOut")
     private List<TempHandedOut> tempHandedOutList;
 
     @Builder
@@ -61,39 +63,39 @@ public class TempSaved {
     }
 
     public void updateTempSaved(String corporateApplicationNum,
-                           String companyPhoneNum,
-                           String workTypeApplying,
-                           BusinessTypeENUM type,
-                           String companyAddress,
-                           String companyIntro,
-                                List<TempHandedOut> tempHandedOutList){
-        log.info(tempHandedOutList.get(0).getDocumentName());
-        if(!this.corporateApplicationNum.equals(corporateApplicationNum)) {
+                                String companyPhoneNum,
+                                String workTypeApplying,
+                                BusinessTypeENUM type,
+                                String companyAddress,
+                                String companyIntro,
+                                List<TempHandedOut> tempHandedOutList) {
+
+        if(corporateApplicationNum != null) {
             this.corporateApplicationNum = corporateApplicationNum;
         }
-        if(!this.companyPhoneNum.equals(companyPhoneNum)){
+        if(companyPhoneNum != null) {
             this.companyPhoneNum = companyPhoneNum;
         }
-        if(!this.workTypeApplying.equals(workTypeApplying)){
+        if(workTypeApplying != null) {
             this.workTypeApplying = workTypeApplying;
         }
-        if(!this.type.equals(type)) {
+        if(type != null) {
             this.type = type;
         }
-        if(!this.companyAddress.equals(companyAddress)) {
+        if(companyAddress != null) {
             this.companyAddress = companyAddress;
         }
-        if(!this.companyIntro.equals(companyIntro)) {
+        if(companyIntro != null) {
             this.companyIntro = companyIntro;
         }
 
-        this.tempHandedOutList.clear();
-        for(TempHandedOut newHandedOut : tempHandedOutList){
-            log.info(String.valueOf(newHandedOut.getDocumentName()));
-            this.tempHandedOutList.add(newHandedOut);
-            newHandedOut.setTempSaved(this);
+        if(tempHandedOutList != null && !tempHandedOutList.isEmpty()) {
+            this.tempHandedOutList.clear();
+            this.tempHandedOutList.addAll(tempHandedOutList);
+            tempHandedOutList.forEach(handOut -> handOut.setTempSaved(this));
         }
     }
+
 
 
 }

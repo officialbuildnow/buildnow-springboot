@@ -42,20 +42,20 @@ public class Applier {
     private LocalDate estDate;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="applier-application")
     private List<Application> applicationList;
 
     @OneToOne(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="applier-finance")
     private Finance finance;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="applier-history")
     private List<History> historyList;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<HandedOut> HandedOutList;
+    @JsonManagedReference(value="applier-handedOut")
+    private List<HandedOut> handedOutList;
 
     @Builder
     public Applier (
@@ -71,7 +71,7 @@ public class Applier {
         this.hadAccident = false;
         this.applicationList = new ArrayList<>();
         this.historyList = new ArrayList<>();
-        this.HandedOutList = new ArrayList<>();
+        this.handedOutList = new ArrayList<>();
     }
 
     public void setFinance(Finance finance){
@@ -105,6 +105,15 @@ public class Applier {
     public void removeHistory(History history){
         historyList.remove(history);
         history.setApplier(null);
+    }
+
+    public void addHandedOut(HandedOut handedOut){
+        handedOutList.add(handedOut);
+        handedOut.setApplier(this);
+    }
+    public void removeHandedOut(HandedOut handedOut){
+        handedOutList.remove(handedOut);
+        handedOut.setApplier(null);
     }
 
 }

@@ -9,21 +9,22 @@ import lombok.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 public class TempHandedOut {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String documentName;
     private String documentUrl;
-    @Setter
+
     @Enumerated(EnumType.STRING)
     private RequiredLevelENUM requiredLevelENUM;
-    @Setter
+
     @Enumerated(EnumType.STRING)
     private UpperCategoryENUM upperCategoryENUM;
-    @Setter
+
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value="tempSaved-tempHandedOut")
     private TempSaved tempSaved;
 
 
