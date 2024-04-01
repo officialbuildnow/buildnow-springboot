@@ -19,7 +19,7 @@ public class ApplierController {
     private final ApplierService applierService;
     private final ApplicationByDocumentService applicationByDocumentService;
 
-    @PostMapping
+    @PostMapping("/join")
     public ResponseEntity<Applier> createApplier(@Valid ApplierSignUpDTO applierSignUpDTO) throws Exception {
         Applier newApplier = applierService.createApplier(applierSignUpDTO);
         return new ResponseEntity<>(newApplier, HttpStatus.CREATED);

@@ -60,4 +60,17 @@ public class ApplicationService {
         Applier applier = applierRepository.findByUsername(applierName);
         return applicationRepository.findByApplier(applier);
     }
+
+    @Transactional
+    public void updateIsSubmitTrue(Long applicationId, String applierName){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습ㄴ디ㅏ."));
+        Applier applier = applierRepository.findByUsername(applierName);
+
+        if(!application.getApplier().getUsername().equals(applierName)){
+            throw new RuntimeException("제출 권한이 없습니다.");
+        }
+
+        application.updateSubmitTrue();
+    }
 }

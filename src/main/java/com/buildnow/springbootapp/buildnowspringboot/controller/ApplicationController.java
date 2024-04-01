@@ -35,4 +35,10 @@ public class ApplicationController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @PatchMapping("/submit/{id}")
+    public ResponseEntity<String> updateIsSubmitTrue(@PathVariable("id") Long applicationId, Authentication authentication){
+        applicationService.updateIsSubmitTrue(applicationId, authentication.getName());
+        return new ResponseEntity<>("제출 완료",HttpStatus.OK);
+    }
+
 }
