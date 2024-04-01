@@ -6,12 +6,14 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/applier")
@@ -21,6 +23,7 @@ public class ApplierController {
 
     @PostMapping("/join")
     public ResponseEntity<Applier> createApplier(@Valid ApplierSignUpDTO applierSignUpDTO) throws Exception {
+        log.info("진입!");
         Applier newApplier = applierService.createApplier(applierSignUpDTO);
         return new ResponseEntity<>(newApplier, HttpStatus.CREATED);
     }

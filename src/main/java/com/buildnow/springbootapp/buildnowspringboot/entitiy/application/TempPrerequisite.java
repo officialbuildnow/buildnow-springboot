@@ -18,7 +18,7 @@ public class TempPrerequisite {
     private String whyMidal;
 
     @Setter
-    @OneToOne
+    @ManyToOne
     @JsonBackReference(value="application-tempPrerequisite")
     private Application application;
 
