@@ -12,8 +12,11 @@ import com.buildnow.springbootapp.buildnowspringboot.repository.RecruitmentRepos
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.naming.AuthenticationException;
 import java.util.List;
@@ -32,7 +35,8 @@ public class ApplicationService {
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(() -> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
         if(applicationRepository.existsByApplierAndRecruitment(applier, recruitment)){
-            throw new RuntimeException("이미 지원한 내역이 있기 때문에 새로운 객체를 생성할 수 없습니다.");
+            Application existingApplication = findExistingApplication(applierName, recruitmentId);
+            throw new RuntimeException("이미 지원한 내역 (applicationId: " + existingApplication.getId() + ") 이 있기 때문에 새로운 객체를 생성할 수 없습니다.");
         }
         Application newApplication = Application.builder()
                 .applier(applier)
@@ -62,6 +66,14 @@ public class ApplicationService {
     }
 
     @Transactional
+    public Application findExistingApplication(String applierName, Long recruitmentId){
+        Applier applier = applierRepository.findByUsername(applierName);
+        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
+                .orElseThrow(()->new RuntimeException("해당하는 recruitment가 존재하지 않습니다."));
+        return applicationRepository.findByApplierAndRecruitment(applier, recruitment);
+    }
+
+    @Transactional
     public void updateIsSubmitTrue(Long applicationId, String applierName){
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습ㄴ디ㅏ."));
@@ -73,4 +85,6 @@ public class ApplicationService {
 
         application.updateSubmitTrue();
     }
+
+
 }
