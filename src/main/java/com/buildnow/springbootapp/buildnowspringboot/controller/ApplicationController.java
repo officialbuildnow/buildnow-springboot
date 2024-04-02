@@ -18,7 +18,7 @@ import java.util.List;
 public class ApplicationController {
     private final ApplicationService applicationService;
     @PostMapping("/{id}")
-    public ResponseEntity<Application> createApplication(@PathVariable("id") Long id, Authentication authentication) throws Exception {
+    public ResponseEntity<?> createApplication(@PathVariable("id") Long id, Authentication authentication) throws Exception {
         Application newApplication = applicationService.createApplication(authentication.getName(), id);
         return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
     }
@@ -41,4 +41,8 @@ public class ApplicationController {
         return new ResponseEntity<>("제출 완료",HttpStatus.OK);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
