@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.dto;
 
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Admin;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,11 @@ public class CustomUserDetails implements UserDetails {
             this.username = applier.getUsername();
             this.password = applier.getPassword();
             this.authorities = Collections.singletonList(new SimpleGrantedAuthority(applier.getRole()));
+        }else if(user instanceof Admin){
+            Admin admin = (Admin) user;
+            this.username = admin.getUsername();
+            this.password = admin.getPassword();
+            this.authorities = Collections.singletonList(new SimpleGrantedAuthority(admin.getRole()));
         }
     }
     @Override

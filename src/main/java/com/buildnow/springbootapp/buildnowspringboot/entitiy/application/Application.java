@@ -58,10 +58,9 @@ public class Application {
     @JsonManagedReference(value="TempSaved-Application")
     private TempSaved tempSaved;
 
-    @Setter
-    @OneToOne
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="application-tempPrerequisite")
-    private TempPrerequisite tempPrerequisite;
+    private List<TempPrerequisite> tempPrerequisiteList;
 
     @Builder
     public Application(
@@ -78,6 +77,17 @@ public class Application {
         this.isSubmit = false;
         this.applicationEvaluationList = new ArrayList<>();
         this.tempOCRList = new ArrayList<>();
+        this.tempPrerequisiteList = new ArrayList<>();
+    }
+
+    public void addTempPrerequisite(TempPrerequisite tempPrerequisite){
+        tempPrerequisiteList.add(tempPrerequisite);
+        tempPrerequisite.setApplication(this);
+    }
+
+    public void removeTempPrerequisite(TempPrerequisite tempPrerequisite){
+        tempPrerequisiteList.remove(tempPrerequisite);
+        tempPrerequisite.setApplication(null);
     }
 
     public void addApplicationEvaluation(ApplicationEvaluation applicationEvaluation){

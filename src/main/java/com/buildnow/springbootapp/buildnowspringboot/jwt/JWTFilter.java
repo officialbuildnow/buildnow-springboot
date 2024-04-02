@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.jwt;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.CustomUserDetails;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Admin;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.service.CustomUserDetailsService;
@@ -75,6 +76,18 @@ public class JWTFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
             log.info("applier 로직 끝");
+        }else if(role.equals("ROLE_ADMIN")){
+            log.info("admin 로직 시작");
+            Admin admin = Admin.builder()
+                    .username(username)
+                    .password("123")
+                    .build();
+            CustomUserDetails customUserDetails = new CustomUserDetails(admin);
+
+            Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+            log.info("admin 로직 끝");
         }
 
         filterChain.doFilter(request, response);
