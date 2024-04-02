@@ -13,6 +13,4 @@ public class TempOCRDTO {
     private String category;
     @JsonProperty("value")
     private String value;
-    @JsonProperty("isVerified")
-    private boolean isVerified;
 }

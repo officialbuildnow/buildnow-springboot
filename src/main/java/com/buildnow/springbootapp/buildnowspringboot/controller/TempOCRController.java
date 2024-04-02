@@ -3,6 +3,7 @@ package com.buildnow.springbootapp.buildnowspringboot.controller;
 import com.buildnow.springbootapp.buildnowspringboot.dto.TempOCRDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.TempOCRListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempOCR;
+import com.buildnow.springbootapp.buildnowspringboot.repository.TempOCRRepository;
 import com.buildnow.springbootapp.buildnowspringboot.service.TempOCRService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping("/tempOCR")
 public class TempOCRController {
     private final TempOCRService tempOCRService;
-
+    private final TempOCRRepository tempOCRRepository;
     @PostMapping("/{id}")
     public ResponseEntity<List<TempOCR>> uploadOCR(@PathVariable("id") Long applicationId,
                                                    Authentication authentication,
@@ -34,7 +35,8 @@ public class TempOCRController {
                     info.getCategory(),
                     info.getValue()
                     );
-            res.add(tempOCR);
+
+            res.add(tempOCRRepository.save(tempOCR));
         }
 
         return new ResponseEntity<>(res, HttpStatus.CREATED);
