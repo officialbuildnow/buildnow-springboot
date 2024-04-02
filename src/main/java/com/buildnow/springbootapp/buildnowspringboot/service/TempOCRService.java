@@ -29,7 +29,7 @@ public class TempOCRService {
         }
         TempOCR newTempOCR = TempOCR.builder()
                 .category(category)
-                .value(category)
+                .value(value)
                 .build();
         application.addTempOCR(newTempOCR);
         return tempOCRRepository.save(newTempOCR);
