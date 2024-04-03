@@ -14,7 +14,6 @@ public class TempOCR { //OCR로 불러온 협력업체신청서 임시저장 테
     private Long id;
     private String category;
     private String value;
-    private Boolean isVerified;
     @Setter
     @ManyToOne
     @JsonBackReference(value="application-tempOCR")
@@ -23,6 +22,8 @@ public class TempOCR { //OCR로 불러온 협력업체신청서 임시저장 테
     public TempOCR(String category, String value){
         this.category = category;
         this.value = value;
-        this.isVerified = false;
+    }
+    public void updateValue(String value){
+        this.value = value;
     }
 }

@@ -1,5 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.TempOCRDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.TempOCRListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempOCR;
@@ -7,9 +9,12 @@ import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepos
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.TempOCRRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TempOCRService {
@@ -27,6 +32,9 @@ public class TempOCRService {
         if(!applier.equals(application.getApplier())){
             throw new RuntimeException("권한이 없습니다.");
         }
+        if(tempOCRRepository.existsByApplicationAndCategory(application, category)){
+            throw new RuntimeException("이미 저장된 항목입니다.");
+        }
         TempOCR newTempOCR = TempOCR.builder()
                 .category(category)
                 .value(value)
@@ -34,4 +42,38 @@ public class TempOCRService {
         application.addTempOCR(newTempOCR);
         return tempOCRRepository.save(newTempOCR);
     }
+
+    @Transactional
+    public List<TempOCR> retrieveMyTempOCRs(String applierName,
+                                            Long applicationId){
+        Applier applier = applierRepository.findByUsername(applierName);
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()-> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
+        if(!applier.equals(application.getApplier())){
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
+        return tempOCRRepository.findByApplication(application);
+    }
+
+    @Transactional
+    public void updateTempOCR(Long applicationId, TempOCRListDTO tempOCRListDTO){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 존재하지 않습니다."));
+        List<TempOCR> tempOCRList = application.getTempOCRList();
+        log.info(String.valueOf(tempOCRListDTO.getInfoList().size()));
+        for(TempOCRDTO info: tempOCRListDTO.getInfoList()){
+            log.info("for문 돌고 있음");
+            for(TempOCR tempOCR : tempOCRList){
+                log.info(tempOCR.getValue());
+
+                if(info.getCategory().equals(tempOCR.getCategory())){
+                    log.info("업데이트 시작");
+                    tempOCR.updateValue(info.getValue());
+                    log.info(tempOCR.getValue());
+                }
+            }
+        }
+    }
+
 }
