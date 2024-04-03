@@ -66,6 +66,11 @@ public class ApplicationService {
     }
 
     @Transactional
+    public List<Application> retrieveAllApplication(){
+        return applicationRepository.findAll();
+    }
+
+    @Transactional
     public Application findExistingApplication(String applierName, Long recruitmentId){
         Applier applier = applierRepository.findByUsername(applierName);
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)

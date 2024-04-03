@@ -17,25 +17,30 @@ import java.util.List;
 @RequestMapping("/application")
 public class ApplicationController {
     private final ApplicationService applicationService;
-    @PostMapping("/{id}")
+    @PostMapping("/applier/{id}")
     public ResponseEntity<?> createApplication(@PathVariable("id") Long id, Authentication authentication) throws Exception {
         Application newApplication = applicationService.createApplication(authentication.getName(), id);
         return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/applier/{id}")
     public ResponseEntity<String> deleteApplication(@PathVariable("id") Long id, Authentication authentication) throws AuthenticationException {
         applicationService.deleteApplication(id, authentication.getName());
         return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/applier")
     public ResponseEntity<List<Application>> retrieveApplication(Authentication authentication)throws AuthenticationException {
         List<Application> res = applicationService.retrieveApplication(authentication.getName());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @PatchMapping("/submit/{id}")
+    @GetMapping("/admin/all-application")
+    public ResponseEntity<List<Application>> retrieveAllApplication(){
+        List<Application> applicationList = applicationService.retrieveAllApplication();
+        return new ResponseEntity<>(applicationList, HttpStatus.OK);
+    }
+    @PatchMapping("/applier/submit/{id}")
     public ResponseEntity<String> updateIsSubmitTrue(@PathVariable("id") Long applicationId, Authentication authentication){
         applicationService.updateIsSubmitTrue(applicationId, authentication.getName());
         return new ResponseEntity<>("제출 완료",HttpStatus.OK);
