@@ -4,6 +4,7 @@ import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDocumentDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplierSignUpDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.service.*;
+import com.google.api.Http;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,13 @@ public class ApplierController {
     @GetMapping
     public ResponseEntity<Applier> retrieveApplier(Authentication authentication){
         Applier applier = applierService.retrieveApplierInfo(authentication.getName());
+        return new ResponseEntity<>(applier, HttpStatus.OK);
+    }
+
+    @GetMapping("/recruiter/get-by-applicationId/{id}")
+    public ResponseEntity<Applier> getApplierInfoByApplicationId(@PathVariable("id") Long applicationId,
+                                                                 Authentication authentication){
+        Applier applier = applierService.getApplierInfoByApplicationId(applicationId, authentication.getName());
         return new ResponseEntity<>(applier, HttpStatus.OK);
     }
 }

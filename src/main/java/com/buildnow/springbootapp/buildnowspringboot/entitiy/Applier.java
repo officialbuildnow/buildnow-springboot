@@ -16,7 +16,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class Applier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
