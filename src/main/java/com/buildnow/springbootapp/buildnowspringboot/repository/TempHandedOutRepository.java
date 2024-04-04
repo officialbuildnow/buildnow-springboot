@@ -1,8 +1,9 @@
 package com.buildnow.springbootapp.buildnowspringboot.repository;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempHandedOut;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TempHandedOutRepository extends JpaRepository<TempHandedOut, Long> {
-    TempHandedOut findByDocumentName(String documentName);
+    TempHandedOut findByDocumentNameAndTempSaved(String documentName, TempSaved tempSaved);
 }
