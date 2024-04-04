@@ -25,10 +25,10 @@ public class TempOCRController {
     private final ApplicationRepository applicationRepository;
     private final TempOCRService tempOCRService;
     private final TempOCRRepository tempOCRRepository;
-    @PostMapping("applier/{id}")
+    @PostMapping("/applier/{id}")
     public ResponseEntity<List<TempOCR>> uploadOCR(@PathVariable("id") Long applicationId,
                                                    Authentication authentication,
-                                                   TempOCRListDTO tempOCRListDTO
+                                                   @RequestBody TempOCRListDTO tempOCRListDTO
     ){
         List<TempOCR> res = new ArrayList<>();
         for(TempOCRDTO info : tempOCRListDTO.getInfoList()){
@@ -45,14 +45,14 @@ public class TempOCRController {
 
     }
 
-    @GetMapping("applier/{id}")
+    @GetMapping("/applier/{id}")
     public ResponseEntity<List<TempOCR>> getTempOCRList(@PathVariable("id") Long applicationId,
                                                         Authentication authentication){
         List<TempOCR> res = tempOCRService.retrieveMyTempOCRs(authentication.getName(), applicationId);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @PatchMapping("admin/update/{id}")
+    @PatchMapping("/admin/update/{id}")
     public ResponseEntity<String> updateTempOCRs(@PathVariable("id") Long applicationId, TempOCRListDTO tempOCRListDTO){
         tempOCRService.updateTempOCR(applicationId, tempOCRListDTO);
         return new ResponseEntity<>("tempOCR 업데이트 완료!",HttpStatus.OK);
