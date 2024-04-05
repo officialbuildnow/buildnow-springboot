@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.repository;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +15,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     Application findByApplierAndRecruitment(Applier applier, Recruitment recruitment);
 
     List<Application> findByApplier(Applier applier);
+    List<Application> findByRecruitment(Recruitment recruitment);
     @NotNull
     Optional<Application> findById(Long id);
 }

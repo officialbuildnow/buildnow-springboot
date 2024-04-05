@@ -1,14 +1,12 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import com.buildnow.springbootapp.buildnowspringboot.exception.NotFoundException;
-import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.HandedOutRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.RecruitmentRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +27,7 @@ public class ApplicationService {
     private final ApplierRepository applierRepository;
     private final RecruitmentRepository recruitmentRepository;
     private final HandedOutRepository handedOutRepository;
+    private final RecruiterRepository recruiterRepository;
     @Transactional
     public Application createApplication(String applierName, Long recruitmentId) throws RuntimeException {
         Applier applier = applierRepository.findByUsername(applierName);
@@ -81,7 +80,7 @@ public class ApplicationService {
     @Transactional
     public void updateIsSubmitTrue(Long applicationId, String applierName){
         Application application = applicationRepository.findById(applicationId)
-                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습ㄴ디ㅏ."));
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
         Applier applier = applierRepository.findByUsername(applierName);
 
         if(!application.getApplier().getUsername().equals(applierName)){
@@ -91,5 +90,29 @@ public class ApplicationService {
         application.updateSubmitTrue();
     }
 
+    @Transactional
+    public void updateIsAdminCheckedTrue(Long applicationId){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
+        application.updateIsAdminTrue();
+    }
 
+    @Transactional
+    public void updateIsAdminCheckedFalse(Long applicationId){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
+        application.updateIsAdminFalse();
+    }
+
+    @Transactional
+    public List<Application> retrieveApplicationByRecruitment(String recruiterName, Long recruitmentId){
+        Recruiter recruiter = recruiterRepository.findByUsername(recruiterName);
+        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
+                .orElseThrow(()->new RuntimeException("해당하는 recruitment가 없습니다."));
+        if(!recruitment.getRecruiter().equals(recruiter)){
+            throw new RuntimeException("해당 recruitment의 회사가 아니기 때문에 권한 없음.");
+        }
+
+       return applicationRepository.findByRecruitment(recruitment);
+    }
 }

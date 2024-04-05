@@ -46,6 +46,24 @@ public class ApplicationController {
         return new ResponseEntity<>("제출 완료",HttpStatus.OK);
     }
 
+    @PatchMapping("/admin/check-true/{id}")
+    public ResponseEntity<String> updateIsAdminCheckedTrue(@PathVariable("id") Long applicationId){
+        applicationService.updateIsAdminCheckedTrue(applicationId);
+        return new ResponseEntity<>("어드민 검수 완료", HttpStatus.OK);
+    }
+
+    @PatchMapping("/admin/check-false/{id}")
+    public ResponseEntity<String> updateIsAdminCheckedFalse(@PathVariable("id") Long applicationId){
+        applicationService.updateIsAdminCheckedFalse(applicationId);
+        return new ResponseEntity<>("어드민 검수 완료 철회", HttpStatus.OK);
+    }
+
+    @GetMapping("/recruiter/get-application-list/{id}")
+    public ResponseEntity<List<Application>> retrieveApplicationByRecruitment(@PathVariable("id") Long recruitmentId, Authentication authentication){
+        List<Application> applicationList = applicationService.retrieveApplicationByRecruitment(authentication.getName(), recruitmentId);
+        return new ResponseEntity<>(applicationList, HttpStatus.OK);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
         return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

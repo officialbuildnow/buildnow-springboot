@@ -114,4 +114,11 @@ public class Application {
         this.isSubmit = true;
     }
 
+    public void updateIsAdminTrue(){
+        this.isAdminChecked = true;
+    }
+
+    public void updateIsAdminFalse(){
+        this.isAdminChecked = false;
+    }
 }
