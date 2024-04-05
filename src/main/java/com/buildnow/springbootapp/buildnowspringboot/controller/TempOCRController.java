@@ -28,7 +28,7 @@ public class TempOCRController {
     @PostMapping("/applier/{id}")
     public ResponseEntity<List<TempOCR>> uploadOCR(@PathVariable("id") Long applicationId,
                                                    Authentication authentication,
-                                                   @RequestBody TempOCRListDTO tempOCRListDTO
+                                                   TempOCRListDTO tempOCRListDTO
     ){
         log.info(tempOCRListDTO.toString());
         List<TempOCR> res = new ArrayList<>();
