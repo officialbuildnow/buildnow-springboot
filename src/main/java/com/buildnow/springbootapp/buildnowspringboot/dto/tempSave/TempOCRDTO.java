@@ -1,4 +1,4 @@
-package com.buildnow.springbootapp.buildnowspringboot.dto;
+package com.buildnow.springbootapp.buildnowspringboot.dto.tempSave;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

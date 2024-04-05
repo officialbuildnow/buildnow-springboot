@@ -1,4 +1,4 @@
-package com.buildnow.springbootapp.buildnowspringboot.repository;
+package com.buildnow.springbootapp.buildnowspringboot.repository.tempSave;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;
