@@ -1,10 +1,13 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.TempSavedResponseDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.TempSavingDTO;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempHandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.TempSavedRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,19 @@ import java.util.*;
 public class TempSavedService {
     private final TempSavedRepository tempSavedRepository;
     private final ApplicationRepository applicationRepository;
+    private final ApplierRepository applierRepository;
+    @Transactional
+    public TempSaved getTempSaved(Long applicationId, String applierName){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new RuntimeException("해당하는 Application 이 없습니다"));
+
+        Applier applier = applierRepository.findByUsername(applierName);
+        if(!application.getApplier().equals(applier)){
+            throw new RuntimeException("해당 application의 임시저장을 열람할 권한이 없습니다.");
+        }
+
+        return application.getTempSaved();
+    }
     @Transactional
     public TempSaved saveOrUpdateTempSaved(Long applicationId, TempSavingDTO tempSavingDTO) {
         Application application = applicationRepository.findById(applicationId)

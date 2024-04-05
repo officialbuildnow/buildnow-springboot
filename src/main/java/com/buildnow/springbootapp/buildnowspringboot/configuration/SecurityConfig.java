@@ -66,7 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "/recruiter", "/applier/join", "/api/process", "/codef").permitAll()
                         .requestMatchers("/tempOCR/admin/**", "application/admin/**", "tempHanded/**").hasRole("ADMIN")
                         .requestMatchers("/recruiter/data", "/recruitment", "/applier/recruiter/**").hasRole("RECRUITER")
-                        .requestMatchers("/applier/**", "/tempsave/**", "/application/applier/**", "/tempOCR/applier/**").hasRole("APPLIER")
+                        .requestMatchers("/applier/**", "/tempsave/applier/**", "/application/applier/**", "/tempOCR/applier/**").hasRole("APPLIER")
                         .anyRequest().authenticated());
 
         http
