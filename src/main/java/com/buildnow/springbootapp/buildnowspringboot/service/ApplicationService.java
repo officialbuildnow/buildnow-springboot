@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.naming.AuthenticationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Slf4j
@@ -65,8 +67,17 @@ public class ApplicationService {
     }
 
     @Transactional
-    public List<Application> retrieveAllApplication(){
-        return applicationRepository.findAll();
+    public List<ApplicationDTO> retrieveAllApplication(){
+       List<Application> applicationList =  applicationRepository.findAll();
+       List<ApplicationDTO> applicationDTOList = new ArrayList<>();
+       for(Application application : applicationList){
+           ApplicationDTO applicationDTO = new ApplicationDTO(
+                   application,
+                   application.getApplier()
+           );
+           applicationDTOList.add(applicationDTO);
+       }
+       return applicationDTOList;
     }
 
     @Transactional

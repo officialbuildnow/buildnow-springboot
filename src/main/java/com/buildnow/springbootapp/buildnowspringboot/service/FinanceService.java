@@ -1,6 +1,8 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.FinanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FinanceService {
     private final FinanceRepository financeRepository;
-
-//    @Transactional
-//    public List<Finance> createFinanceTuple(){
-//
-//    }
+    private final ApplierRepository applierRepository;
+    @Transactional
+    public Finance createFinanceTuple(String businessId,
+                                            String category,
+                                            String value){
+        Applier applier = applierRepository.findByBusinessId(businessId);
+        Finance newFinance = Finance.builder()
+                .category(category)
+                .value(value)
+                .build();
+        applier.setFinance(newFinance);
+        newFinance.setApplier(applier);
+        return financeRepository.save(newFinance);
+    }
 }
