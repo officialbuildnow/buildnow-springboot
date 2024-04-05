@@ -5,6 +5,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -18,4 +19,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     List<Application> findByRecruitment(Recruitment recruitment);
     @NotNull
     Optional<Application> findById(Long id);
+
+    @NotNull
+    @EntityGraph(attributePaths = {"applier"})
+    List<Application> findAll();
 }

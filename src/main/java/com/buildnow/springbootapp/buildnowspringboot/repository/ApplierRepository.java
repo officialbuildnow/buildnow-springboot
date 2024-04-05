@@ -12,4 +12,5 @@ public interface ApplierRepository extends JpaRepository<Applier, Long> {
     Boolean existsByBusinessId(String businessId);
     Applier findByUsername(String username);
 
+    Applier findByBusinessId(String businessId);
 }

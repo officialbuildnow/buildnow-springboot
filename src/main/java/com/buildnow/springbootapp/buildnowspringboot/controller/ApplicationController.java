@@ -1,5 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,8 @@ public class ApplicationController {
     }
 
     @GetMapping("/admin/all-application")
-    public ResponseEntity<List<Application>> retrieveAllApplication(){
-        List<Application> applicationList = applicationService.retrieveAllApplication();
+    public ResponseEntity<List<ApplicationDTO>> retrieveAllApplication(){
+        List<ApplicationDTO> applicationList = applicationService.retrieveAllApplication();
         return new ResponseEntity<>(applicationList, HttpStatus.OK);
     }
     @PatchMapping("/applier/submit/{id}")

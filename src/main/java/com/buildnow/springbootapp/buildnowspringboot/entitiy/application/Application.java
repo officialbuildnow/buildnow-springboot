@@ -3,6 +3,7 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,7 +45,7 @@ public class Application {
     private List<TempOCR> tempOCRList;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference(value="applier-application")
     private Applier applier;
 
