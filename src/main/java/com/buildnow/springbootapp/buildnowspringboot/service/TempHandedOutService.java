@@ -4,7 +4,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Applica
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempHandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.TempHandedOutRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempHandedOutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

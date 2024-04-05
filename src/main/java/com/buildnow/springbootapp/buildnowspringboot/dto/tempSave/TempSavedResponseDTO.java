@@ -1,4 +1,4 @@
-package com.buildnow.springbootapp.buildnowspringboot.dto;
+package com.buildnow.springbootapp.buildnowspringboot.dto.tempSave;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempHandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;

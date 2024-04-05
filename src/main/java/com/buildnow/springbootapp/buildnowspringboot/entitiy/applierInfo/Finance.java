@@ -13,16 +13,8 @@ public class Finance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String creditGrade;
-    private String cashFlowGrade;
-    private String watchGrade;
-    private Long salesRevenue;
-    private Long operatingMarginRatio;
-    private Long netProfitMarginRatio;
-    private Long currentRatio;
-    private Long quickRatio;
-    private Long debtToEquityRatio;
-    private Long debtDependency;
+    private String category;
+    private String value;
 
     @Setter
     @OneToOne(cascade = CascadeType.ALL)
@@ -31,27 +23,11 @@ public class Finance {
 
     @Builder
     public Finance(
-            String creditGrade,
-            String cashFlowGrade,
-            String watchGrade,
-            Long salesRevenue,
-            Long operatingMarginRatio,
-            Long netProfitMarginRatio,
-            Long currentRatio,
-            Long quickRatio,
-            Long debtToEquityRatio,
-            Long debtDependency
+            String category,
+            String value
     ){
-        this.creditGrade = creditGrade;
-        this.cashFlowGrade = cashFlowGrade;
-        this.watchGrade = watchGrade;
-        this.salesRevenue = salesRevenue;
-        this.operatingMarginRatio = operatingMarginRatio;
-        this.netProfitMarginRatio = netProfitMarginRatio;
-        this.currentRatio = currentRatio;
-        this.quickRatio = quickRatio;
-        this.debtToEquityRatio = debtToEquityRatio;
-        this.debtDependency = debtDependency;
+        this.category = category;
+        this.value = value;
     }
 
 }

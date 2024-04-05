@@ -1,11 +1,10 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
-import com.buildnow.springbootapp.buildnowspringboot.dto.TempOCRDTO;
-import com.buildnow.springbootapp.buildnowspringboot.dto.TempOCRListDTO;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
+import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempOCRDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempOCRListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempOCR;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.TempOCRRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempOCRRepository;
 import com.buildnow.springbootapp.buildnowspringboot.service.TempOCRService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
