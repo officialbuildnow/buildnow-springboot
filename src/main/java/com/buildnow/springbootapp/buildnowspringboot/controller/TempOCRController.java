@@ -45,12 +45,13 @@ public class TempOCRController {
 
     }
 
-    @GetMapping("/applier/{id}")
-    public ResponseEntity<List<TempOCR>> getTempOCRList(@PathVariable("id") Long applicationId,
-                                                        Authentication authentication){
-        List<TempOCR> res = tempOCRService.retrieveMyTempOCRs(authentication.getName(), applicationId);
+    @GetMapping("/admin/{id}")
+    public ResponseEntity<List<TempOCR>> getTempOCRList(@PathVariable("id") Long applicationId){
+        List<TempOCR> res = tempOCRService.retrieveMyTempOCRs(applicationId);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    @GetMapping()
 
     @PatchMapping("/admin/update/{id}")
     public ResponseEntity<String> updateTempOCRs(@PathVariable("id") Long applicationId, TempOCRListDTO tempOCRListDTO){

@@ -44,14 +44,9 @@ public class TempOCRService {
     }
 
     @Transactional
-    public List<TempOCR> retrieveMyTempOCRs(String applierName,
-                                            Long applicationId){
-        Applier applier = applierRepository.findByUsername(applierName);
+    public List<TempOCR> retrieveMyTempOCRs(Long applicationId){
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(()-> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
-        if(!applier.equals(application.getApplier())){
-            throw new RuntimeException("권한이 없습니다.");
-        }
 
         return tempOCRRepository.findByApplication(application);
     }
