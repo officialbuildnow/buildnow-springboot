@@ -18,6 +18,7 @@ public class HandedOut {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String documentName;
+    @Column(length = 2048)
     private String documentUrl;
     @Setter
     @Enumerated(EnumType.STRING)

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,5 +37,16 @@ public class Grading {
         this.category = category;
         this.perfectScore = perfectScore;
         this.upperCategoryENUM = upperCategoryENUM;
+        this.applicationEvaluationList = new ArrayList<>();
+    }
+
+    public void addApplicationEvaluation(ApplicationEvaluation applicationEvaluation){
+        this.applicationEvaluationList.add(applicationEvaluation);
+        applicationEvaluation.setGrading(this);
+    }
+
+    public void removeApplicationEvaluation(ApplicationEvaluation applicationEvaluation){
+        this.applicationEvaluationList.remove(applicationEvaluation);
+        applicationEvaluation.setGrading(null);
     }
 }
