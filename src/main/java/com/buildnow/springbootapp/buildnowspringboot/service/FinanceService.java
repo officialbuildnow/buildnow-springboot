@@ -13,8 +13,8 @@ import java.util.List;
 public class FinanceService {
     private final FinanceRepository financeRepository;
 
-    @Transactional
-    public List<Finance> createFinanceTuple(){
-
-    }
+//    @Transactional
+//    public List<Finance> createFinanceTuple(){
+//
+//    }
 }
