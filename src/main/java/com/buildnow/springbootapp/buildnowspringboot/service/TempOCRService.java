@@ -46,7 +46,7 @@ public class TempOCRService {
     @Transactional
     public List<TempOCR> retrieveMyTempOCRs(Long applicationId){
         Application application = applicationRepository.findById(applicationId)
-                .orElseThrow(()-> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
+                .orElseThrow(()-> new RuntimeException("해당하는 application이 없습니다."));
 
         return tempOCRRepository.findByApplication(application);
     }

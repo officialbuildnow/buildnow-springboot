@@ -15,6 +15,7 @@ public class TempHandedOut {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String documentName;
+    @Column(length = 2048)
     private String documentUrl;
 
     @Enumerated(EnumType.STRING)
