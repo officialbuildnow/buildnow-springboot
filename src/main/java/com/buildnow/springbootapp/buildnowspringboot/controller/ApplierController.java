@@ -53,7 +53,13 @@ public class ApplierController {
     @GetMapping("/recruiter/get-by-applicationId/{id}")
     public ResponseEntity<Applier> getApplierInfoByApplicationId(@PathVariable("id") Long applicationId,
                                                                  Authentication authentication){
+        log.info(applicationId.toString());
         Applier applier = applierService.getApplierInfoByApplicationId(applicationId, authentication.getName());
         return new ResponseEntity<>(applier, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
