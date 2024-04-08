@@ -40,7 +40,7 @@ public class Applier {
     private boolean hadAccident;
     private LocalDate estDate;
 
-    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="applier-application")
     private List<Application> applicationList;
 

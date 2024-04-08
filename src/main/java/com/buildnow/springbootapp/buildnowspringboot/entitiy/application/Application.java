@@ -45,7 +45,7 @@ public class Application {
     private List<TempOCR> tempOCRList;
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonBackReference(value="applier-application")
     private Applier applier;
 
