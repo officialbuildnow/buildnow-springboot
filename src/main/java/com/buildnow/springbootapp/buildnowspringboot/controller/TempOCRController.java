@@ -51,7 +51,6 @@ public class TempOCRController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @GetMapping()
 
     @PatchMapping("/admin/update/{id}")
     public ResponseEntity<String> updateTempOCRs(@PathVariable("id") Long applicationId, TempOCRListDTO tempOCRListDTO){

@@ -24,8 +24,7 @@ public class FinanceService {
                 .category(category)
                 .value(value)
                 .build();
-        applier.setFinance(newFinance);
-        newFinance.setApplier(applier);
+        applier.addFinance(newFinance);
         return financeRepository.save(newFinance);
     }
 }

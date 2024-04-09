@@ -7,6 +7,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class License {
     @Id
@@ -15,8 +16,9 @@ public class License {
     private String licenseName;
     private String licenseNum;
     private Long capacityValue;
+    private String licenseSeq;
+    private String licenseYear;
 
-    @Setter
     @ManyToOne
     @JsonBackReference(value="applier-license")
     Applier applier;
@@ -25,10 +27,14 @@ public class License {
     public License(
             String licenseName,
             String licenseNum,
-            Long capacityValue
+            Long capacityValue,
+            String licenseSeq,
+            String licenseYear
     ){
         this.licenseName = licenseName;
         this.licenseNum = licenseNum;
         this.capacityValue = capacityValue;
+        this.licenseSeq = licenseSeq;
+        this.licenseYear = licenseYear;
     }
 }

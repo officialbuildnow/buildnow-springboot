@@ -44,9 +44,9 @@ public class Applier {
     @JsonManagedReference(value="applier-application")
     private List<Application> applicationList;
 
-    @OneToOne(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="applier-finance")
-    private Finance finance;
+    private List<Finance> financeList;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="applier-handedOut")
@@ -72,19 +72,31 @@ public class Applier {
         this.applicationList = new ArrayList<>();
         this.handedOutList = new ArrayList<>();
         this.licenseList = new ArrayList<>();
+        this.financeList = new ArrayList<>();
     }
 
-    public void setFinance(Finance finance){
-       if(finance == null){
-           if(this.finance != null){
-               this.finance.setApplier(null);
-           }
-           this.finance = null;
-       }
-       else{
-           finance.setApplier(this);
-           this.finance = finance;
-       }
+    public void updateApplierFromTempSaved(
+            String corporateApplicationNum,
+            String companyPhoneNum,
+            BusinessTypeENUM businessTypeENUM,
+            String companyAddress,
+            String companyIntro
+    ){
+        this.corporateApplicationNum = corporateApplicationNum;
+        this.companyPhoneNum = companyPhoneNum;
+        this.type = businessTypeENUM;
+        this.companyAddress = companyAddress;
+        this.companyIntro = companyIntro;
+    }
+
+    public void addFinance(Finance finance){
+        financeList.add(finance);
+        finance.setApplier(this);
+    }
+
+    public void removeFinance(Finance finance){
+        financeList.remove(finance);
+        finance.setApplier(null);
     }
 
     public void addLicense(License license){

@@ -81,6 +81,12 @@ public class Application {
         this.tempPrerequisiteList = new ArrayList<>();
     }
 
+    public void updateApplicationFromTempSaved(
+            String workTypeApplying
+    ){
+        this.workTypeApplying = workTypeApplying;
+    }
+
     public void addTempPrerequisite(TempPrerequisite tempPrerequisite){
         tempPrerequisiteList.add(tempPrerequisite);
         tempPrerequisite.setApplication(this);
