@@ -38,10 +38,14 @@ public class HandedOut {
     @Builder
     public HandedOut(
             String documentName,
-            String documentUrl
+            String documentUrl,
+            RequiredLevelENUM requiredLevelENUM,
+            UpperCategoryENUM upperCategoryENUM
             ){
         this.documentName = documentName;
         this.documentUrl = documentUrl;
+        this.requiredLevelENUM = requiredLevelENUM;
+        this.upperCategoryENUM = upperCategoryENUM;
         this.handedOutVerifyingStatusENUM = HandedOutVerifyingStatusENUM.READY;
     }
 
