@@ -2,8 +2,8 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.BusinessTypeENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.License;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.History;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -49,18 +49,19 @@ public class Applier {
     private Finance finance;
 
     @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="applier-history")
-    private List<History> historyList;
-
-    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="applier-handedOut")
     private List<HandedOut> handedOutList;
 
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "applier-license")
+    private List<License> licenseList;
+
     @Builder
     public Applier (
-            String businessId, String managerName, String managerPhoneNum, String managerEmail, String username, String password
+            String businessId, String companyName, String managerName, String managerPhoneNum, String managerEmail, String username, String password
     ){
         this.businessId = businessId;
+        this.companyName = companyName;
         this.managerName = managerName;
         this.managerPhoneNum = managerPhoneNum;
         this.managerEmail = managerEmail;
@@ -69,8 +70,8 @@ public class Applier {
         this.role="ROLE_APPLIER";
         this.hadAccident = false;
         this.applicationList = new ArrayList<>();
-        this.historyList = new ArrayList<>();
         this.handedOutList = new ArrayList<>();
+        this.licenseList = new ArrayList<>();
     }
 
     public void setFinance(Finance finance){
@@ -86,6 +87,16 @@ public class Applier {
        }
     }
 
+    public void addLicense(License license){
+        licenseList.add(license);
+        license.setApplier(this);
+    }
+
+    public void removeLicense(License license){
+        licenseList.remove(license);
+        license.setApplier(null);
+    }
+
     public void addApplication(Application application){
         applicationList.add(application);
         application.setApplier(this);
@@ -96,15 +107,6 @@ public class Applier {
         application.setApplier(null);
     }
 
-    public void addHistory(History history){
-        historyList.add(history);
-        history.setApplier(this);
-    }
-
-    public void removeHistory(History history){
-        historyList.remove(history);
-        history.setApplier(null);
-    }
 
     public void addHandedOut(HandedOut handedOut){
         handedOutList.add(handedOut);

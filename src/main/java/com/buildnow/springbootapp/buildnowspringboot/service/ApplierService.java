@@ -38,6 +38,7 @@ public class ApplierService {
         String encodedPassword = passwordEncoder.encode(applierSignUpDTO.getPassword());
         Applier newApplier = Applier.builder()
                 .businessId(applierSignUpDTO.getBusinessId())
+                .companyName(applierSignUpDTO.getCompanyName())
                 .managerName(applierSignUpDTO.getManagerName())
                 .managerPhoneNum(applierSignUpDTO.getManagerPhoneNum())
                 .managerEmail(applierSignUpDTO.getManagerEmail())
