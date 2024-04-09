@@ -61,14 +61,14 @@ public class JWTFilter extends OncePerRequestFilter {
             log.info("recruiter 로직 끝");
         }else if(role.equals("ROLE_APPLIER")){
             log.info("applier 로직 시작");
-            Applier applier = new Applier(
-                    "123",
-                    "123",
-                    "123",
-                    "123",
-                    username,
-                    "123"
-            );
+            Applier applier = Applier.builder()
+                    .businessId("123")
+                    .companyName("123")
+                    .managerName("123")
+                    .managerPhoneNum("123")
+                    .username(username)
+                    .password("123")
+                    .build();
 
             CustomUserDetails customUserDetails = new CustomUserDetails(applier);
 

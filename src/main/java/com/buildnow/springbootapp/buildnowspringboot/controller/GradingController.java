@@ -69,7 +69,7 @@ public class GradingController {
         Grading grading4 = Grading.builder()
                 .category("신용 등급")
                 .perfectScore(10L)
-                .upperCategoryENUM(UpperCategoryENUM.ECONOMIC)
+                .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
         grading4.setRecruitment(recruitment);
         recruitment.addGrading(grading4);
@@ -79,7 +79,7 @@ public class GradingController {
         Grading grading5 = Grading.builder()
                 .category("현금흐름 등급")
                 .perfectScore(10L)
-                .upperCategoryENUM(UpperCategoryENUM.ECONOMIC)
+                .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
         grading5.setRecruitment(recruitment);
         recruitment.addGrading(grading5);
@@ -89,7 +89,7 @@ public class GradingController {
         Grading grading6 = Grading.builder()
                 .category("부채비율")
                 .perfectScore(10L)
-                .upperCategoryENUM(UpperCategoryENUM.ECONOMIC)
+                .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
         grading6.setRecruitment(recruitment);
         recruitment.addGrading(grading6);
@@ -99,7 +99,7 @@ public class GradingController {
         Grading grading7 = Grading.builder()
                 .category("차입금 의존도")
                 .perfectScore(10L)
-                .upperCategoryENUM(UpperCategoryENUM.ECONOMIC)
+                .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
         grading7.setRecruitment(recruitment);
         recruitment.addGrading(grading7);
