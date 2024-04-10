@@ -1,14 +1,19 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationEvaluationRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.GradingRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.RecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +28,7 @@ import java.util.List;
 public class GradingController {
     private final RecruitmentRepository recruitmentRepository;
     private final GradingRepository gradingRepository;
-
+    private final ApplicationEvaluationRepository applicationEvaluationRepository;
     @GetMapping("/admin/{id}")
     public ResponseEntity<List<Grading>> getGradingList(@PathVariable("id") Long recruitmentId){
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
@@ -31,10 +36,25 @@ public class GradingController {
         List<Grading> gradingList = gradingRepository.findByRecruitment(recruitment);
         return new ResponseEntity<>(gradingList, HttpStatus.OK);
     }
+    @Transactional
     @PostMapping("/admin/{id}")
     public ResponseEntity<List<Grading>> insertGradings(@PathVariable("id") Long recruitmentId){
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(()->new RuntimeException("존재하지 않는 recruitment 입니다."));
+        List<Grading> currentGradingList = new ArrayList<>(recruitment.getGradingList());
+        if(!currentGradingList.isEmpty()){
+            for(Grading grading : currentGradingList){
+                List<ApplicationEvaluation> evaluations = new ArrayList<>(grading.getApplicationEvaluationList());
+                for(ApplicationEvaluation evaluation : evaluations){
+                    Application application = evaluation.getApplication();
+                    application.removeApplicationEvaluation(evaluation);
+                    grading.removeApplicationEvaluation(evaluation);
+                    applicationEvaluationRepository.delete(evaluation);
+                }
+                recruitment.removeGrading(grading);
+                gradingRepository.delete(grading);
+            }
+        }
         List<Grading> res = new ArrayList<>();
         Grading grading1 = Grading.builder()
                 .category("회사 설립 경과 년수")
