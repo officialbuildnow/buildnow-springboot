@@ -13,6 +13,7 @@ import java.util.List;
 public class ScoreResponseListDTO {
     private UpperCategoryENUM upperCategory;
     private Long upperCategoryPerfectScore;
+    private Long upperCategoryScore;
     private List<ScoreResponseDTO> scoreList;
 
     @Data
