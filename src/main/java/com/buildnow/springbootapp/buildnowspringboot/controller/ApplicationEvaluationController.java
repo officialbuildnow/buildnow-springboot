@@ -2,7 +2,7 @@ package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ApplicationEvaluationDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ApplicationEvaluationListDTO;
-import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ScoreResponseDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ScoreResponseListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import com.buildnow.springbootapp.buildnowspringboot.service.ApplicationEvaluationService;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +37,11 @@ public class ApplicationEvaluationController {
     }
 
     @GetMapping("/recruiter/{recruitmentId}/{applicationId}")
-    public ResponseEntity<List<ScoreResponseDTO>> retrieveScores(@PathVariable("recruitmentId") Long recruitmentId,
-                                                                 @PathVariable("applicationId") Long applicationId,
-                                                                 Authentication authentication
+    public ResponseEntity<List<ScoreResponseListDTO>> retrieveScores(@PathVariable("recruitmentId") Long recruitmentId,
+                                                                     @PathVariable("applicationId") Long applicationId,
+                                                                     Authentication authentication
                                                                  ){
-        List<ScoreResponseDTO> res = applicationEvaluationService.retrieveScores(recruitmentId, applicationId, authentication.getName());
+        List<ScoreResponseListDTO> res = applicationEvaluationService.retrieveScores(recruitmentId, applicationId, authentication.getName());
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
