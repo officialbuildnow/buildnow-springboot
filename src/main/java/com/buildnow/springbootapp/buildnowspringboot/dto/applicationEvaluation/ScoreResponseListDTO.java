@@ -21,6 +21,7 @@ public class ScoreResponseListDTO {
     @NoArgsConstructor
     public static class ScoreResponseDTO {
         private String category;
+        private Long perfectScore;
         private Long score;
     }
 }

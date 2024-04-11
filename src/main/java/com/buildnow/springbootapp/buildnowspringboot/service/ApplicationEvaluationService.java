@@ -118,6 +118,7 @@ public class ApplicationEvaluationService {
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
                         temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
+                        temp2.setPerfectScore(grading.getPerfectScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
                     }
@@ -134,6 +135,7 @@ public class ApplicationEvaluationService {
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
                         temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
+                        temp2.setPerfectScore(grading.getPerfectScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
                     }
@@ -150,6 +152,7 @@ public class ApplicationEvaluationService {
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
                         temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
+                        temp2.setPerfectScore(grading.getPerfectScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
                     }
@@ -166,6 +169,7 @@ public class ApplicationEvaluationService {
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
                         temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
+                        temp2.setPerfectScore(grading.getPerfectScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
                     }
