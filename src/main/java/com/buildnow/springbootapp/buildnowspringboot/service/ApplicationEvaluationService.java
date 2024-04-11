@@ -74,24 +74,28 @@ public class ApplicationEvaluationService {
         ScoreResponseListDTO scoreResponseListDTO1 = new ScoreResponseListDTO();
         scoreResponseListDTO1.setUpperCategory(UpperCategoryENUM.BUSINESS);
         scoreResponseListDTO1.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO1.setUpperCategoryScore(0L);
         scoreResponseListDTO1.setScoreList(new ArrayList<>());
         res.add(scoreResponseListDTO1);
 
         ScoreResponseListDTO scoreResponseListDTO2 = new ScoreResponseListDTO();
         scoreResponseListDTO2.setUpperCategory(UpperCategoryENUM.FINANCE);
         scoreResponseListDTO2.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO2.setUpperCategoryScore(0L);
         scoreResponseListDTO2.setScoreList(new ArrayList<>());
         res.add(scoreResponseListDTO2);
 
         ScoreResponseListDTO scoreResponseListDTO3 = new ScoreResponseListDTO();
         scoreResponseListDTO3.setUpperCategory(UpperCategoryENUM.AUTHENTICATION);
         scoreResponseListDTO3.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO3.setUpperCategoryScore(0L);
         scoreResponseListDTO3.setScoreList(new ArrayList<>());
         res.add(scoreResponseListDTO3);
 
         ScoreResponseListDTO scoreResponseListDTO4 = new ScoreResponseListDTO();
         scoreResponseListDTO4.setUpperCategory(UpperCategoryENUM.PERFORMANCE);
         scoreResponseListDTO4.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO4.setUpperCategoryScore(0L);
         scoreResponseListDTO4.setScoreList(new ArrayList<>());
         res.add(scoreResponseListDTO4);
 
@@ -112,6 +116,7 @@ public class ApplicationEvaluationService {
                 for(ApplicationEvaluation evaluation : applicationEvaluationList){
                     if(evaluation.getApplication().equals(application)){
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
@@ -127,6 +132,7 @@ public class ApplicationEvaluationService {
                 for(ApplicationEvaluation evaluation : applicationEvaluationList){
                     if(evaluation.getApplication().equals(application)){
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
@@ -142,6 +148,7 @@ public class ApplicationEvaluationService {
                 for(ApplicationEvaluation evaluation : applicationEvaluationList){
                     if(evaluation.getApplication().equals(application)){
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
@@ -157,6 +164,7 @@ public class ApplicationEvaluationService {
                 for(ApplicationEvaluation evaluation : applicationEvaluationList){
                     if(evaluation.getApplication().equals(application)){
                         ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp.setUpperCategoryScore(temp.getUpperCategoryScore() + evaluation.getScore());
                         temp2.setScore(evaluation.getScore());
                         temp2.setCategory(grading.getCategory());
                         temp.getScoreList().add(temp2);
