@@ -53,6 +53,9 @@ public class ApplicationEvaluationService {
                 .orElseThrow(() -> new RuntimeException("해당하는 어플리케이션이 없습니다."));
         Grading grading = gradingRepository.findByRecruitmentAndCategory(recruitment, categoryName);
         if(grading.getApplicationEvaluationList().isEmpty()){
+            if(grading.getPerfectScore() < score){
+                throw new RuntimeException("만점보다 높은 점수를 입력할 수 없습니다.");
+            }
             ApplicationEvaluation newApplicationEvaluation = ApplicationEvaluation.builder()
                     .score(score)
                     .build();
