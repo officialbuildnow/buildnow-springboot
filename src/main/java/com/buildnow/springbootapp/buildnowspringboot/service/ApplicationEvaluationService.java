@@ -24,20 +24,47 @@ public class ApplicationEvaluationService {
     private final ApplicationRepository applicationRepository;
     private final RecruiterRepository recruiterRepository;
     @Transactional
+    public void clearApplicationEvaluation(Long recruitmentId, Long applicationId) {
+        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
+                .orElseThrow(() -> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new RuntimeException("해당하는 어플리케이션이 없습니다."));
+
+        // gradingList에 대한 직접적인 수정을 피하기 위해 복사본을 사용합니다.
+        List<Grading> gradingList = new ArrayList<>(recruitment.getGradingList());
+
+        // applicationEvaluationList에 대한 직접적인 수정을 피하기 위해 복사본을 사용합니다.
+        List<ApplicationEvaluation> applicationEvaluationList = new ArrayList<>(application.getApplicationEvaluationList());
+
+        for (Grading grading : gradingList) {
+            for (ApplicationEvaluation evaluation : applicationEvaluationList) {
+                grading.removeApplicationEvaluation(evaluation);
+                application.removeApplicationEvaluation(evaluation);
+                applicationEvaluationRepository.delete(evaluation);
+            }
+        }
+    }
+
+    @Transactional
     public ApplicationEvaluation createNewApplicationEvaluation(Long recruitmentId, Long applicationId, String categoryName, Long score){
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(() -> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("해당하는 어플리케이션이 없습니다."));
         Grading grading = gradingRepository.findByRecruitmentAndCategory(recruitment, categoryName);
-        ApplicationEvaluation newApplicationEvaluation = ApplicationEvaluation.builder()
-                .score(score)
-                .build();
-        newApplicationEvaluation.setApplication(application);
-        newApplicationEvaluation.setGrading(grading);
-        application.addApplicationEvaluation(newApplicationEvaluation);
-        grading.addApplicationEvaluation(newApplicationEvaluation);
-        return applicationEvaluationRepository.save(newApplicationEvaluation);
+        if(grading.getApplicationEvaluationList().isEmpty()){
+            ApplicationEvaluation newApplicationEvaluation = ApplicationEvaluation.builder()
+                    .score(score)
+                    .build();
+            newApplicationEvaluation.setApplication(application);
+            newApplicationEvaluation.setGrading(grading);
+            application.addApplicationEvaluation(newApplicationEvaluation);
+            grading.addApplicationEvaluation(newApplicationEvaluation);
+            return applicationEvaluationRepository.save(newApplicationEvaluation);
+        }
+        else{
+            throw new RuntimeException("이미 해당 category에 점수가 들어가있습니다.");
+        }
     }
 
     @Transactional

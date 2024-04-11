@@ -45,6 +45,13 @@ public class ApplicationEvaluationController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @DeleteMapping("/admin/{recruitmentId}/{applicationId}")
+    public ResponseEntity<String> deleteScores(@PathVariable("recruitmentId") Long recruitmentId,
+                                               @PathVariable("applicationId") Long applicationId){
+        applicationEvaluationService.clearApplicationEvaluation(recruitmentId, applicationId);
+        return new ResponseEntity<>("전부 삭제 완료!", HttpStatus.OK);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
         return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
