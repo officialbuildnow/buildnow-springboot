@@ -1,13 +1,14 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
-import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ScoreResponseDTO;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
+import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ScoreResponseListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import com.buildnow.springbootapp.buildnowspringboot.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +41,33 @@ public class ApplicationEvaluationService {
     }
 
     @Transactional
-    public List<ScoreResponseDTO> retrieveScores(Long recruitmentId, Long applicationId, String recruiterName){
-        List<ScoreResponseDTO> res = new ArrayList<>();
+    public List<ScoreResponseListDTO> retrieveScores(Long recruitmentId, Long applicationId, String recruiterName){
+        List<ScoreResponseListDTO> res = new ArrayList<>();
+
+        ScoreResponseListDTO scoreResponseListDTO1 = new ScoreResponseListDTO();
+        scoreResponseListDTO1.setUpperCategory(UpperCategoryENUM.BUSINESS);
+        scoreResponseListDTO1.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO1.setScoreList(new ArrayList<>());
+        res.add(scoreResponseListDTO1);
+
+        ScoreResponseListDTO scoreResponseListDTO2 = new ScoreResponseListDTO();
+        scoreResponseListDTO2.setUpperCategory(UpperCategoryENUM.FINANCE);
+        scoreResponseListDTO2.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO2.setScoreList(new ArrayList<>());
+        res.add(scoreResponseListDTO2);
+
+        ScoreResponseListDTO scoreResponseListDTO3 = new ScoreResponseListDTO();
+        scoreResponseListDTO3.setUpperCategory(UpperCategoryENUM.AUTHENTICATION);
+        scoreResponseListDTO3.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO3.setScoreList(new ArrayList<>());
+        res.add(scoreResponseListDTO3);
+
+        ScoreResponseListDTO scoreResponseListDTO4 = new ScoreResponseListDTO();
+        scoreResponseListDTO4.setUpperCategory(UpperCategoryENUM.PERFORMANCE);
+        scoreResponseListDTO4.setUpperCategoryPerfectScore(0L);
+        scoreResponseListDTO4.setScoreList(new ArrayList<>());
+        res.add(scoreResponseListDTO4);
+
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(() -> new RuntimeException("해당하는 리크루트먼트가 없습니다."));
         if(!recruitment.getRecruiter().getUsername().equals(recruiterName)){
@@ -51,14 +77,64 @@ public class ApplicationEvaluationService {
                 .orElseThrow(() -> new RuntimeException("해당하는 어플리케이션이 없습니다."));
         List<Grading> gradingList = gradingRepository.findByRecruitment(recruitment);
         for(Grading grading : gradingList){
-            List<ApplicationEvaluation> applicationEvaluationList = grading.getApplicationEvaluationList();
-            for(ApplicationEvaluation evaluation : applicationEvaluationList){
-                ScoreResponseDTO temp = new ScoreResponseDTO(
-                        evaluation.getScore(),
-                        grading.getUpperCategoryENUM(),
-                        grading.getCategory()
-                );
-                res.add(temp);
+            if(grading.getUpperCategoryENUM().equals(UpperCategoryENUM.BUSINESS)){
+                ScoreResponseListDTO temp = res.get(0);
+                Long updatePerfectScore = temp.getUpperCategoryPerfectScore() + grading.getPerfectScore();
+                temp.setUpperCategoryPerfectScore(updatePerfectScore);
+                List<ApplicationEvaluation> applicationEvaluationList = grading.getApplicationEvaluationList();
+                for(ApplicationEvaluation evaluation : applicationEvaluationList){
+                    if(evaluation.getApplication().equals(application)){
+                        ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp2.setScore(evaluation.getScore());
+                        temp2.setCategory(grading.getCategory());
+                        temp.getScoreList().add(temp2);
+                    }
+                }
+            }
+
+            else if(grading.getUpperCategoryENUM().equals(UpperCategoryENUM.FINANCE)){
+                ScoreResponseListDTO temp = res.get(1);
+                Long updatePerfectScore = temp.getUpperCategoryPerfectScore() + grading.getPerfectScore();
+                temp.setUpperCategoryPerfectScore(updatePerfectScore);
+                List<ApplicationEvaluation> applicationEvaluationList = grading.getApplicationEvaluationList();
+                for(ApplicationEvaluation evaluation : applicationEvaluationList){
+                    if(evaluation.getApplication().equals(application)){
+                        ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp2.setScore(evaluation.getScore());
+                        temp2.setCategory(grading.getCategory());
+                        temp.getScoreList().add(temp2);
+                    }
+                }
+            }
+
+            else if(grading.getUpperCategoryENUM().equals(UpperCategoryENUM.AUTHENTICATION)){
+                ScoreResponseListDTO temp = res.get(2);
+                Long updatePerfectScore = temp.getUpperCategoryPerfectScore() + grading.getPerfectScore();
+                temp.setUpperCategoryPerfectScore(updatePerfectScore);
+                List<ApplicationEvaluation> applicationEvaluationList = grading.getApplicationEvaluationList();
+                for(ApplicationEvaluation evaluation : applicationEvaluationList){
+                    if(evaluation.getApplication().equals(application)){
+                        ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp2.setScore(evaluation.getScore());
+                        temp2.setCategory(grading.getCategory());
+                        temp.getScoreList().add(temp2);
+                    }
+                }
+            }
+
+            else if(grading.getUpperCategoryENUM().equals(UpperCategoryENUM.PERFORMANCE)){
+                ScoreResponseListDTO temp = res.get(3);
+                Long updatePerfectScore = temp.getUpperCategoryPerfectScore() + grading.getPerfectScore();
+                temp.setUpperCategoryPerfectScore(updatePerfectScore);
+                List<ApplicationEvaluation> applicationEvaluationList = grading.getApplicationEvaluationList();
+                for(ApplicationEvaluation evaluation : applicationEvaluationList){
+                    if(evaluation.getApplication().equals(application)){
+                        ScoreResponseListDTO.ScoreResponseDTO temp2 = new ScoreResponseListDTO.ScoreResponseDTO();
+                        temp2.setScore(evaluation.getScore());
+                        temp2.setCategory(grading.getCategory());
+                        temp.getScoreList().add(temp2);
+                    }
+                }
             }
         }
 
