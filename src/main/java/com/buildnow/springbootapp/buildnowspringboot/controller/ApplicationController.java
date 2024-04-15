@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applier.ApplierWithScoreListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -60,9 +61,9 @@ public class ApplicationController {
     }
 
     @GetMapping("/recruiter/get-application-list/{id}")
-    public ResponseEntity<List<Application>> retrieveApplicationByRecruitment(@PathVariable("id") Long recruitmentId, Authentication authentication){
-        List<Application> applicationList = applicationService.retrieveApplicationByRecruitment(authentication.getName(), recruitmentId);
-        return new ResponseEntity<>(applicationList, HttpStatus.OK);
+    public ResponseEntity<ApplierWithScoreListDTO> retrieveApplicationByRecruitment(@PathVariable("id") Long recruitmentId, Authentication authentication){
+        ApplierWithScoreListDTO applierWithScoreListDTO = applicationService.retrieveApplicationByRecruitment(authentication.getName(), recruitmentId);
+        return new ResponseEntity<>(applierWithScoreListDTO, HttpStatus.OK);
     }
 
     @ExceptionHandler(RuntimeException.class)
