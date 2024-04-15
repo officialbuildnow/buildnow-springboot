@@ -1,26 +1,23 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applicationEvaluation.ScoreResponseListDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applier.ApplierWithScoreDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applier.ApplierWithScoreListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
-import com.buildnow.springbootapp.buildnowspringboot.exception.NotFoundException;
 import com.buildnow.springbootapp.buildnowspringboot.repository.*;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -30,6 +27,8 @@ public class ApplicationService {
     private final RecruitmentRepository recruitmentRepository;
     private final HandedOutRepository handedOutRepository;
     private final RecruiterRepository recruiterRepository;
+    private final GradingRepository gradingRepository;
+    private final ApplicationEvaluationService applicationEvaluationService;
     @Transactional
     public Application createApplication(String applierName, Long recruitmentId) throws RuntimeException {
         Applier applier = applierRepository.findByUsername(applierName);
@@ -116,7 +115,7 @@ public class ApplicationService {
     }
 
     @Transactional
-    public List<Application> retrieveApplicationByRecruitment(String recruiterName, Long recruitmentId){
+    public ApplierWithScoreListDTO retrieveApplicationByRecruitment(String recruiterName, Long recruitmentId){
         Recruiter recruiter = recruiterRepository.findByUsername(recruiterName);
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(()->new RuntimeException("해당하는 recruitment가 없습니다."));
@@ -124,6 +123,19 @@ public class ApplicationService {
             throw new RuntimeException("해당 recruitment의 회사가 아니기 때문에 권한 없음.");
         }
 
-       return applicationRepository.findByRecruitment(recruitment);
+        List<Application> applicationList = applicationRepository.findByRecruitment(recruitment);
+        ApplierWithScoreListDTO applierWithScoreListDTO = new ApplierWithScoreListDTO();
+        applierWithScoreListDTO.setApplierWithScoreDTOList(new ArrayList<>());
+        for(Application application : applicationList){
+            ApplierWithScoreDTO applierWithScoreDTO = new ApplierWithScoreDTO();
+            List<ScoreResponseListDTO> temp = applicationEvaluationService.retrieveScores(recruitmentId, application.getId(), recruiterName);
+            applierWithScoreDTO.setChecked(application.isChecked());
+            applierWithScoreDTO.setRead(application.isRead());
+            applierWithScoreDTO.setWorkType(application.getWorkTypeApplying());
+            applierWithScoreDTO.setCompanyName(application.getApplier().getCompanyName());
+            applierWithScoreDTO.setScoreList(temp);
+            applierWithScoreListDTO.getApplierWithScoreDTOList().add(applierWithScoreDTO);
+        }
+        return applierWithScoreListDTO;
     }
 }
