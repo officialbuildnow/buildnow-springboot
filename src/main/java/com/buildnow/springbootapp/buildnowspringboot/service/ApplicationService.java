@@ -134,6 +134,7 @@ public class ApplicationService {
             applierWithScoreDTO.setWorkType(application.getWorkTypeApplying());
             applierWithScoreDTO.setCompanyName(application.getApplier().getCompanyName());
             applierWithScoreDTO.setScoreList(temp);
+            applierWithScoreDTO.setApplicationId(application.getId());
             applierWithScoreListDTO.getApplierWithScoreDTOList().add(applierWithScoreDTO);
         }
         return applierWithScoreListDTO;

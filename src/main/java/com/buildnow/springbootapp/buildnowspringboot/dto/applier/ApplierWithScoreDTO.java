@@ -11,6 +11,7 @@ import java.util.List;
 public class ApplierWithScoreDTO {
     private boolean isRead;
     private boolean isChecked;
+    private Long applicationId;
     private String companyName;
     private String workType;
     private List<ScoreResponseListDTO> scoreList;
