@@ -40,13 +40,14 @@ public class HandedOut {
             String documentName,
             String documentUrl,
             RequiredLevelENUM requiredLevelENUM,
-            UpperCategoryENUM upperCategoryENUM
+            UpperCategoryENUM upperCategoryENUM,
+            HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM
             ){
         this.documentName = documentName;
         this.documentUrl = documentUrl;
         this.requiredLevelENUM = requiredLevelENUM;
         this.upperCategoryENUM = upperCategoryENUM;
-        this.handedOutVerifyingStatusENUM = HandedOutVerifyingStatusENUM.READY;
+        this.handedOutVerifyingStatusENUM = handedOutVerifyingStatusENUM;
     }
 
 }
