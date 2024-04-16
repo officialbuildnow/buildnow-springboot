@@ -44,6 +44,7 @@ public class ConvertTempToRealService {
                     .documentUrl(tempHandedOut.getDocumentUrl())
                     .requiredLevelENUM(tempHandedOut.getRequiredLevelENUM())
                     .upperCategoryENUM(tempHandedOut.getUpperCategoryENUM())
+                    .handedOutVerifyingStatusENUM(tempHandedOut.getTempHandedOutVerifyingStatusENUM())
                     .build();
             applier.addHandedOut(newHandedOut);
             handedOutRepository.save(newHandedOut);
