@@ -128,4 +128,17 @@ public class Application {
     public void updateIsAdminFalse(){
         this.isAdminChecked = false;
     }
+
+
+    public void updateIsReadTrue(){
+        this.isRead = true;
+    }
+
+    public void updateIsCheckedTrue(){
+        this.isChecked = true;
+    }
+
+    public void updateIsCheckedFalse(){
+        this.isChecked = false;
+    }
 }
