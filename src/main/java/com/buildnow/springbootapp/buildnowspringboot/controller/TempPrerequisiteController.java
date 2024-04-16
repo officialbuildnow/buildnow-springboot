@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempPrerequisiteDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempPrerequisiteListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempPrerequisite;
 import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempPrerequisiteRepository;
 import com.buildnow.springbootapp.buildnowspringboot.service.TempPrerequisiteService;
@@ -18,17 +19,11 @@ import java.util.List;
 public class TempPrerequisiteController {
     private final TempPrerequisiteService tempPrerequisiteService;
     @PostMapping("/admin/{id}")
-    public ResponseEntity<TempPrerequisite> createTempPrerequisite(@PathVariable("id") Long applicationId,
-                                                   TempPrerequisiteDTO tempPrerequisiteDTO){
+    public ResponseEntity<List<TempPrerequisite>> createTempPrerequisite(@PathVariable("id") Long applicationId,
+                                                                         @RequestBody TempPrerequisiteListDTO tempPrerequisiteListDTO){
+        List<TempPrerequisite> res = tempPrerequisiteService.createTempPrerequisite(tempPrerequisiteListDTO, applicationId);
 
-        TempPrerequisite tempPrerequisite =  tempPrerequisiteService.createTempPrerequisite(
-                tempPrerequisiteDTO.getPrerequisiteName(),
-                tempPrerequisiteDTO.getIsPrerequisite(),
-                tempPrerequisiteDTO.getWhyMidal(),
-                applicationId
-        );
-
-        return new ResponseEntity<>(tempPrerequisite, HttpStatus.CREATED);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @GetMapping("/admin/{id}")

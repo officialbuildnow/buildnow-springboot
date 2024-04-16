@@ -75,7 +75,13 @@ public class SecurityConfig {
                                 "/capacity-value/admin/**",
                                 "/capacity-value/admin&recruiter/**"
                                 ).hasRole("ADMIN")
-                        .requestMatchers("/recruiter/data", "/recruitment", "/applier/recruiter/**", "/application-evaluation/recruiter/**","/capacity-value/admin&recruiter/**").hasRole("RECRUITER")
+                        .requestMatchers("/recruiter/data",
+                                "/recruitment",
+                                "/applier/recruiter/**",
+                                "/application-evaluation/recruiter/**",
+                                "/capacity-value/admin&recruiter/**",
+                                "/application/recruiter/**"
+                        ).hasRole("RECRUITER")
                         .requestMatchers("/applier/**", "/tempsave/applier/**", "/application/applier/**", "/tempOCR/applier/**").hasRole("APPLIER")
                         .anyRequest().authenticated());
 

@@ -1,5 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
+import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempPrerequisiteDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempPrerequisiteListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempPrerequisite;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
@@ -16,20 +18,22 @@ public class TempPrerequisiteService {
     private final TempPrerequisiteRepository tempPrerequisiteRepository;
     private final ApplicationRepository applicationRepository;
     @Transactional
-    public TempPrerequisite createTempPrerequisite(String prerequisiteName,
-                                                   Boolean isPrerequisite,
-                                                   String whyMidal,
+    public List<TempPrerequisite> createTempPrerequisite(TempPrerequisiteListDTO tempPrerequisiteListDTO,
                                                    Long applicationId){
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(()-> new RuntimeException("해당하는 application이 존재하지 않습니다."));
 
-        TempPrerequisite newTempPrerequisite = TempPrerequisite.builder()
-                .prerequisiteName(prerequisiteName)
-                .isPrerequisite(isPrerequisite)
-                .whyMidal(whyMidal)
-                .build();
-        application.addTempPrerequisite(newTempPrerequisite);
-        return tempPrerequisiteRepository.save(newTempPrerequisite);
+        for(TempPrerequisiteDTO tempPrerequisiteDTO : tempPrerequisiteListDTO.getTempPrerequisiteDTOList()){
+            TempPrerequisite newTempPrerequisite = TempPrerequisite.builder()
+                    .prerequisiteName(tempPrerequisiteDTO.getPrerequisiteName())
+                    .isPrerequisite(tempPrerequisiteDTO.getIsPrerequisite())
+                    .whyMidal(tempPrerequisiteDTO.getWhyMidal())
+                    .build();
+            application.addTempPrerequisite(newTempPrerequisite);
+            tempPrerequisiteRepository.save(newTempPrerequisite);
+        }
+
+        return application.getTempPrerequisiteList();
     }
 
     @Transactional

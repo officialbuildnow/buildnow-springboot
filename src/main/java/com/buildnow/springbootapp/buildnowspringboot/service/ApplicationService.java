@@ -115,6 +115,36 @@ public class ApplicationService {
     }
 
     @Transactional
+    public void updateIsReadTrue(Long applicationId, String recruiterName){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
+        if(!application.getRecruitment().getRecruiter().getUsername().equals(recruiterName)){
+            throw new RuntimeException("해당 어플리케이션 상태를 업데이트할 권한이 없습니다.");
+        }
+        application.updateIsReadTrue();
+    }
+
+    @Transactional
+    public void updateIsCheckedTrue(Long applicationId, String recruiterName){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
+        if(!application.getRecruitment().getRecruiter().getUsername().equals(recruiterName)){
+            throw new RuntimeException("해당 어플리케이션 상태를 업데이트할 권한이 없습니다.");
+        }
+        application.updateIsCheckedTrue();
+    }
+
+    @Transactional
+    public void updateIsCheckedFalse(Long applicationId, String recruiterName){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("애플리케이션이 존재하지 않습니다."));
+        if(!application.getRecruitment().getRecruiter().getUsername().equals(recruiterName)){
+            throw new RuntimeException("해당 어플리케이션 상태를 업데이트할 권한이 없습니다.");
+        }
+        application.updateIsCheckedFalse();
+    }
+
+    @Transactional
     public ApplierWithScoreListDTO retrieveApplicationByRecruitment(String recruiterName, Long recruitmentId){
         Recruiter recruiter = recruiterRepository.findByUsername(recruiterName);
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
@@ -131,6 +161,8 @@ public class ApplicationService {
             List<ScoreResponseListDTO> temp = applicationEvaluationService.retrieveScores(recruitmentId, application.getId(), recruiterName);
             applierWithScoreDTO.setChecked(application.isChecked());
             applierWithScoreDTO.setRead(application.isRead());
+            applierWithScoreDTO.setAdminChecked(application.isAdminChecked());
+            applierWithScoreDTO.setTempPrerequisiteList(application.getTempPrerequisiteList());
             applierWithScoreDTO.setWorkType(application.getWorkTypeApplying());
             applierWithScoreDTO.setCompanyName(application.getApplier().getCompanyName());
             applierWithScoreDTO.setScoreList(temp);

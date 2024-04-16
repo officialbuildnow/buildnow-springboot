@@ -66,6 +66,24 @@ public class ApplicationController {
         return new ResponseEntity<>(applierWithScoreListDTO, HttpStatus.OK);
     }
 
+    @PatchMapping("/recruiter/read-true/{id}")
+    public ResponseEntity<String> updateIsReadTrue(@PathVariable("id") Long applicationId, Authentication authentication){
+        applicationService.updateIsReadTrue(applicationId, authentication.getName());
+        return new ResponseEntity<>("읽음처리완료", HttpStatus.OK);
+    }
+
+    @PatchMapping("/recruiter/check-true/{id}")
+    public ResponseEntity<String> updateIsCheckedTrue(@PathVariable("id") Long applicationId, Authentication authentication){
+        applicationService.updateIsCheckedTrue(applicationId, authentication.getName());
+        return new ResponseEntity<>("검토처리완료", HttpStatus.OK);
+    }
+
+    @PatchMapping("/recruiter/check-false/{id}")
+    public ResponseEntity<String> updateIsCheckedFalse(@PathVariable("id") Long applicationId, Authentication authentication){
+        applicationService.updateIsCheckedFalse(applicationId, authentication.getName());
+        return new ResponseEntity<>("검토철회완료", HttpStatus.OK);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
         return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
