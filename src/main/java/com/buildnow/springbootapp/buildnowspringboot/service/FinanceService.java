@@ -1,7 +1,9 @@
 package com.buildnow.springbootapp.buildnowspringboot.service;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.FinanceRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +17,17 @@ import java.util.List;
 public class FinanceService {
     private final FinanceRepository financeRepository;
     private final ApplierRepository applierRepository;
+    private final ApplicationRepository applicationRepository;
     @Transactional
-    public Finance createFinanceTuple(String businessId,
+    public Finance createFinanceTuple(Long applicationId,
                                             String category,
                                             String value){
-        Applier applier = applierRepository.findByBusinessId(businessId);
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 존재하지 않습니다."));
+        Applier applier = application.getApplier();
+        if(financeRepository.existsByApplierAndCategory(applier, category)){
+            throw new RuntimeException("이미 존재하는 finance 정보이기 때문에 입력할 수 없습니다.");
+        }
         Finance newFinance = Finance.builder()
                 .category(category)
                 .value(value)

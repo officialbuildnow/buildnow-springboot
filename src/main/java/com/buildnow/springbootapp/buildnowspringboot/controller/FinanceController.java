@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +23,19 @@ public class FinanceController {
     private final FinanceService financeService;
     private final ApplierRepository applierRepository;
     @PostMapping("/admin/{id}")
-    public ResponseEntity<List<Finance>> insertFinanceInfo(@PathVariable("id") String businessId,
-                                                           FinanceListDTO financeListDTO){
+    public ResponseEntity<List<Finance>> insertFinanceInfo(@PathVariable("id") Long applicationId,
+                                                           @RequestBody FinanceListDTO financeListDTO){
         List<Finance> res = new ArrayList<>();
         for(FinanceDTO financeInfo : financeListDTO.getFinanceList()){
-            Finance finance = financeService.createFinanceTuple(businessId, financeInfo.getCategory(), financeInfo.getValue());
+            Finance finance = financeService.createFinanceTuple(applicationId, financeInfo.getCategory(), financeInfo.getValue());
             res.add(finance);
         }
 
         return new ResponseEntity<>(res, HttpStatus.CREATED);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
