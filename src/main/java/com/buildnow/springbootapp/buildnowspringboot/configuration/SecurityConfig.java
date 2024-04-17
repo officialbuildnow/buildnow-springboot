@@ -20,7 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -48,10 +50,11 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        config.setAllowedMethods(Collections.singletonList("*"));
+                        List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "https://buildnow-v1.vercel.app");
+                        config.setAllowedOrigins(allowedOrigins);
+                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                         config.setAllowCredentials(true);
-                        config.setAllowedHeaders(Collections.singletonList("*"));
+                        config.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
                         config.setExposedHeaders(Collections.singletonList("Authorization"));
                         config.setMaxAge(3600L);
                         return config;
@@ -75,7 +78,8 @@ public class SecurityConfig {
                                 "/capacity-value/admin/**",
                                 "/capacity-value/admin&recruiter/**",
                                 "finance/admin/**",
-                                "/license/admin/**"
+                                "/license/admin/**",
+                                "/applier/admin/**"
                                 ).hasRole("ADMIN")
                         .requestMatchers("/recruiter/data",
                                 "/recruitment",

@@ -2,6 +2,7 @@ package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplicationDocumentDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.ApplierSignUpDTO;
+import com.buildnow.springbootapp.buildnowspringboot.dto.applier.EstDateUpdateDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.service.*;
 import com.google.api.Http;
@@ -21,6 +22,12 @@ import org.springframework.web.bind.annotation.*;
 public class ApplierController {
     private final ApplierService applierService;
     private final ApplicationByDocumentService applicationByDocumentService;
+
+    @PatchMapping("/admin/update-estDate/{id}")
+    public ResponseEntity<Applier> updateEstDate(@PathVariable("id") Long applicationId, EstDateUpdateDTO estDateUpdateDTO){
+        Applier applier = applierService.updateApplierEstDate(applicationId, estDateUpdateDTO.getEstDate());
+        return new ResponseEntity<>(applier, HttpStatus.OK);
+    }
 
     @PostMapping("/join")
     public ResponseEntity<Applier> createApplier(@Valid ApplierSignUpDTO applierSignUpDTO) throws Exception {

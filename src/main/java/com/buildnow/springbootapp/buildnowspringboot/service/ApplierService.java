@@ -18,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -65,4 +68,12 @@ public class ApplierService {
         return application.getApplier();
     }
 
+    @Transactional
+    public Applier updateApplierEstDate(Long applicationId, LocalDate date){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 존재하지 않습니다."));
+        Applier applier = application.getApplier();
+        applier.updateEstDate(date);
+        return applier;
+    }
 }
