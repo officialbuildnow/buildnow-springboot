@@ -1,4 +1,4 @@
-package com.buildnow.springbootapp.buildnowspringboot.entitiy.application;
+package com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.fasterxml.jackson.annotation.JsonBackReference;

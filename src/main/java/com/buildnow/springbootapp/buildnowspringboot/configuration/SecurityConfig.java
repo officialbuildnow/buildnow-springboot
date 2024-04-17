@@ -74,7 +74,8 @@ public class SecurityConfig {
                                 "/tempsave/admin/**",
                                 "/capacity-value/admin/**",
                                 "/capacity-value/admin&recruiter/**",
-                                "finance/admin/**"
+                                "finance/admin/**",
+                                "/license/admin/**"
                                 ).hasRole("ADMIN")
                         .requestMatchers("/recruiter/data",
                                 "/recruitment",
