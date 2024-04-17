@@ -28,6 +28,7 @@ public class TempHandedOutController {
     @PatchMapping("/admin/update-status/{id}")
     public ResponseEntity<TempHandedOut> updateStatus(@PathVariable("id") Long applicationId, TempHandedOutStatusDTO tempHandedOutStatusDTO){
         TempHandedOut res = tempHandedOutService.updateTempHandedOutStatus(tempHandedOutStatusDTO.getDocumentName(), applicationId, tempHandedOutStatusDTO.getHandedOutVerifyingStatusENUM());
+        log.info(String.valueOf(tempHandedOutStatusDTO.getHandedOutVerifyingStatusENUM()));
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

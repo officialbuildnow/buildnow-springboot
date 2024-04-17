@@ -37,6 +37,7 @@ public class Applier {
     private BusinessTypeENUM type;
     @Lob
     private String companyIntro;
+    @Setter
     private boolean hadAccident;
     private LocalDate estDate;
 
@@ -74,6 +75,8 @@ public class Applier {
         this.licenseList = new ArrayList<>();
         this.financeList = new ArrayList<>();
     }
+
+
 
     public void updateEstDate(LocalDate date){
         this.estDate = date;

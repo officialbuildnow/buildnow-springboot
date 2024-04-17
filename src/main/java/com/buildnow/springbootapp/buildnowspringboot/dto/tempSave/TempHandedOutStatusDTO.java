@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class TempHandedOutStatusDTO {
     @JsonProperty("documentName")
     private String documentName;
-    @JsonProperty("status")
+    @JsonProperty("handedOutVerifyingStatusENUM")
     private HandedOutVerifyingStatusENUM handedOutVerifyingStatusENUM;
 }

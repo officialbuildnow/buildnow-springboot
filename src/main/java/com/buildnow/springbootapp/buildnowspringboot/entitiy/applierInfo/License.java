@@ -18,6 +18,8 @@ public class License {
     private Long capacityValue;
     private String licenseSeq;
     private String licenseYear;
+    private Long cvRank;
+    private Long percentage;
 
     @ManyToOne
     @JsonBackReference(value="applier-license")
@@ -29,12 +31,17 @@ public class License {
             String licenseNum,
             Long capacityValue,
             String licenseSeq,
-            String licenseYear
+            String licenseYear,
+            Long cvRank,
+            Long percentage
     ){
         this.licenseName = licenseName;
         this.licenseNum = licenseNum;
         this.capacityValue = capacityValue;
         this.licenseSeq = licenseSeq;
         this.licenseYear = licenseYear;
+        this.cvRank = cvRank;
+        this.percentage = percentage;
     }
+
 }
