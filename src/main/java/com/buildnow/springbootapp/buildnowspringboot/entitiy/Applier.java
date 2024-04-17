@@ -75,6 +75,10 @@ public class Applier {
         this.financeList = new ArrayList<>();
     }
 
+    public void updateEstDate(LocalDate date){
+        this.estDate = date;
+    }
+
     public void updateApplierFromTempSaved(
             String corporateApplicationNum,
             String companyPhoneNum,
