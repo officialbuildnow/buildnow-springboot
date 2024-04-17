@@ -76,4 +76,13 @@ public class ApplierService {
         applier.updateEstDate(date);
         return applier;
     }
+
+    @Transactional
+    public Applier updateApplierHadAccident(Long applicationId, Boolean hadAccident){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 존재하지 않습니다."));
+        Applier applier = application.getApplier();
+        applier.setHadAccident(hadAccident);
+        return applier;
+    }
 }

@@ -33,6 +33,8 @@ public class LicenseService {
                     .licenseNum(license.getLicenseNum())
                     .licenseYear(license.getLicenseYear())
                     .capacityValue(license.getCapacityValue())
+                    .cvRank(license.getCvRank())
+                    .percentage(license.getPercentage())
                     .build();
             res.add(newLicense);
             applier.addLicense(newLicense);

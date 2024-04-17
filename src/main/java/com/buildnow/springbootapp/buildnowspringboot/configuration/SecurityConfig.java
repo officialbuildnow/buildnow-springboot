@@ -52,7 +52,7 @@ public class SecurityConfig {
                         CorsConfiguration config = new CorsConfiguration();
                         List<String> allowedOrigins = Arrays.asList("http://localhost:3000", "https://buildnow-v1.vercel.app");
                         config.setAllowedOrigins(allowedOrigins);
-                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
                         config.setExposedHeaders(Collections.singletonList("Authorization"));

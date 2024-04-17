@@ -17,4 +17,8 @@ public class LicensePostDTO {
     private String licenseSeq;
     @JsonProperty("licenseYear")
     private String licenseYear;
+    @JsonProperty("cvRank")
+    private Long cvRank;
+    @JsonProperty("percentage")
+    private Long percentage;
 }
