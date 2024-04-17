@@ -4,6 +4,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.*;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.License;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.FinanceRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.HandedOutRepository;

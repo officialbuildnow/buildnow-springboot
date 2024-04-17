@@ -1,6 +1,6 @@
 package com.buildnow.springbootapp.buildnowspringboot.repository;
 
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.License;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.License;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LicenseRepository extends JpaRepository<License, Long> {

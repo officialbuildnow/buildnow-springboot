@@ -52,7 +52,14 @@ public class ApplicationEvaluationService {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("해당하는 어플리케이션이 없습니다."));
         Grading grading = gradingRepository.findByRecruitmentAndCategory(recruitment, categoryName);
-        if(grading.getApplicationEvaluationList().isEmpty()){
+        List<ApplicationEvaluation> applicationEvaluationList = grading.getApplicationEvaluationList();
+        List<ApplicationEvaluation> matchedList = new ArrayList<>();
+        for(ApplicationEvaluation evaluation: applicationEvaluationList){
+            if(evaluation.getApplication().equals(application)){
+                matchedList.add(evaluation);
+            }
+        }
+        if(matchedList.isEmpty()){
             if(grading.getPerfectScore() < score){
                 throw new RuntimeException("만점보다 높은 점수를 입력할 수 없습니다.");
             }

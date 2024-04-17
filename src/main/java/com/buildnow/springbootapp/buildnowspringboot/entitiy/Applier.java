@@ -2,7 +2,7 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.BusinessTypeENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
-import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.License;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.License;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
