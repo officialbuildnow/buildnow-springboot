@@ -47,6 +47,7 @@ public class TempSavedService {
                     .type(tempSavingDTO.getType())
                     .companyAddress(tempSavingDTO.getCompanyAddress())
                     .companyIntro(tempSavingDTO.getCompanyIntro())
+                    .licenseName(tempSavingDTO.getLicenseName())
                     .build();
 
             newTempSaved.setApplication(application);
