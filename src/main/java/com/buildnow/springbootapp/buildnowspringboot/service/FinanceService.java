@@ -35,4 +35,16 @@ public class FinanceService {
         applier.addFinance(newFinance);
         return financeRepository.save(newFinance);
     }
+
+    @Transactional
+    public void DeleteFinance(Long applicationId){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 존재하지 않습니다."));
+        Applier applier = application.getApplier();
+        List<Finance> financeList = applier.getFinanceList();
+        for(Finance finance : financeList){
+            applier.removeFinance(finance);
+            financeRepository.delete(finance);
+        }
+    }
 }
