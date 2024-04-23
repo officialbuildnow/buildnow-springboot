@@ -34,6 +34,12 @@ public class FinanceController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("admin/{id}")
+    public ResponseEntity<String> deleteApplicationsFinanceList(@PathVariable("id") Long applicationId){
+        financeService.DeleteFinance(applicationId);
+        return new ResponseEntity<>("finance 삭제 완료", HttpStatus.OK);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
         return new ResponseEntity<>("Error Occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
