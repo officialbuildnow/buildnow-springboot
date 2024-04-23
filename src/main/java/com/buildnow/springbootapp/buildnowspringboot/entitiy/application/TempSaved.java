@@ -24,6 +24,7 @@ public class TempSaved {
     private String workTypeApplying;
     private BusinessTypeENUM type;
     private String companyAddress;
+    private String licenseName; //신한건설용 API
     @Lob
     private String companyIntro;
 
@@ -42,13 +43,15 @@ public class TempSaved {
                      String workTypeApplying,
                      BusinessTypeENUM type,
                      String companyAddress,
-                     String companyIntro){
+                     String companyIntro,
+                     String licenseName){
         this.corporateApplicationNum = corporateApplicationNum;
         this.companyPhoneNum = companyPhoneNum;
         this.workTypeApplying = workTypeApplying;
         this.type = type;
         this.companyAddress = companyAddress;
         this.companyIntro = companyIntro;
+        this.licenseName = licenseName; //신한건설 API
         this.tempHandedOutList = new ArrayList<>();
     }
 
@@ -68,6 +71,7 @@ public class TempSaved {
                                 BusinessTypeENUM type,
                                 String companyAddress,
                                 String companyIntro,
+                                String licenseName,
                                 List<TempHandedOut> tempHandedOutList) {
 
         if(corporateApplicationNum != null) {
@@ -87,6 +91,10 @@ public class TempSaved {
         }
         if(companyIntro != null) {
             this.companyIntro = companyIntro;
+        }
+
+        if(licenseName != null){
+            this.licenseName = licenseName;
         }
 
         if(tempHandedOutList != null && !tempHandedOutList.isEmpty()) {

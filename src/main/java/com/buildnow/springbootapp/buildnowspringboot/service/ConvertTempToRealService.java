@@ -5,6 +5,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.*;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.License;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.FinanceRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.HandedOutRepository;
@@ -140,6 +141,7 @@ public class ConvertTempToRealService {
                     }
                     licenseRepository.save(license);
                 }
+
             }
         }
 
@@ -150,9 +152,11 @@ public class ConvertTempToRealService {
                 tempSaved.getType(),
                 tempSaved.getCompanyAddress(),
                 tempSaved.getCompanyIntro()
-        );
-        application.updateApplicationFromTempSaved(tempSaved.getWorkTypeApplying());
 
+        );
+
+
+        application.updateApplicationFromTempSaved(tempSaved.getWorkTypeApplying());
     }
 
 

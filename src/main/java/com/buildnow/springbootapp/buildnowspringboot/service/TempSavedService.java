@@ -61,6 +61,7 @@ public class TempSavedService {
                     tempSavingDTO.getType(),
                     tempSavingDTO.getCompanyAddress(),
                     tempSavingDTO.getCompanyIntro(),
+                    tempSavingDTO.getLicenseName(),
                     tempSavingDTO.getTempHandedOutList()
             );
             return tempSavedRepository.save(tempSaved);
