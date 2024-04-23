@@ -7,8 +7,10 @@ import com.buildnow.springbootapp.buildnowspringboot.dto.applier.ApplierWithScor
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import com.buildnow.springbootapp.buildnowspringboot.repository.*;
+import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempSavedRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -158,6 +160,7 @@ public class ApplicationService {
         applierWithScoreListDTO.setApplierWithScoreDTOList(new ArrayList<>());
         for(Application application : applicationList){
             ApplierWithScoreDTO applierWithScoreDTO = new ApplierWithScoreDTO();
+            TempSaved tempSaved = application.getTempSaved();
             List<ScoreResponseListDTO> temp = applicationEvaluationService.retrieveScores(recruitmentId, application.getId(), recruiterName);
             applierWithScoreDTO.setChecked(application.isChecked());
             applierWithScoreDTO.setRead(application.isRead());
@@ -165,6 +168,7 @@ public class ApplicationService {
             applierWithScoreDTO.setTempPrerequisiteList(application.getTempPrerequisiteList());
             applierWithScoreDTO.setWorkType(application.getWorkTypeApplying());
             applierWithScoreDTO.setCompanyName(application.getApplier().getCompanyName());
+            applierWithScoreDTO.setLicenseName(tempSaved.getLicenseName());
             applierWithScoreDTO.setScoreList(temp);
             applierWithScoreDTO.setApplicationId(application.getId());
             applierWithScoreListDTO.getApplierWithScoreDTOList().add(applierWithScoreDTO);

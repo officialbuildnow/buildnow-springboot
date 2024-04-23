@@ -25,6 +25,8 @@ public class TempSavingDTO {
     @Lob
     @JsonProperty("companyIntro")
     private String companyIntro;
+    @JsonProperty("licenseName") // 신한건설 API
+    private String licenseName;
     @JsonProperty("tempHandedOutList")
     private List<TempHandedOut> tempHandedOutList;
 }

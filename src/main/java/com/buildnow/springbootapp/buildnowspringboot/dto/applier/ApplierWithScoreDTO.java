@@ -16,6 +16,7 @@ public class ApplierWithScoreDTO {
     private Long applicationId;
     private String companyName;
     private String workType;
+    private String licenseName;
     private List<TempPrerequisite> tempPrerequisiteList;
     private List<ScoreResponseListDTO> scoreList;
 }
