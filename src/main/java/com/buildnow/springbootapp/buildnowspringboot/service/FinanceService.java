@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,7 +43,8 @@ public class FinanceService {
                 .orElseThrow(()->new RuntimeException("해당하는 application이 존재하지 않습니다."));
         Applier applier = application.getApplier();
         List<Finance> financeList = applier.getFinanceList();
-        for(Finance finance : financeList){
+        List<Finance> toDelete = new ArrayList<>(financeList);
+        for(Finance finance : toDelete){
             applier.removeFinance(finance);
             financeRepository.delete(finance);
         }
