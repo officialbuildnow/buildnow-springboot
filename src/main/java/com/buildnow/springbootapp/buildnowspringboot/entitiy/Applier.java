@@ -2,6 +2,7 @@ package com.buildnow.springbootapp.buildnowspringboot.entitiy;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.BusinessTypeENUM;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.ExtraValue;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.License;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.HandedOut;
@@ -57,6 +58,10 @@ public class Applier {
     @JsonManagedReference(value = "applier-license")
     private List<License> licenseList;
 
+    @OneToMany(mappedBy = "applier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "applier-extraValue")
+    private List<ExtraValue> extraValueList;
+
     @Builder
     public Applier (
             String businessId, String companyName, String managerName, String managerPhoneNum, String managerEmail, String username, String password
@@ -74,6 +79,7 @@ public class Applier {
         this.handedOutList = new ArrayList<>();
         this.licenseList = new ArrayList<>();
         this.financeList = new ArrayList<>();
+        this.extraValueList = new ArrayList<>();
     }
 
 
@@ -134,6 +140,16 @@ public class Applier {
     public void removeHandedOut(HandedOut handedOut){
         handedOutList.remove(handedOut);
         handedOut.setApplier(null);
+    }
+
+    public void addExtraValue(ExtraValue extraValue){
+        extraValueList.add(extraValue);
+        extraValue.setApplier(this);
+    }
+
+    public void removeExtraValue(ExtraValue extraValue){
+        extraValueList.remove(extraValue);
+        extraValue.setApplier(null);
     }
 
 }
