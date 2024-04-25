@@ -79,7 +79,8 @@ public class SecurityConfig {
                                 "/capacity-value/admin&recruiter/**",
                                 "finance/admin/**",
                                 "/license/admin/**",
-                                "/applier/admin/**"
+                                "/applier/admin/**",
+                                "/extra-value/admin/**"
                                 ).hasRole("ADMIN")
                         .requestMatchers("/recruiter/data",
                                 "/recruitment",
