@@ -1,4 +1,4 @@
-package com.buildnow.springbootapp.buildnowspringboot.service;
+package com.buildnow.springbootapp.buildnowspringboot.service.Recruitment;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;

@@ -80,16 +80,18 @@ public class SecurityConfig {
                                 "finance/admin/**",
                                 "/license/admin/**",
                                 "/applier/admin/**",
-                                "/extra-value/admin/**"
+                                "/extra-value/admin/**",
+                                "/recruitment/admin/**"
                                 ).hasRole("ADMIN")
                         .requestMatchers("/recruiter/data",
                                 "/recruitment",
                                 "/applier/recruiter/**",
                                 "/application-evaluation/recruiter/**",
                                 "/capacity-value/admin&recruiter/**",
-                                "/application/recruiter/**"
+                                "/application/recruiter/**",
+                                "/recruitment/recruiter/**"
                         ).hasRole("RECRUITER")
-                        .requestMatchers("/applier/**", "/tempsave/applier/**", "/application/applier/**", "/tempOCR/applier/**").hasRole("APPLIER")
+                        .requestMatchers("/applier/**", "/tempsave/applier/**", "/application/applier/**", "/tempOCR/applier/**", "/recruitment/applier/**").hasRole("APPLIER")
                         .anyRequest().authenticated());
 
         http

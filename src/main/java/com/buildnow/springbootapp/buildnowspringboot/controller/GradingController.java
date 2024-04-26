@@ -57,8 +57,8 @@ public class GradingController {
         }
         List<Grading> res = new ArrayList<>();
         Grading grading1 = Grading.builder()
-                .category("회사 설립 경과년수")
-                .perfectScore(10L)
+                .category("기술자수")
+                .perfectScore(5L)
                 .upperCategoryENUM(UpperCategoryENUM.BUSINESS)
                 .build();
         grading1.setRecruitment(recruitment);
@@ -67,7 +67,7 @@ public class GradingController {
         res.add(grading1);
 
         Grading grading2 = Grading.builder()
-                .category("지방 업체 (서울 경기 외) 여부")
+                .category("회사설립경과년수")
                 .perfectScore(5L)
                 .upperCategoryENUM(UpperCategoryENUM.BUSINESS)
                 .build();
@@ -76,18 +76,8 @@ public class GradingController {
         gradingRepository.save(grading2);
         res.add(grading2);
 
-        Grading grading3 = Grading.builder()
-                .category("산재 발생 여부")
-                .perfectScore(10L)
-                .upperCategoryENUM(UpperCategoryENUM.BUSINESS)
-                .build();
-        grading3.setRecruitment(recruitment);
-        recruitment.addGrading(grading3);
-        gradingRepository.save(grading3);
-        res.add(grading3);
-
         Grading grading4 = Grading.builder()
-                .category("신용등급")
+                .category("신용평가등급")
                 .perfectScore(15L)
                 .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
@@ -108,7 +98,7 @@ public class GradingController {
 
         Grading grading6 = Grading.builder()
                 .category("부채비율")
-                .perfectScore(15L)
+                .perfectScore(10L)
                 .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
         grading6.setRecruitment(recruitment);
@@ -118,7 +108,7 @@ public class GradingController {
 
         Grading grading7 = Grading.builder()
                 .category("차입금의존도")
-                .perfectScore(15L)
+                .perfectScore(10L)
                 .upperCategoryENUM(UpperCategoryENUM.FINANCE)
                 .build();
         grading7.setRecruitment(recruitment);
@@ -128,19 +118,10 @@ public class GradingController {
 
 
 
-        Grading grading9 = Grading.builder()
-                .category("ISO 인증서 보유 여부")
-                .perfectScore(5L)
-                .upperCategoryENUM(UpperCategoryENUM.AUTHENTICATION)
-                .build();
-        grading9.setRecruitment(recruitment);
-        recruitment.addGrading(grading9);
-        gradingRepository.save(grading9);
-        res.add(grading9);
 
         Grading grading10 = Grading.builder()
-                .category("시공능력 평가액 순위 (%)")
-                .perfectScore(15L)
+                .category("직전년도시공능력평가액순위")
+                .perfectScore(20L)
                 .upperCategoryENUM(UpperCategoryENUM.PERFORMANCE)
                 .build();
         grading10.setRecruitment(recruitment);
@@ -149,8 +130,8 @@ public class GradingController {
         res.add(grading10);
 
         Grading grading11 = Grading.builder()
-                .category("최근 3년간 공사 실적")
-                .perfectScore(15L)
+                .category("최근3년간공사실적")
+                .perfectScore(20L)
                 .upperCategoryENUM(UpperCategoryENUM.PERFORMANCE)
                 .build();
         grading11.setRecruitment(recruitment);
