@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RecruitingWorkTypeRepository extends JpaRepository<RecruitingWorkType, Long> {
     List<RecruitingWorkType> findByRecruitment(Recruitment recruitment);
+    boolean existsByRecruitmentAndWorkType(Recruitment recruitment, String workType);
 }
