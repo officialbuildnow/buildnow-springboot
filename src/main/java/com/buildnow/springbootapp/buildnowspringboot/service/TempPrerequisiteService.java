@@ -24,6 +24,9 @@ public class TempPrerequisiteService {
                 .orElseThrow(()-> new RuntimeException("해당하는 application이 존재하지 않습니다."));
 
         for(TempPrerequisiteDTO tempPrerequisiteDTO : tempPrerequisiteListDTO.getTempPrerequisiteDTOList()){
+            if(tempPrerequisiteRepository.existsByApplicationAndPrerequisiteName(application, tempPrerequisiteDTO.getPrerequisiteName())){
+                throw new RuntimeException("동일한 prerequisiteName 존재, 중복 제거해야함.");
+            }
             TempPrerequisite newTempPrerequisite = TempPrerequisite.builder()
                     .prerequisiteName(tempPrerequisiteDTO.getPrerequisiteName())
                     .isPrerequisite(tempPrerequisiteDTO.getIsPrerequisite())
