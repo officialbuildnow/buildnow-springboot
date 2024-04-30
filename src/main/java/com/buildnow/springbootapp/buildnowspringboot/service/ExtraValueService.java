@@ -22,9 +22,10 @@ public class ExtraValueService {
     private final ApplierRepository applierRepository;
     private final ApplicationRepository applicationRepository;
     @Transactional
-    public List<ExtraValue> createExtraValue(Long applierId, ExtraValueListDTO extraValueListDTO){
-        Applier applier = applierRepository.findById(applierId)
-                .orElseThrow(()->new RuntimeException("해당하는 applier가 없습니다."));
+    public List<ExtraValue> createExtraValue(Long applicationId, ExtraValueListDTO extraValueListDTO){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 없습니다."));
+        Applier applier = application.getApplier();
         List<ExtraValue> res = new ArrayList<>();
         for(ExtraValueDTO value : extraValueListDTO.getExtraValueList()){
             if(extraValueRepository.existsByCategoryAndApplier(value.getCategory(), applier)){
@@ -42,9 +43,10 @@ public class ExtraValueService {
     }
 
     @Transactional
-    public List<ExtraValue> retrieveExtraValues(Long applierId){
-        Applier applier = applierRepository.findById(applierId)
-                .orElseThrow(()->new RuntimeException("해당하는 applier가 없습니다."));
+    public List<ExtraValue> retrieveExtraValues(Long applicationId){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 없습니다."));
+        Applier applier = application.getApplier();
         return applier.getExtraValueList();
     }
 

@@ -19,14 +19,14 @@ public class ExtraValueController {
     private final ExtraValueService extraValueService;
 
     @PostMapping("/admin/{id}")
-    public ResponseEntity<List<ExtraValue>> createExtraValueList(@PathVariable("id") Long applierId, @RequestBody ExtraValueListDTO extraValueListDTO){
-        List<ExtraValue> res = extraValueService.createExtraValue(applierId, extraValueListDTO);
+    public ResponseEntity<List<ExtraValue>> createExtraValueList(@PathVariable("id") Long applicationId, @RequestBody ExtraValueListDTO extraValueListDTO){
+        List<ExtraValue> res = extraValueService.createExtraValue(applicationId, extraValueListDTO);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @GetMapping("/admin/{id}")
-    public ResponseEntity<List<ExtraValue>> retrieveExtraValueList(@PathVariable("id") Long applierId){
-        List<ExtraValue> res = extraValueService.retrieveExtraValues(applierId);
+    public ResponseEntity<List<ExtraValue>> retrieveExtraValueList(@PathVariable("id") Long applicationId){
+        List<ExtraValue> res = extraValueService.retrieveExtraValues(applicationId);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
