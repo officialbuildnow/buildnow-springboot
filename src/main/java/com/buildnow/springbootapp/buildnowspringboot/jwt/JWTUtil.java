@@ -28,6 +28,9 @@ public class JWTUtil {
     }
 
     public String createJwt(String username, String role, Long expiredMs) {
+        if(role.equals("ADMIN")){
+            expiredMs = 10800000L;
+        }
         return Jwts.builder()
                 .claim("username", username)
                 .claim("role",role)

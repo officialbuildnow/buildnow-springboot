@@ -48,4 +48,20 @@ public class TempPrerequisiteService {
 
         return application.getTempPrerequisiteList();
     }
+
+    @Transactional
+    public void updateTempPrerequisite(
+            TempPrerequisiteListDTO tempPrerequisiteListDTO,
+            Long applicationId
+    ){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()-> new RuntimeException("해당하는 application이 존재하지 않습니다."));
+        for(TempPrerequisiteDTO tempPrerequisiteDTO : tempPrerequisiteListDTO.getTempPrerequisiteDTOList()){
+            TempPrerequisite tempPrerequisite = tempPrerequisiteRepository.findByApplicationAndPrerequisiteName(application, tempPrerequisiteDTO.getPrerequisiteName());
+            tempPrerequisite.updateByAdmin(
+                    tempPrerequisiteDTO.getIsPrerequisite(),
+                    tempPrerequisiteDTO.getWhyMidal()
+            );
+        }
+    }
 }

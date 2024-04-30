@@ -31,14 +31,19 @@ public class ExtraValueController {
     }
 
     @PatchMapping("/admin/{id}")
-    public ResponseEntity<ExtraValue> updateExtraValue(@PathVariable("id") Long applierId, ExtraValueDTO extraValueDTO){
-        ExtraValue res = extraValueService.updateExtraValue(applierId, extraValueDTO);
+    public ResponseEntity<ExtraValue> updateExtraValue(@PathVariable("id") Long applicationId, ExtraValueDTO extraValueDTO){
+        ExtraValue res = extraValueService.updateExtraValue(applicationId, extraValueDTO);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<String> deleteExtraValue(@PathVariable("id") Long applierId, @RequestParam("category") String category){
-        extraValueService.removeExtraValue(applierId, category);
+    public ResponseEntity<String> deleteExtraValue(@PathVariable("id") Long applicationId, @RequestParam("category") String category){
+        extraValueService.removeExtraValue(applicationId, category);
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
