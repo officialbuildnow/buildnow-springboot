@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TempPrerequisiteRepository extends JpaRepository<TempPrerequisite, Long> {
     boolean existsByApplicationAndPrerequisiteName(Application application, String prerequisiteName);
+    TempPrerequisite findByApplicationAndPrerequisiteName(Application application, String prerequisiteName);
 }

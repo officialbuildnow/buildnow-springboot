@@ -3,7 +3,9 @@ package com.buildnow.springbootapp.buildnowspringboot.service;
 import com.buildnow.springbootapp.buildnowspringboot.dto.extraValue.ExtraValueDTO;
 import com.buildnow.springbootapp.buildnowspringboot.dto.extraValue.ExtraValueListDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.ExtraValue;
+import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ApplierRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.ExtraValueRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ExtraValueService {
     private final ExtraValueRepository extraValueRepository;
     private final ApplierRepository applierRepository;
+    private final ApplicationRepository applicationRepository;
     @Transactional
     public List<ExtraValue> createExtraValue(Long applierId, ExtraValueListDTO extraValueListDTO){
         Applier applier = applierRepository.findById(applierId)
@@ -46,9 +49,10 @@ public class ExtraValueService {
     }
 
     @Transactional
-    public ExtraValue updateExtraValue(Long applierId, ExtraValueDTO extraValueDTO){
-        Applier applier = applierRepository.findById(applierId)
-                .orElseThrow(()->new RuntimeException("해당하는 applier가 없습니다."));
+    public ExtraValue updateExtraValue(Long applicationId, ExtraValueDTO extraValueDTO){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 없습니다."));
+        Applier applier = application.getApplier();
         ExtraValue extraValue = extraValueRepository.findByCategoryAndApplier(extraValueDTO.getCategory(), applier);
         if(extraValue == null){
             throw new RuntimeException("해당하는 category와 일치하는 extra value가 없습니다.");
@@ -58,9 +62,10 @@ public class ExtraValueService {
     }
 
     @Transactional
-    public void removeExtraValue(Long applierId, String category){
-        Applier applier = applierRepository.findById(applierId)
-                .orElseThrow(()->new RuntimeException("해당하는 applier가 없습니다."));
+    public void removeExtraValue(Long applicationId, String category){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 application이 없습니다."));
+        Applier applier = application.getApplier();
         ExtraValue extraValue = extraValueRepository.findByCategoryAndApplier(category, applier);
         if(extraValue == null){
             throw new RuntimeException("해당하는 category와 일치하는 extra value가 없습니다.");

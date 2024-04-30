@@ -27,4 +27,9 @@ public class TempPrerequisite {
         this.isPrerequisite = isPrerequisite;
         this.whyMidal = whyMidal;
     }
+
+    public void updateByAdmin(Boolean isPrerequisite, String whyMidal){
+        this.isPrerequisite = isPrerequisite;
+        this.whyMidal = whyMidal;
+    }
 }

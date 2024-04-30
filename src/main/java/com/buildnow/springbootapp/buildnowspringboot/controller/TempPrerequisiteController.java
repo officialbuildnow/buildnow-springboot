@@ -5,6 +5,7 @@ import com.buildnow.springbootapp.buildnowspringboot.dto.tempSave.TempPrerequisi
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempPrerequisite;
 import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempPrerequisiteRepository;
 import com.buildnow.springbootapp.buildnowspringboot.service.TempPrerequisiteService;
+import com.google.api.Http;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,15 @@ public class TempPrerequisiteController {
     ){
         List<TempPrerequisite> tempPrerequisiteList = tempPrerequisiteService.retrieveTempPrerequisiteOfApplication(applicationId);
         return new ResponseEntity<>(tempPrerequisiteList, HttpStatus.OK);
+    }
+
+    @PatchMapping("/admin/{id}")
+    public ResponseEntity<String> updateTempPrerequisite(
+            @PathVariable("id") Long applicationId,
+            @RequestBody TempPrerequisiteListDTO tempPrerequisiteListDTO
+    ){
+        tempPrerequisiteService.updateTempPrerequisite(tempPrerequisiteListDTO, applicationId);
+        return new ResponseEntity<>("TempPrerequisite 업데이트 완료!", HttpStatus.OK);
     }
 
     @ExceptionHandler(RuntimeException.class)

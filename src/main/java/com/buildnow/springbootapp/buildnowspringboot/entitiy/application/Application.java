@@ -12,6 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Application {
     private boolean isNew;
     private boolean isRecommended;
     @CreatedDate
-    private LocalDate appliedDate;
+    private LocalDateTime appliedDate;
     private String workTypeApplying;
     @Column
     private boolean isRead;
