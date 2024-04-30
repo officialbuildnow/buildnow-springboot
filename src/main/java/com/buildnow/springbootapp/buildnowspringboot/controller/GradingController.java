@@ -1,6 +1,7 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
+import com.buildnow.springbootapp.buildnowspringboot.dto.GradingRecruiterDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
@@ -35,13 +36,21 @@ public class GradingController {
     }
 
     @GetMapping("/recruiter/{id}")
-    public ResponseEntity<List<Grading>> getRecruiterList(@PathVariable("id") Long recruitmentId, Authentication authentication){
+    public ResponseEntity<List<GradingRecruiterDTO>> getRecruiterList(@PathVariable("id") Long recruitmentId, Authentication authentication){
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(() -> new RuntimeException("해당하는 recruitment가 존재하지 않습니다."));
         if(!recruitment.getRecruiter().getUsername().equals(authentication.getName())){
             throw new RuntimeException("열람할 권한이 없습니다.");
         }
-        return new ResponseEntity<>(recruitment.getGradingList(), HttpStatus.OK);
+        List<GradingRecruiterDTO> res = new ArrayList<>();
+        for(Grading grading : recruitment.getGradingList()){
+            GradingRecruiterDTO gradingRecruiterDTO = GradingRecruiterDTO.builder()
+                    .category(grading.getCategory())
+                    .upperCategoryENUM(grading.getUpperCategoryENUM())
+                    .build();
+            res.add(gradingRecruiterDTO);
+        }
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
     @Transactional
     @PostMapping("/admin/{id}")
