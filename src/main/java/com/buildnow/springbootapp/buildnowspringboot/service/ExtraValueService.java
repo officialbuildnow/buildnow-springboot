@@ -51,16 +51,19 @@ public class ExtraValueService {
     }
 
     @Transactional
-    public ExtraValue updateExtraValue(Long applicationId, ExtraValueDTO extraValueDTO){
+    public void updateExtraValue(Long applicationId, ExtraValueListDTO extraValueListDTO){
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(()->new RuntimeException("해당하는 application이 없습니다."));
         Applier applier = application.getApplier();
-        ExtraValue extraValue = extraValueRepository.findByCategoryAndApplier(extraValueDTO.getCategory(), applier);
-        if(extraValue == null){
-            throw new RuntimeException("해당하는 category와 일치하는 extra value가 없습니다.");
+        for(ExtraValueDTO extraValueDTO : extraValueListDTO.getExtraValueList()){
+            ExtraValue extraValue = extraValueRepository.findByCategoryAndApplier(extraValueDTO.getCategory(), applier);
+            if(extraValue == null){
+                throw new RuntimeException("해당하는 category와 일치하는 extra value가 없습니다.");
+            }
+            extraValue.updateValue(extraValueDTO.getValue());
+            extraValueRepository.save(extraValue);
         }
-        extraValue.updateValue(extraValueDTO.getValue());
-        return extraValueRepository.save(extraValue);
+
     }
 
     @Transactional
