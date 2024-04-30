@@ -31,9 +31,9 @@ public class ExtraValueController {
     }
 
     @PatchMapping("/admin/{id}")
-    public ResponseEntity<ExtraValue> updateExtraValue(@PathVariable("id") Long applicationId, ExtraValueDTO extraValueDTO){
-        ExtraValue res = extraValueService.updateExtraValue(applicationId, extraValueDTO);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity<String> updateExtraValue(@PathVariable("id") Long applicationId, @RequestBody ExtraValueListDTO extraValueListDTO){
+        extraValueService.updateExtraValue(applicationId, extraValueListDTO);
+        return new ResponseEntity<>("extra value 업데이트 완료!", HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/{id}")
