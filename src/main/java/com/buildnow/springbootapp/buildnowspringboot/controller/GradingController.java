@@ -1,23 +1,19 @@
 package com.buildnow.springbootapp.buildnowspringboot.controller;
 
 import com.buildnow.springbootapp.buildnowspringboot.ENUM.UpperCategoryENUM;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
-import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationEvaluationRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.ApplicationRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.GradingRepository;
-import com.buildnow.springbootapp.buildnowspringboot.repository.RecruitmentRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +25,23 @@ public class GradingController {
     private final RecruitmentRepository recruitmentRepository;
     private final GradingRepository gradingRepository;
     private final ApplicationEvaluationRepository applicationEvaluationRepository;
+    private final RecruiterRepository recruiterRepository;
     @GetMapping("/admin/{id}")
     public ResponseEntity<List<Grading>> getGradingList(@PathVariable("id") Long recruitmentId){
         Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
                 .orElseThrow(()->new RuntimeException("존재하지 않는 recruitment 입니다."));
         List<Grading> gradingList = gradingRepository.findByRecruitment(recruitment);
         return new ResponseEntity<>(gradingList, HttpStatus.OK);
+    }
+
+    @GetMapping("/recruiter/{id}")
+    public ResponseEntity<List<Grading>> getRecruiterList(@PathVariable("id") Long recruitmentId, Authentication authentication){
+        Recruitment recruitment = recruitmentRepository.findById(recruitmentId)
+                .orElseThrow(() -> new RuntimeException("해당하는 recruitment가 존재하지 않습니다."));
+        if(!recruitment.getRecruiter().getUsername().equals(authentication.getName())){
+            throw new RuntimeException("열람할 권한이 없습니다.");
+        }
+        return new ResponseEntity<>(recruitment.getGradingList(), HttpStatus.OK);
     }
     @Transactional
     @PostMapping("/admin/{id}")
@@ -140,5 +147,9 @@ public class GradingController {
         res.add(grading11);
 
         return new ResponseEntity<>(res, HttpStatus.CREATED);
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

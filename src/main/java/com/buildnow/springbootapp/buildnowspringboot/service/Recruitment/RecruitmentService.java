@@ -2,6 +2,7 @@ package com.buildnow.springbootapp.buildnowspringboot.service.Recruitment;
 
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
+import com.buildnow.springbootapp.buildnowspringboot.repository.GradingRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.RecruiterRepository;
 import com.buildnow.springbootapp.buildnowspringboot.repository.RecruitmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,4 +26,5 @@ public class RecruitmentService {
         recruiter.addRecruitment(newRecruitment);
         return recruitmentRepository.save(newRecruitment);
     }
+
 }
