@@ -44,4 +44,22 @@ public class License {
         this.percentage = percentage;
     }
 
+    public void updateLicense(
+            String licenseName,
+            String licenseNum,
+            Long capacityValue,
+            String licenseSeq,
+            String licenseYear,
+            Long cvRank,
+            Long percentage
+    ){
+        if(licenseName != null) this.licenseName = licenseName;
+        if(licenseNum != null) this.licenseNum = licenseNum;
+        if(capacityValue != null) this.capacityValue = capacityValue;
+        if(licenseSeq != null) this.licenseSeq = licenseSeq;
+        if(licenseYear != null) this.licenseYear = licenseYear;
+        if(cvRank != null) this.cvRank = cvRank;
+        if(percentage != null) this.percentage = percentage;
+    }
+
 }
