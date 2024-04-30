@@ -42,4 +42,29 @@ public class LicenseService {
         }
         return res;
     }
+
+    @Transactional
+    public void updateLicenseList(
+            Long applicationId, LicensePostListDTO licensePostListDTO
+    ){
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(()->new RuntimeException("해당하는 어플리케이션이 존재하지 않습니다."));
+        Applier applier = application.getApplier();
+        for(LicensePostDTO licensePostDTO : licensePostListDTO.getLicensePostDTOList()){
+            License license = licenseRepository.findByLicenseSeqAndApplier(licensePostDTO.getLicenseSeq(), applier);
+            if(license == null) {
+                throw new RuntimeException("일치하는 정보의 라이센스가 존재하지 않습니다.");
+            }
+            license.updateLicense(
+                    licensePostDTO.getLicenseName(),
+                    licensePostDTO.getLicenseNum(),
+                    licensePostDTO.getCapacityValue(),
+                    licensePostDTO.getLicenseSeq(),
+                    licensePostDTO.getLicenseYear(),
+                    licensePostDTO.getCvRank(),
+                    licensePostDTO.getPercentage()
+            );
+            licenseRepository.save(license);
+        }
+    }
 }

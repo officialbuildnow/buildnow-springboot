@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,11 @@ public class LicenseController {
     public ResponseEntity<List<License>> insertLicenseList(@PathVariable("id") Long applicationId, @RequestBody LicensePostListDTO licensePostListDTO){
         List<License> res = licenseService.insertLicenseList(applicationId, licensePostListDTO);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/admin/{id}")
+    public ResponseEntity<String> updateLicense(@PathVariable("id") Long applicationId, @RequestBody LicensePostListDTO licensePostListDTO){
+        licenseService.updateLicenseList(applicationId, licensePostListDTO);
+        return new ResponseEntity<>("license 업데이트 완료", HttpStatus.OK);
     }
 }
