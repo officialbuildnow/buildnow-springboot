@@ -41,6 +41,9 @@ public class ConvertTempToRealService {
 
         //Handed out 저장
         for(TempHandedOut tempHandedOut : tempHandedOutList){
+            if(handedOutRepository.existsByApplierAndDocumentName(applier, tempHandedOut.getDocumentName())){
+                throw new RuntimeException("이미 저장된 handedout이 존재합니다.");
+            }
             HandedOut newHandedOut = HandedOut.builder()
                     .documentName(tempHandedOut.getDocumentName())
                     .documentUrl(tempHandedOut.getDocumentUrl())
