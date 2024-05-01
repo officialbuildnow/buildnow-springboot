@@ -27,6 +27,9 @@ public class LicenseService {
         Applier applier = application.getApplier();
         List<License> res = new ArrayList<>();
         for(LicensePostDTO license: licensePostListDTO.getLicensePostDTOList()){
+            if(licenseRepository.existsByLicenseNameAndApplier(license.getLicenseName(), applier)){
+                throw new RuntimeException("이미 저장된 면허입니다.");
+            }
             License newLicense = License.builder()
                     .licenseName(license.getLicenseName())
                     .licenseSeq(license.getLicenseSeq())
