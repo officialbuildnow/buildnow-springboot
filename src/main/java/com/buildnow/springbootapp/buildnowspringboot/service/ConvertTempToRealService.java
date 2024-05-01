@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,10 +43,12 @@ public class ConvertTempToRealService {
         //Handed out 저장
         for(TempHandedOut tempHandedOut : tempHandedOutList){
             List<HandedOut> collisionList = handedOutRepository.findByDocumentNameAndApplier(tempHandedOut.getDocumentName(), applier);
-            if(!collisionList.isEmpty()){
+            List<HandedOut> operatingList = new ArrayList<>(collisionList);
+            if(!operatingList.isEmpty()){
                 //중복된 것 전부 삭제
-                for(HandedOut handedOut : collisionList){
+                for(HandedOut handedOut : operatingList){
                     applier.removeHandedOut(handedOut);
+                    handedOutRepository.delete(handedOut);
                 }
 
             }
