@@ -29,4 +29,9 @@ public class LicenseController {
         licenseService.updateLicenseList(applicationId, licensePostListDTO);
         return new ResponseEntity<>("license 업데이트 완료", HttpStatus.OK);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
