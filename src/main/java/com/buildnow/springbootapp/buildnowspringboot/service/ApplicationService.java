@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.AuthenticationException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +57,10 @@ public class ApplicationService {
         recruitment.addApplication(newApplication);
         //시간, 회사명, admin 링크
         SlackApi api = new SlackApi(Objects.requireNonNull(environment.getProperty("slack.webhook.token")));
-        String message = "어플리케이션 생성 일시: " + LocalDateTime.now() + "\n" + "지원업체명: " + applier.getCompanyName() + "\n" + "admin 링크: https://buildnow-v1.vercel.app/bn_admin_sinhan/login";
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+        String formattedDateTime = now.format(formatter);
+        String message = "어플리케이션 생성 일시: " + formattedDateTime + "\n" + "지원업체명: " + applier.getCompanyName() + "\n" + "admin 링크: https://buildnow-v1.vercel.app/bn_admin_sinhan/login";
         api.call(new SlackMessage(message));
         return applicationRepository.save(newApplication);
     }
@@ -74,7 +78,7 @@ public class ApplicationService {
     }
 
     @Transactional
-    public List<Application> retrieveApplication( String applierName) {
+    public List<Application> retrieveApplication(String applierName) {
         Applier applier = applierRepository.findByUsername(applierName);
         return applicationRepository.findByApplier(applier);
     }
@@ -112,6 +116,13 @@ public class ApplicationService {
         }
 
         application.updateSubmitTrue();
+        //시간, 회사명, admin 링크
+        SlackApi api = new SlackApi(Objects.requireNonNull(environment.getProperty("slack.webhook.token")));
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+        String formattedDateTime = now.format(formatter);
+        String message = "application submit 일시: " + formattedDateTime + "\n" + "지원업체명: " + applier.getCompanyName() + "\n" + "admin 링크: https://buildnow-v1.vercel.app/bn_admin_sinhan/login";
+        api.call(new SlackMessage(message));
     }
 
     @Transactional
@@ -167,7 +178,7 @@ public class ApplicationService {
             throw new RuntimeException("해당 recruitment의 회사가 아니기 때문에 권한 없음.");
         }
 
-        List<Application> applicationList = applicationRepository.findByRecruitment(recruitment);
+        List<Application> applicationList = applicationRepository.findByRecruitmentAndIsAdminChecked(recruitment, true);
         ApplierWithScoreListDTO applierWithScoreListDTO = new ApplierWithScoreListDTO();
         applierWithScoreListDTO.setApplierWithScoreDTOList(new ArrayList<>());
         for(Application application : applicationList){
