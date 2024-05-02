@@ -13,12 +13,18 @@ import com.buildnow.springbootapp.buildnowspringboot.repository.*;
 import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempSavedRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.gpedro.integrations.slack.SlackApi;
+import net.gpedro.integrations.slack.SlackMessage;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.AuthenticationException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -31,6 +37,8 @@ public class ApplicationService {
     private final RecruiterRepository recruiterRepository;
     private final GradingRepository gradingRepository;
     private final ApplicationEvaluationService applicationEvaluationService;
+    private final Environment environment;
+
     @Transactional
     public Application createApplication(String applierName, Long recruitmentId) throws RuntimeException {
         Applier applier = applierRepository.findByUsername(applierName);
@@ -46,6 +54,10 @@ public class ApplicationService {
                 .build();
         applier.addApplication(newApplication);
         recruitment.addApplication(newApplication);
+        //시간, 회사명, admin 링크
+        SlackApi api = new SlackApi(Objects.requireNonNull(environment.getProperty("slack.webhook.token")));
+        String message = "어플리케이션 생성 일시: " + LocalDateTime.now() + "\n" + "지원업체명: " + applier.getCompanyName() + "\n" + "admin 링크: https://buildnow-v1.vercel.app/bn_admin_sinhan/login";
+        api.call(new SlackMessage(message));
         return applicationRepository.save(newApplication);
     }
 
