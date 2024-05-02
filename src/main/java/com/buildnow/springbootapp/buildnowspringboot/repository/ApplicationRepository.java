@@ -17,6 +17,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     List<Application> findByApplier(Applier applier);
     List<Application> findByRecruitment(Recruitment recruitment);
+    List<Application> findByRecruitmentAndIsAdminChecked(Recruitment recruitment, boolean isAdminChecked);
     @NotNull
     Optional<Application> findById(Long id);
 
