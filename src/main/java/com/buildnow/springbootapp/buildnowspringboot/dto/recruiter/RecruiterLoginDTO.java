@@ -12,5 +12,6 @@ import java.util.List;
 public class RecruiterLoginDTO {
     private String recruiterName;
     private String recruiterLogo;
+    private Long recruiterId;
     private List<RecruitmentInfoDTO> recruitmentInfoDTOList;
 }

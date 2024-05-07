@@ -20,6 +20,8 @@ public class CustomUserDetails implements UserDetails {
     private String recruiterCompanyName;
     @Getter
     private String recruiterCompanyLogo;
+    @Getter
+    private Long recruitmentId;
     private Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(Object user){
@@ -27,6 +29,9 @@ public class CustomUserDetails implements UserDetails {
             Recruiter recruiter = (Recruiter) user;
             this.username = recruiter.getUsername();
             this.password = recruiter.getPassword();
+            this.recruiterCompanyName = recruiter.getCompanyName();
+            this.recruiterCompanyLogo = recruiter.getCompanyLogo();
+            this.recruitmentId = recruiter.getId();
             this.authorities = Collections.singletonList(new SimpleGrantedAuthority(recruiter.getRole()));
 
         }else if(user instanceof Applier) {

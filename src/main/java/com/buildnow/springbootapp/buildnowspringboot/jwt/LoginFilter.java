@@ -67,9 +67,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         if(role.equals("ROLE_RECRUITER")){
             String companyLogoURL = customUserDetails.getRecruiterCompanyLogo();
             String companyName = customUserDetails.getRecruiterCompanyName();
+            Long recruitmentId = customUserDetails.getRecruitmentId();
             RecruiterLoginDTO recruiterLoginDTO = new RecruiterLoginDTO();
             recruiterLoginDTO.setRecruiterName(companyName);
             recruiterLoginDTO.setRecruiterLogo(companyLogoURL);
+            recruiterLoginDTO.setRecruiterId(recruitmentId);
 
             Recruiter recruiter = recruiterRepository.findByUsername(username);
             List<Recruitment> recruitmentList = recruitmentRepository.findByRecruiter(recruiter);
