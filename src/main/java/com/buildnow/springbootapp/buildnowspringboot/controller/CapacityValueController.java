@@ -46,6 +46,9 @@ public class CapacityValueController {
     @GetMapping("/admin&recruiter/get-capacity-value")
     public ResponseEntity<CapacityValueOutputDTO> findCapacityValueByLicenseNum(@RequestParam("licenseNum") String licenseNum, @RequestParam("year") int year, @RequestParam("licenseName") String licenseName){
         CapacityValue capacityValue = capacityValueRepository.findByLicenseNameAndYear(licenseName, year);
+        if(capacityValue == null){
+            throw new RuntimeException("해당 연도에 해당 면허의 자료가 존재하지 않습니다.");
+        }
         List<CompanyByYearAndLicense> companyByYearAndLicenseList = capacityValue.getCompanyByYearAndLicenseList();
 
         if(companyByYearAndLicenseList.isEmpty()){
@@ -70,11 +73,8 @@ public class CapacityValueController {
     }
 
     public void sortCompaniesByTotalCapacityValue(List<CompanyByYearAndLicense> companyList) {
-        companyList.sort((company1, company2) -> {
-            return Comparator.comparingLong(CompanyByYearAndLicense::getTotalCapacityValue)
-                    .reversed()
-                    .compare(company1, company2);
-        });
+        companyList.sort(Comparator.comparingLong(CompanyByYearAndLicense::getTotalCapacityValue).reversed());
+        log.info("????");
     }
 
     @ExceptionHandler(RuntimeException.class)

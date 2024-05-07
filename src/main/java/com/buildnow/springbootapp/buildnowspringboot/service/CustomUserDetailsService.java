@@ -26,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Recruiter recruiter = recruiterRepository.findByUsername(username);
         if(recruiter != null){
-            log.info("나는 recruiter에요");
             return new CustomUserDetails(recruiter);
         }
         Applier applier = applierRepository.findByUsername(username);

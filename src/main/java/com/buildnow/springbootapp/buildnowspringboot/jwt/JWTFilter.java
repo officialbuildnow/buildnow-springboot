@@ -50,7 +50,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if(role.equals("ROLE_RECRUITER")){
             log.info("recruiter 로직 시작");
             Recruiter recruiter = new Recruiter(
-                    username, "12344", "123", "123", "sdf"
+                    username, "12344", "123", "123", "sdf", "logo"
             );
 
             CustomUserDetails customUserDetails = new CustomUserDetails(recruiter);
