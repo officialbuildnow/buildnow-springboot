@@ -26,20 +26,23 @@ public class Recruiter {
     private String managerName;
     private String role;
     private String companyName;
+    @Setter
+    private String companyLogo;
     private String refreshToken;
     private LocalDateTime lastJoinDateTime;
 
-    @OneToMany(mappedBy = "recruiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recruiter",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "recruiter-recruitment")
     private List<Recruitment> recruitmentList;
 
     @Builder
-    public Recruiter(String username, String password, String businessId, String managerName, String companyName) {
+    public Recruiter(String username, String password, String businessId, String managerName, String companyName, String companyLogo) {
         this.username = username;
         this.password = password;
         this.businessId = businessId;
         this.managerName = managerName;
         this.companyName = companyName;
+        this.companyLogo = companyLogo;
         this.role = "ROLE_RECRUITER";
         this.recruitmentList = new ArrayList<>();
     }

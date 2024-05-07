@@ -50,6 +50,13 @@ public class RecruiterService {
         return recruiterRepository.save(newRecruiter);
     }
 
+    @Transactional
+    public void updateCompanyLogo(Long recruiterId, String imageUrl){
+        Recruiter recruiter = recruiterRepository.findById(recruiterId)
+                .orElseThrow(()->new RuntimeException("해당하는 recruiter가 존재하지 않습니다."));
+        recruiter.setCompanyLogo(imageUrl);
+    }
+
 //    public Recruiter findRecruiterByRecruiterName(String recruiterName) throws Exception{
 //        if(!recruiterRepository.existsByUsername(recruiterName)){
 //            throw new NotFoundException("아이디를 다시 확인해주세요");

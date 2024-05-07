@@ -20,6 +20,7 @@ public class Recruitment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String recruitmentTitle;
     private LocalDate deadline;
     private Long threshold;
 
@@ -40,7 +41,7 @@ public class Recruitment {
     @JsonManagedReference(value="recruitment-grading")
     private List<Grading> gradingList;
 
-    @OneToMany(mappedBy = "recruitment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recruitment", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="recruitment-application")
     private List<Application> applicationList;
 
@@ -48,10 +49,12 @@ public class Recruitment {
     @Builder
     public Recruitment (
             LocalDate deadline,
-            Long threshold
+            Long threshold,
+            String recruitmentTitle
     ){
         this.deadline = deadline;
         this.threshold = threshold;
+        this.recruitmentTitle = recruitmentTitle;
         this.recruitingWorkTypeList = new ArrayList<>();
         this.prerequisiteList = new ArrayList<>();
         this.gradingList = new ArrayList<>();

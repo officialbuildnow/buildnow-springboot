@@ -3,6 +3,8 @@ package com.buildnow.springbootapp.buildnowspringboot.configuration;
 import com.buildnow.springbootapp.buildnowspringboot.jwt.JWTFilter;
 import com.buildnow.springbootapp.buildnowspringboot.jwt.JWTUtil;
 import com.buildnow.springbootapp.buildnowspringboot.jwt.LoginFilter;
+import com.buildnow.springbootapp.buildnowspringboot.repository.RecruiterRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.RecruitmentRepository;
 import com.buildnow.springbootapp.buildnowspringboot.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,8 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final RecruitmentRepository recruitmentRepository;
+    private final RecruiterRepository recruiterRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
@@ -84,7 +88,8 @@ public class SecurityConfig {
                                 "/license/admin/**",
                                 "/applier/admin/**",
                                 "/extra-value/admin/**",
-                                "/recruitment/admin/**"
+                                "/recruitment/admin/**",
+                                "/recruiter/admin/**"
                                 ).hasRole("ADMIN")
                         .requestMatchers("/recruiter/data",
                                 "/recruitment",
@@ -99,7 +104,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
 
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, recruiterRepository, recruitmentRepository), UsernamePasswordAuthenticationFilter.class);
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http

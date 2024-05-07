@@ -3,6 +3,7 @@ package com.buildnow.springbootapp.buildnowspringboot.dto;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Admin;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Recruiter;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,10 @@ import java.util.Collections;
 public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
+    @Getter
+    private String recruiterCompanyName;
+    @Getter
+    private String recruiterCompanyLogo;
     private Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(Object user){

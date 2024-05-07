@@ -43,4 +43,15 @@ public class RecruiterController {
         String role = auth.getAuthority();
         return "Main Controller : "+name + " " + role;
     }
+
+    @PatchMapping("/admin/update-logo/{id}")
+    public ResponseEntity<String> updateLogo(@PathVariable("id") Long recruiterId, @RequestParam("logoUrl") String imageUrl){
+        recruiterService.updateCompanyLogo(recruiterId, imageUrl);
+        return new ResponseEntity<>("로고 이미지 업데이트 완료", HttpStatus.OK);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>("Error Occurred: " + ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
