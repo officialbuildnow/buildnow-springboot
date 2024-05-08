@@ -6,6 +6,7 @@ import com.buildnow.springbootapp.buildnowspringboot.dto.applier.EstDateUpdateDT
 import com.buildnow.springbootapp.buildnowspringboot.dto.applier.HadAccidentUpdateDTO;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.service.*;
+import com.buildnow.springbootapp.buildnowspringboot.service.demo.DemoApplierService;
 import com.google.api.Http;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class ApplierController {
     private final ApplierService applierService;
     private final ApplicationByDocumentService applicationByDocumentService;
-
+    private final DemoApplierService demoApplierService;
     @PatchMapping("/admin/update-hadAccident/{id}")
     public ResponseEntity<Applier> updateHadAccident(@PathVariable("id") Long applicationId, HadAccidentUpdateDTO hadAccidentUpdateDTO){
         Applier applier = applierService.updateApplierHadAccident(applicationId, hadAccidentUpdateDTO.getHadAccident());
@@ -42,21 +43,13 @@ public class ApplierController {
         Applier newApplier = applierService.createApplier(applierSignUpDTO);
         return new ResponseEntity<>(newApplier, HttpStatus.CREATED);
     }
-//    @PatchMapping("/application-document/{id}")
-//    @ResponseBody
-//    public ResponseEntity<String> registerApplierByDocument (ApplicationDocumentDTO applicationDocumentDTO, Authentication authentication, @PathVariable("id") Long recruitmentId) throws Exception {
-//       applicationByDocumentService.registerApplierByDocument(applicationDocumentDTO.getDocumentName(),
-//               applicationDocumentDTO.getDocumentURL(),
-//               applicationDocumentDTO.getCorporateApplicationNum(),
-//               applicationDocumentDTO.getCompanyPhoneNum(),
-//               authentication.getName(),
-//               applicationDocumentDTO.getPatent1Name(),
-//               applicationDocumentDTO.getPatent2Name(),
-//               applicationDocumentDTO.getPatent3Name(),
-//               applicationDocumentDTO.getWorkTypeApplying(),
-//               recruitmentId);
-//        return new ResponseEntity<>("문서 입력 완료!",HttpStatus.CREATED);
-//    }
+
+    @PostMapping("/admin/duplicate/{id}")
+    public ResponseEntity<String> duplicateApplier(@PathVariable("id") Long recruitmentId){
+        demoApplierService.duplicateAppliers(recruitmentId);
+        return new ResponseEntity<>("applier 복사 지원 완료", HttpStatus.OK);
+    }
+
 
     @GetMapping
     public ResponseEntity<Applier> retrieveApplier(Authentication authentication){
