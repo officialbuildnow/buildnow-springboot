@@ -44,8 +44,8 @@ public class DemoApplierService {
                     .perfectScore(grade.getPerfectScore())
                     .category(grade.getCategory())
                     .build();
-            newRecruitment.addGrading(grade);
             gradingRepository.save(newGrading);
+            newRecruitment.addGrading(newGrading);
         }
 
         List<Application> applicationList = recruitment.getApplicationList();
@@ -66,8 +66,8 @@ public class DemoApplierService {
                         .prerequisiteName(tempPrerequisite.getPrerequisiteName())
                         .whyMidal(tempPrerequisite.getWhyMidal())
                         .build();
-                newApplication.addTempPrerequisite(newTempPrerequisite);
                 tempPrerequisiteRepository.save(newTempPrerequisite);
+                newApplication.addTempPrerequisite(newTempPrerequisite);
             }
 
             List<ApplicationEvaluation> applicationEvaluationList = application.getApplicationEvaluationList();
@@ -75,11 +75,11 @@ public class DemoApplierService {
                 ApplicationEvaluation newApplicationEvaluation = ApplicationEvaluation.builder()
                         .score(evaluation.getScore())
                         .build();
+                applicationEvaluationRepository.save(newApplicationEvaluation);
                 newApplicationEvaluation.setApplication(newApplication);
                 Grading tempGrading = gradingRepository.findByRecruitmentAndCategory(newRecruitment, evaluation.getGrading().getCategory());
                 if(tempGrading == null) throw new RuntimeException("해당하는 grading 엔티티가 없습니다.");
                 newApplicationEvaluation.setGrading(tempGrading);
-                applicationEvaluationRepository.save(newApplicationEvaluation);
             }
             newApplication.updateApplicationFromTempSaved(application.getWorkTypeApplying());
             newApplication.updateIsAdminTrue();
