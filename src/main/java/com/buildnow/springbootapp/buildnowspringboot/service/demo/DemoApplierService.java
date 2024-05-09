@@ -54,6 +54,7 @@ public class DemoApplierService {
         List<Application> applicationList = recruitment.getApplicationList();
         if(applicationList.isEmpty()) throw new RuntimeException("복사할 어플리케이션이 없습니다.");
         for(Application application : applicationList){
+            if(!application.isAdminChecked()) continue;
             Applier applier = application.getApplier();
             List<TempPrerequisite> tempPrerequisiteList = application.getTempPrerequisiteList();
 
@@ -97,6 +98,7 @@ public class DemoApplierService {
                     .build();
             tempSavedRepository.save(newTempSaved);
             newApplication.setTempSaved(newTempSaved);
+            newTempSaved.setApplication(newApplication);
             newApplication.updateApplicationFromTempSaved(application.getWorkTypeApplying());
             newApplication.updateIsAdminTrue();
         }
