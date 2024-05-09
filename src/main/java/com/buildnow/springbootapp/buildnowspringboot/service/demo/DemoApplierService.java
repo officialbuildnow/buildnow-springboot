@@ -4,6 +4,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.Applier;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.Application;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.ApplicationEvaluation;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempPrerequisite;
+import com.buildnow.springbootapp.buildnowspringboot.entitiy.application.TempSaved;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.ExtraValue;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.Finance;
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.applierInfo.License;
@@ -11,6 +12,7 @@ import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Grading
 import com.buildnow.springbootapp.buildnowspringboot.entitiy.recruitment.Recruitment;
 import com.buildnow.springbootapp.buildnowspringboot.repository.*;
 import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempPrerequisiteRepository;
+import com.buildnow.springbootapp.buildnowspringboot.repository.tempSave.TempSavedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class DemoApplierService {
     private final GradingRepository gradingRepository;
     private final TempPrerequisiteRepository tempPrerequisiteRepository;
     private final ApplicationEvaluationRepository applicationEvaluationRepository;
+    private final TempSavedRepository tempSavedRepository;
     @Transactional
     public void duplicateAppliers(Long recruitmentId){
         Recruitment recruitment = recruitmentRepository.findById(2L)
@@ -81,6 +84,19 @@ public class DemoApplierService {
                 if(tempGrading == null) throw new RuntimeException("해당하는 grading 엔티티가 없습니다.");
                 newApplicationEvaluation.setGrading(tempGrading);
             }
+
+            TempSaved tempSaved = application.getTempSaved();
+            TempSaved newTempSaved = TempSaved.builder()
+                    .licenseName(tempSaved.getLicenseName())
+                    .companyAddress(tempSaved.getCompanyAddress())
+                    .companyIntro(tempSaved.getCompanyIntro())
+                    .companyPhoneNum(tempSaved.getCompanyPhoneNum())
+                    .type(tempSaved.getType())
+                    .corporateApplicationNum(tempSaved.getCorporateApplicationNum())
+                    .workTypeApplying(tempSaved.getWorkTypeApplying())
+                    .build();
+            tempSavedRepository.save(newTempSaved);
+            newApplication.setTempSaved(newTempSaved);
             newApplication.updateApplicationFromTempSaved(application.getWorkTypeApplying());
             newApplication.updateIsAdminTrue();
         }
