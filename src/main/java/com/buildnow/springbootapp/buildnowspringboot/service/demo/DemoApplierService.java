@@ -58,6 +58,7 @@ public class DemoApplierService {
                     .applier(applier)
                     .recruitment(newRecruitment)
                     .build();
+            applicationRepository.save(newApplication);
 
             for (TempPrerequisite tempPrerequisite : tempPrerequisiteList) {
                 TempPrerequisite newTempPrerequisite = TempPrerequisite.builder()
@@ -82,7 +83,6 @@ public class DemoApplierService {
             }
             newApplication.updateApplicationFromTempSaved(application.getWorkTypeApplying());
             newApplication.updateIsAdminTrue();
-            applicationRepository.save(newApplication);
         }
 
     }
